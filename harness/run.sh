@@ -4,6 +4,8 @@
 #
 #   harness/run.sh                          # the thirteen corpora at 1 M keys, or all a corpus has
 #   harness/run.sh --scale 10m              # the six corpora with a ten-million-key file
+#   harness/run.sh --scale full             # English titles and URLs whole, 19.2 M keys each
+#   harness/run.sh --scale 100m             # the four generated corpora at 100 M, four structures
 #   harness/run.sh urls-1000000            # named corpus files only
 #   harness/run.sh --rounds 1                 # one process a structure and corpus rather than three
 #   harness/run.sh --allow-dirty          # for development; the artifact is tagged <sha>-dirty
@@ -55,7 +57,7 @@ while [ $# -gt 0 ]; do
       shift
       ;;
     -h | --help)
-      sed -n '2,15p' "$0" | cut -c3-
+      sed -n '2,17p' "$0" | cut -c3-
       exit 0
       ;;
     -*)
@@ -79,8 +81,16 @@ case "$scale" in
       uuid-10000000)
     limit=7200
     ;;
+  full)
+    stems=(titles-en-full urls-full)
+    limit=7200
+    ;;
+  100m)
+    stems=(dna-100000000 numeric-100000000 opaque-100000000 uuid-100000000)
+    limit=7200
+    ;;
   *)
-    echo "--scale takes 1m or 10m, not '$scale'" >&2
+    echo "--scale takes 1m, 10m, full or 100m, not '$scale'" >&2
     exit 2
     ;;
 esac
@@ -166,21 +176,32 @@ log=results/$table-$(date +%F)-$host-$commit.log
 
 # One process a structure, labelled as tables.py reads them.
 processes=()
-for kind in dict32 dict256 dict1024 string; do
-  processes+=("lexindex $kind")
-done
-# C²'s fourth argument is the depth of the recursion its paper ablates; for the MARISA baseline it is
-# the number of tries less one, so depth 0 is a one-level MARISA and depth 2 marisa's 3-try default.
-for run in "0 0" "0 1" "0 2" "1 0" "1 1" "1 2" "2 0" "2 1" "2 2" "3 0" "4 0" "5 0" "5 1" "5 2" \
-  "6 0" "7 0" "8 0"; do
-  processes+=("c2 case ${run% *} rec ${run#* }")
-done
-for type in 7 8 15 16; do
-  processes+=("xcdat $type")
-done
+if [ "$scale" = 100m ]; then
+  # At a hundred million keys every driver peaks near ten times its ten-million figure, 19-25 GB,
+  # and the whole set would run for two days. These four are both ends of every ten-million front:
+  # the two block sizes of lexindex's on it, StringIndex (the whole front on `numeric`), and XCDAT
+  # 15, the fastest comparable structure on all six corpora at 1 M and at 10 M.
+  processes=("lexindex dict256" "lexindex dict1024" "lexindex string" "xcdat 15")
+  subset=1
+else
+  for kind in dict32 dict256 dict1024 string; do
+    processes+=("lexindex $kind")
+  done
+  # C²'s fourth argument is the depth of the recursion its paper ablates; for the MARISA baseline it
+  # is the number of tries less one, so depth 0 is a one-level MARISA and depth 2 marisa's 3-try
+  # default.
+  for run in "0 0" "0 1" "0 2" "1 0" "1 1" "1 2" "2 0" "2 1" "2 2" "3 0" "4 0" "5 0" "5 1" "5 2" \
+    "6 0" "7 0" "8 0"; do
+    processes+=("c2 case ${run% *} rec ${run#* }")
+  done
+  for type in 7 8 15 16; do
+    processes+=("xcdat $type")
+  done
+  subset=0
+fi
 
 header() {
-  local l2 l3 changed
+  local l2 l3 changed joined
   l2=$(getconf LEVEL2_CACHE_SIZE 2> /dev/null || true)
   l3=$(getconf LEVEL3_CACHE_SIZE 2> /dev/null || true)
   echo "frontier campaign"
@@ -221,6 +242,12 @@ $(awk '/MemAvailable/ { printf "%.1f available", $2 / 1048576 }' /proc/meminfo)"
     echo "memory layout: ${layout%; }"
   else
     echo "memory layout: not read (needs root)"
+  fi
+  # Only a partial set is named: an older campaign's header has no such line, and a re-measurement
+  # must match its campaign's header line for line.
+  if [ "$subset" -eq 1 ]; then
+    joined=$(IFS=,; echo "${processes[*]}")
+    echo "structures: only ${joined//,/, }"
   fi
   echo "rounds: $rounds, even rounds in the reverse order"
   echo "quiet before each process: under $QUIET_CPUS busy CPUs for 1 s"

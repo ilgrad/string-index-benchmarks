@@ -3,7 +3,7 @@
     "dna": {
       "what": "DNA 24-mers over ACGT, from a seeded generator",
       "nested": false,
-      "pool_keys": 10000000,
+      "pool_keys": 100000000,
       "built": "2026-09-21",
       "files": [
         {
@@ -26,6 +26,13 @@
           "bytes": 250000000,
           "mean_key_bytes": 24.0,
           "sha256": "c6e0223a36b20a53aa6aa9b549005957d6c1bce5850fecdcbe9d9c07a1d7cef7"
+        },
+        {
+          "file": "dna-100000000.txt",
+          "keys": 100000000,
+          "bytes": 2500000000,
+          "mean_key_bytes": 24.0,
+          "sha256": "84a00cf6e3d4eed47a8ad0d6a7df994822e57a6a6277b99881b61de63a093cba"
         }
       ],
       "note": "four symbols and a fixed length: the densest trie and the flattest hash in the set"
@@ -84,7 +91,7 @@
     "numeric": {
       "what": "dense decimal ids, `0` to `n-1`",
       "nested": false,
-      "pool_keys": 10000000,
+      "pool_keys": 100000000,
       "built": "2026-09-21",
       "files": [
         {
@@ -107,6 +114,13 @@
           "bytes": 78888890,
           "mean_key_bytes": 6.89,
           "sha256": "6781d330bf233349972198ed90fc189738ca66ff3bd380cdcf5cb317ec4deb8f"
+        },
+        {
+          "file": "numeric-100000000.txt",
+          "keys": 100000000,
+          "bytes": 888888890,
+          "mean_key_bytes": 7.89,
+          "sha256": "478f382ff6200a15a6acb1ece64c944edcc64bf6dcd40f51ef4a01066ae2f709"
         }
       ],
       "note": "not nested, and could not be: a random subset of a larger range is not a dense one"
@@ -114,7 +128,7 @@
     "opaque": {
       "what": "opaque 16-symbol base64url ids, from a seeded generator",
       "nested": false,
-      "pool_keys": 10000000,
+      "pool_keys": 100000000,
       "built": "2026-09-21",
       "files": [
         {
@@ -137,6 +151,13 @@
           "bytes": 170000000,
           "mean_key_bytes": 16.0,
           "sha256": "1c3d53d3b3d50e3201dee8df48a05494faa684fe91df8179578018d1268afc1c"
+        },
+        {
+          "file": "opaque-100000000.txt",
+          "keys": 100000000,
+          "bytes": 1700000000,
+          "mean_key_bytes": 16.0,
+          "sha256": "3973f81ac64e6f1d1d8ff510158e0490dbf288398f7161408364ef72f901a5f0"
         }
       ]
     },
@@ -329,7 +350,7 @@
     "uuid": {
       "what": "UUIDv4 in the canonical hyphenated form, from a seeded generator",
       "nested": false,
-      "pool_keys": 10000000,
+      "pool_keys": 100000000,
       "built": "2026-09-21",
       "files": [
         {
@@ -352,6 +373,13 @@
           "bytes": 370000000,
           "mean_key_bytes": 36.0,
           "sha256": "f36053c111b0ed0713bcd73a1dfb19a356aea24ca383996bc9c148a4f416e110"
+        },
+        {
+          "file": "uuid-100000000.txt",
+          "keys": 100000000,
+          "bytes": 3700000000,
+          "mean_key_bytes": 36.0,
+          "sha256": "eada716a4f0b2241f83c1d98315d596d6a4cee117b64b4c3eca4d820dc38f772"
         }
       ],
       "note": "36 bytes of which 32 are hex: no shared structure at all past the hyphens"

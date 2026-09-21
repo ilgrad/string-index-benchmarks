@@ -5,6 +5,8 @@
     sib corpora verify             # re-hash what is on disk against the manifest
     sib run                        # the thirteen corpora at a million keys
     sib run --scale 10m            # the six with a ten-million-key file
+    sib run --scale full           # English titles and URLs whole, 19.2 M keys each
+    sib run --scale 100m           # the four generated corpora at 100 M, four structures
     sib run --keys catalog.txt     # your own keys, every structure, one table
     sib table results/<...>.json   # the markdown the README quotes
     sib chart results/<...>.json   # the figure
@@ -118,7 +120,7 @@ def main() -> int:
     corpora.set_defaults(func=cmd_corpora)
 
     run = sub.add_parser("run", help="run a campaign")
-    run.add_argument("--scale", choices=("1m", "10m"), default="1m")
+    run.add_argument("--scale", choices=("1m", "10m", "full", "100m"), default="1m")
     run.add_argument("--rounds", type=int, default=3, help="processes per structure and corpus")
     run.add_argument("--keys", metavar="FILE", help="your own keys, one per line")
     run.add_argument("--allow-dirty", action="store_true")

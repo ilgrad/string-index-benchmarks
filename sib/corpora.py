@@ -27,6 +27,10 @@ the 10 000 000-key one, so a difference between two sizes is scale and never com
 `numeric` is the exception and says so — a *dense* id space is the point of it, and a random subset
 of a larger one is not dense.
 
+The four generated corpora go one step further, to 100 000 000 keys. Nothing fetched is that large:
+the two largest fetched sources, English Wikipedia's titles and URLs, stop at 19.2 million keys, and
+their `-full` files hold all of them.
+
 Every file is UTF-8, one key per line, deduplicated, and shuffled with a fixed seed — never sorted,
 because a sorted build order is the one order an ordered index must not be handed by accident.
 
@@ -65,6 +69,7 @@ DOWNLOADS = ROOT / "downloads"
 MANIFEST = HERE / "corpora.json"
 
 GRID = (100_000, 1_000_000, 10_000_000)
+GENERATED_GRID = (*GRID, 100_000_000)
 SEED = 0x6C6578696E646578 & 0xFFFFFFFF  # "lexindex" as bytes, truncated
 
 WIKI_DUMP = "20260801"  # a dated dump, not `latest`: `latest` cannot be pinned by hash
@@ -323,6 +328,7 @@ CORPORA: tuple[Corpus, ...] = (
         "uuid",
         "UUIDv4 in the canonical hyphenated form, from a seeded generator",
         _uuids,
+        sizes=GENERATED_GRID,
         nested=False,
         note="36 bytes of which 32 are hex: no shared structure at all past the hyphens",
     ),
@@ -330,6 +336,7 @@ CORPORA: tuple[Corpus, ...] = (
         "numeric",
         "dense decimal ids, `0` to `n-1`",
         lambda n: (str(i) for i in range(n)),
+        sizes=GENERATED_GRID,
         nested=False,
         note="not nested, and could not be: a random subset of a larger range is not a dense one",
     ),
@@ -341,12 +348,14 @@ CORPORA: tuple[Corpus, ...] = (
             b"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-_",
             16,
         ),
+        sizes=GENERATED_GRID,
         nested=False,
     ),
     Corpus(
         "dna",
         "DNA 24-mers over ACGT, from a seeded generator",
         lambda _: _bulk(random.Random(SEED ^ 0x3333), b"ACGT", 24),
+        sizes=GENERATED_GRID,
         nested=False,
         note="four symbols and a fixed length: the densest trie and the flattest hash in the set",
     ),
