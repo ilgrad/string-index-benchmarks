@@ -1,12 +1,11 @@
 """The front-page figure: `DictIndex` against the smallest trie, on every corpus of the set.
 
-    uv run --with matplotlib python bench/frontier_chart.py \
-        bench/results/frontier-1m-<date>-<host>-<commit>.json
+    sib chart results/frontier-1m-<date>-<host>-<commit>.json
 
-Reads one campaign artifact written by `bench/frontier/tables.py` and draws the comparison the
-benchmarks page makes in prose: for each corpus, the smallest `DictIndex` block against the
-smallest structure anyone else in the campaign built. Writes an SVG beside the docs, named after
-the artifact's own commit, so a figure in the README can always be traced to the run behind it.
+Reads one campaign artifact written by `harness/tables.py` and draws the comparison the README
+makes in prose: for each corpus, the smallest `DictIndex` block against the smallest structure
+anyone else in the campaign built. Writes an SVG into `figures/`, named after the artifact's own
+commit, so a figure anywhere can always be traced to the run behind it.
 
 Three choices the figure makes, each of which could be made dishonestly:
 
@@ -173,7 +172,7 @@ def main() -> None:
     artifact = json.loads(Path(sys.argv[1]).read_text(encoding="utf-8"))
     env = artifact["environment"]
     data = rows(artifact)
-    out = Path("docs/assets") / f"frontier-{env['table'].removeprefix('frontier-')}.svg"
+    out = Path("figures") / f"{env['table']}-{env['date'][:10]}-{env['host']}-{env['commit']}.svg"
     out.parent.mkdir(parents=True, exist_ok=True)
     draw(data, env, out)
     won = sum(1 for r in data if r["margin"] > 0)

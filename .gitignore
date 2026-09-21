@@ -1,0 +1,19 @@
+# Competitors, fetched and compiled at their pinned commits by harness/build.sh. Several are GPL-3;
+# none is vendored here, and this directory is where a machine assembles them for itself.
+/build/
+# The corpus set: 4.6 GB of keys, rebuilt from sib/corpora.json by `sib corpora build`.
+/corpora/
+# Figures, regenerated from an artifact by `sib chart`.
+/figures/
+# Wheels and sdists from `uv build`; this is a harness, not a published package.
+/dist/
+__pycache__/
+*.py[cod]
+.venv/
+.ruff_cache/
+harness/lex/target/
+# Local notes and scratch measurements, never published.
+/local/
+/plans/
+/CLAUDE.md
+/.claude/

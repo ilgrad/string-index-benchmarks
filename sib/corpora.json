@@ -53,31 +53,31 @@
       ]
     },
     "idents": {
-      "what": "source-code identifiers — every `[A-Za-z_][A-Za-z0-9_]{2,}` in the vendored Rust sources",
+      "what": "source-code identifiers — every `[A-Za-z_][A-Za-z0-9_]{2,}` in the `.rs` files of the rustc 1.85.0 source release, the crates it vendors included",
       "nested": true,
-      "pool_keys": 1047267,
-      "built": "2026-09-12",
+      "pool_keys": 1183525,
+      "built": "2026-09-21",
       "files": [
         {
           "file": "idents-100000.txt",
           "keys": 100000,
-          "bytes": 1830746,
-          "mean_key_bytes": 17.31,
-          "sha256": "a1260c02a0f1bf5311a793fc93856f4c236d1a895b189b865bb9f6fddfa5fbff"
+          "bytes": 1760108,
+          "mean_key_bytes": 16.6,
+          "sha256": "bffc67a90770c836371821df9516900fcc0f92e94871a5a342954b1873ebaa7f"
         },
         {
           "file": "idents-1000000.txt",
           "keys": 1000000,
-          "bytes": 18283976,
-          "mean_key_bytes": 17.28,
-          "sha256": "14bb9d0e447bf99aaeab56ac99b71f87be27d1bfe4940891098bc145389d7d53"
+          "bytes": 17569522,
+          "mean_key_bytes": 16.57,
+          "sha256": "c80d83122287b0e15dde7582d54e9f0dad56cdb1faaadbc7f3b51bcf62af34f5"
         },
         {
           "file": "idents-full.txt",
-          "keys": 1047267,
-          "bytes": 19148394,
-          "mean_key_bytes": 17.28,
-          "sha256": "44c9a218e11e81be572be99e2aa9eb15f00ae3745fc21a9c682c78696ad62321"
+          "keys": 1183525,
+          "bytes": 21186469,
+          "mean_key_bytes": 16.9,
+          "sha256": "4bcc1d1617b612f97b4f57b165af58d94eaf64be5035fb9a86e738e62b72becb"
         }
       ]
     },
@@ -141,34 +141,34 @@
       ]
     },
     "paths": {
-      "what": "filesystem paths — `find /usr -xdev` and `find $HOME -xdev` on the benchmark machine",
+      "what": "filesystem paths — every file Debian bookworm installs, from the snapshot.debian.org archive of 20260101T000000Z",
       "nested": true,
-      "pool_keys": 7343721,
-      "built": "2026-09-12",
+      "pool_keys": 1655602,
+      "built": "2026-09-21",
       "files": [
         {
           "file": "paths-100000.txt",
           "keys": 100000,
-          "bytes": 12586713,
-          "mean_key_bytes": 124.87,
-          "sha256": "8b815008ecd006e3225e68b63b052d68b675767c3f9a17ed3f42fd054f6ecf06"
+          "bytes": 5950228,
+          "mean_key_bytes": 58.5,
+          "sha256": "7900d3438857510063dd0a7a99afe73d9d962a9f2d382a6ca48d88132d9af985"
         },
         {
           "file": "paths-1000000.txt",
           "keys": 1000000,
-          "bytes": 125978312,
-          "mean_key_bytes": 124.98,
-          "sha256": "578be82f50a06b6137fa108d70728b119afa4434056b87e0424e9bd5384b3d05"
+          "bytes": 59358139,
+          "mean_key_bytes": 58.36,
+          "sha256": "c50ed6e0a6c768b58a145c5bbc2ebed806badc7e02b85317d97b45a77a1b5304"
         },
         {
           "file": "paths-full.txt",
-          "keys": 7343721,
-          "bytes": 925494809,
-          "mean_key_bytes": 125.03,
-          "sha256": "5220654a3fa6d64eca8a53c42dd347e597fd8a297d73c219aaeb5f82d6316926"
+          "keys": 1655602,
+          "bytes": 98265905,
+          "mean_key_bytes": 58.35,
+          "sha256": "f60caca3f75f07184d9e5a424abd14bf1cd3d3c49a14393d87fc6df3e710d8bc"
         }
       ],
-      "note": "machine-specific by nature; the manifest records the host that produced it"
+      "note": "the deepest keys in the set, sharing long prefixes and carrying version numbers"
     },
     "pypi": {
       "what": "PyPI package names — the simple index",
@@ -381,13 +381,18 @@
     }
   },
   "host": "arz",
-  "kernel": "Linux 7.2.4-200.fc44.x86_64",
+  "kernel": "Linux 7.2.5-200.fc44.x86_64",
   "grid": [
     100000,
     1000000,
     10000000
   ],
   "downloads": {
+    "Contents-amd64-bookworm-20260101T000000Z.gz": {
+      "url": "https://snapshot.debian.org/archive/debian/20260101T000000Z/dists/bookworm/main/Contents-amd64.gz",
+      "bytes": 11630033,
+      "sha256": "862716fe9162dff1499089c1b0da3f3cb4c78c84ffa9a89357f3e3ebe56025b8"
+    },
     "enwiki-20260801-all-titles-in-ns0.gz": {
       "url": "https://dumps.wikimedia.org/enwiki/20260801/enwiki-20260801-all-titles-in-ns0.gz",
       "bytes": 109015770,
@@ -397,6 +402,11 @@
       "url": "https://pypi.org/simple/",
       "bytes": 43667204,
       "sha256": "d096bf31e14336e94862cebf631d75e8d9690865b58a1aa84f759adef55c0f76"
+    },
+    "rustc-1.85.0-src.tar.xz": {
+      "url": "https://static.rust-lang.org/dist/rustc-1.85.0-src.tar.xz",
+      "bytes": 274011696,
+      "sha256": "d542c397217b5ba5bac7eb274f5ca62d031f61842c3ba4cc5328c709c38ea1e7"
     },
     "ruwiki-20260801-all-titles-in-ns0.gz": {
       "url": "https://dumps.wikimedia.org/ruwiki/20260801/ruwiki-20260801-all-titles-in-ns0.gz",

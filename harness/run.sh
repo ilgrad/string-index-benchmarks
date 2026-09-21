@@ -1,38 +1,43 @@
 #!/usr/bin/env bash
 # The research-frontier campaign: lexindex, the nine structures of the C² benchmark and XCDAT's four
-# tries on the corpus set, one process per structure and corpus, into bench/results/.
+# tries on the corpus set, one process per structure and corpus, into results/.
 #
-#   bench/frontier/run.sh                   # the thirteen corpora at 1 M keys, or all a corpus has
-#   bench/frontier/run.sh --scale 10m       # the six corpora with a ten-million-key file
-#   bench/frontier/run.sh urls-1000000      # named corpus files only
-#   bench/frontier/run.sh --rounds 1        # one process a structure and corpus rather than three
-#   bench/frontier/run.sh --allow-dirty     # for development; the artifact is tagged <sha>-dirty
+#   harness/run.sh                          # the thirteen corpora at 1 M keys, or all a corpus has
+#   harness/run.sh --scale 10m              # the six corpora with a ten-million-key file
+#   harness/run.sh urls-1000000            # named corpus files only
+#   harness/run.sh --rounds 1                 # one process a structure and corpus rather than three
+#   harness/run.sh --allow-dirty          # for development; the artifact is tagged <sha>-dirty
 #
 # One protocol for every row, C²'s `benchmark.cpp`: read the file, sort and deduplicate, build once,
 # report the structure's own size, then look every key up once in one fixed shuffle -- a single timed
 # pass, no warm-up -- and report the mean. `frontier_lex` and `xcdat_frontier` do the same for
 # lexindex and XCDAT. Each round runs every process once, even rounds in the reverse order, and
-# tables.py reports the median. Build everything first with bench/frontier/build.sh.
+# tables.py reports the median. Build everything first with harness/build.sh.
 set -euo pipefail
 
-LOAD_CEILING=1.0
+# Overridable, because the two gates answer different questions. A *published* latency number needs
+# both at their defaults -- a benchmark on a busy machine measures the machine. A run over someone
+# else's own keys usually wants the sizes, which are deterministic, and cannot wait half an hour for
+# a laptop to go quiet; `sib run --keys` raises both and says on the table that the ns column is not
+# comparable to anything.
+LOAD_CEILING=${SIB_LOAD_CEILING:-1.0}
 # Before each process, other work must keep fewer CPUs than this busy for a second; an idle desktop
 # session on the machine the published tables come from measures 0.6-0.7.
-QUIET_CPUS=1.0
+QUIET_CPUS=${SIB_QUIET_CPUS:-1.0}
 # How long one process may wait for that before the run stops.
-SETTLE_SECONDS=1800
+SETTLE_SECONDS=${SIB_SETTLE_SECONDS:-1800}
 # A build that runs away fails instead of swapping the machine.
 ADDRESS_SPACE_KB=28000000
 
 root=$(git -C "$(dirname "$0")" rev-parse --show-toplevel)
 cd "$root"
-# shellcheck source=bench/frontier/pins.sh
-. bench/frontier/pins.sh
-frontier=${LEXINDEX_FRONTIER:-$root/local/frontier}
-corpora=${LEXINDEX_CORPORA:-$root/local/corpora}
+# shellcheck source=harness/pins.sh
+. harness/pins.sh
+frontier=${SIB_BUILD:-$root/build}
+corpora=${SIB_CORPORA:-$root/corpora}
 c2=$frontier/c2/build/benchmark
 xcdat=$frontier/xcdat_frontier
-lex=$root/bench/frontier/frontier_lex/target/release/frontier_lex
+lex=$root/harness/lex/target/release/frontier_lex
 
 allow_dirty=0
 scale=1m
@@ -112,7 +117,7 @@ if [ ! -x /usr/bin/time ]; then
 fi
 for binary in "$c2" "$xcdat"; do
   if [ ! -x "$binary" ]; then
-    echo "refusing: $binary is missing; run bench/frontier/build.sh" >&2
+    echo "refusing: $binary is missing; run harness/build.sh" >&2
     exit 1
   fi
 done
@@ -120,23 +125,23 @@ for pin in "${PINS[@]}"; do
   read -r path _ pinned <<< "$pin"
   at=$(git -C "$frontier/$path" rev-parse HEAD 2> /dev/null || echo none)
   if [ "$at" != "$pinned" ]; then
-    echo "refusing: $path is at $at, not the pinned $pinned; run bench/frontier/build.sh" >&2
+    echo "refusing: $path is at $at, not the pinned $pinned; run harness/build.sh" >&2
     exit 1
   fi
 done
 for stem in "${stems[@]}"; do
   if [ ! -r "$corpora/$stem.txt" ]; then
-    echo "refusing: no corpus file $corpora/$stem.txt; see bench/corpora.py" >&2
+    echo "refusing: no corpus file $corpora/$stem.txt; see sib/corpora.py" >&2
     exit 1
   fi
 done
-uv run --no-sync python bench/corpora.py verify
+uv run --no-sync python sib/corpora.py verify
 # The tree is clean, so this is the commit the artifact is named after.
-cargo build --release --locked --quiet --manifest-path bench/frontier/frontier_lex/Cargo.toml
+cargo build --release --locked --quiet --manifest-path harness/lex/Cargo.toml
 
 host=$(uname -n)
 ticks=$(getconf CLK_TCK)
-log=bench/results/$table-$(date +%F)-$host-$commit.log
+log=results/$table-$(date +%F)-$host-$commit.log
 
 # One process a structure, labelled as tables.py reads them.
 processes=()
@@ -162,7 +167,10 @@ header() {
   echo "host: $host"
   echo "commit: $commit"
   echo "table: $table"
-  echo "lexindex: $(grep -m1 '^version' Cargo.toml | cut -d'"' -f2)"
+  # The published crate the harness depends on, read from its own lockfile -- lexindex is a
+  # pinned competitor here like every other, not the repository this runs in.
+  echo "lexindex: $(awk '/^name = "lexindex"$/ { getline; gsub(/[version = "]/, ""); print; exit }' \
+    harness/lex/Cargo.lock)"
   echo "kernel: $(uname -srm)"
   echo "cpu: $(grep -m1 'model name' /proc/cpuinfo | cut -d: -f2- | xargs)"
   echo "cores/threads: $(grep -m1 'cpu cores' /proc/cpuinfo | cut -d: -f2 | xargs) / $(nproc --all)"
@@ -287,5 +295,5 @@ campaign() {
 }
 
 campaign 2>&1 | tee "$log"
-uv run --no-sync python bench/frontier/tables.py --json "$log"
-git status --porcelain --untracked-files=normal -- bench/results
+uv run --no-sync python harness/tables.py --json "$log"
+git status --porcelain --untracked-files=normal -- results

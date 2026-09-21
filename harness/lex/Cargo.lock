@@ -21,6 +21,8 @@ dependencies = [
 [[package]]
 name = "lexindex"
 version = "4.0.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "eb957fb70f783e0742fe52afdfc183375947f02af7d4714271a453ec11445d11"
 dependencies = [
  "fst",
  "memmap2",

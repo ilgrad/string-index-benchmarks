@@ -6,13 +6,18 @@ the same span. One corpus cannot carry a size claim. This module is the set that
 corpora of four kinds:
 
 * **fetched** from a pinned URL and checked against a SHA-256 — Wikipedia article titles in three
-  scripts, the Tranco domain ranking, the PyPI package index;
+  scripts, the Tranco domain ranking, the PyPI package index, a Debian archive's file list, the
+  Rust compiler's own source release;
 * **derived** from one of those by the transformation under which the keys really exist — the
-  article URLs are the titles with Wikipedia's own prefix and escaping;
-* **read off this machine** — the Fedora word list, this filesystem's paths, the identifiers in the
-  Rust sources under `~/.cargo/registry`;
+  article URLs are the titles with Wikipedia's own prefix and escaping; `idents` is every
+  identifier in the `.rs` files of a pinned `rustc` source tarball;
+* **read off this machine** — only `words`, the system dictionary, and it says so;
 * **generated** from a fixed seed where the shape is the whole point and no real corpus exists —
   UUIDv4, dense decimal ids, opaque base64url ids, DNA 24-mers.
+
+Twelve of the thirteen come from a pinned URL or a seeded generator, so the same file comes out on
+any machine. `words` is the exception and is tagged `host`: it is read from
+`/usr/share/dict/words`, and the manifest records the host that produced it.
 
 Sizes are nested: the 100 000-key file is a prefix of the 1 000 000-key one, which is a prefix of
 the 10 000 000-key one, so a difference between two sizes is scale and never composition.
@@ -22,15 +27,15 @@ of a larger one is not dense.
 Every file is UTF-8, one key per line, deduplicated, and shuffled with a fixed seed — never sorted,
 because a sorted build order is the one order an ordered index must not be handed by accident.
 
-`bench/corpora.json` records for every file its source, the date it was fetched, the key count, the
+`sib/corpora.json` records for every file its source, the date it was fetched, the key count, the
 mean key length and its SHA-256. That manifest is the artifact; the files are gitignored, since a
 ten-million-key corpus does not belong in a git history.
 
 Run:
-  uv run --no-sync python bench/corpora.py status
-  uv run --no-sync python bench/corpora.py build words uuid dna
-  uv run --no-sync python bench/corpora.py build --force paths
-  uv run --no-sync python bench/corpora.py verify
+  uv run --no-sync python sib/corpora.py status
+  uv run --no-sync python sib/corpora.py build words uuid dna
+  uv run --no-sync python sib/corpora.py build --force paths
+  uv run --no-sync python sib/corpora.py verify
 """
 
 from __future__ import annotations
@@ -42,8 +47,8 @@ import json
 import os
 import random
 import re
-import subprocess
 import sys
+import tarfile
 import urllib.parse
 import urllib.request
 from collections.abc import Iterable, Iterator
@@ -52,7 +57,7 @@ from datetime import date
 from pathlib import Path
 
 HERE = Path(__file__).resolve().parent
-ROOT = Path(os.environ.get("LEXINDEX_CORPORA", HERE.parent / "local" / "corpora"))
+ROOT = Path(os.environ.get("SIB_CORPORA", HERE.parent / "corpora"))
 DOWNLOADS = ROOT / "downloads"
 MANIFEST = HERE / "corpora.json"
 
@@ -61,6 +66,13 @@ SEED = 0x6C6578696E646578 & 0xFFFFFFFF  # "lexindex" as bytes, truncated
 
 WIKI_DUMP = "20260801"  # a dated dump, not `latest`: `latest` cannot be pinned by hash
 TRANCO_LIST = "38KVL"  # the daily list of 2026-09-11, whose id is permanent
+# snapshot.debian.org serves an archive as it stood at an instant, for ever; `dists/bookworm` on a
+# live mirror is a moving target that a point release rewrites.
+DEBIAN_SNAPSHOT = "20260101T000000Z"
+DEBIAN_SUITE = "bookworm"
+# The compiler's own source release, which vendors the crates it builds with -- so these are
+# identifiers as the Rust ecosystem writes them, not as one machine happens to have cached.
+RUSTC_SRC = "1.85.0"
 
 
 FETCHED: dict[str, str] = {}  # cached file -> the URL it came from, for the manifest
@@ -75,7 +87,7 @@ def _download(url: str, into: str, accept: str = "*/*") -> Path:
         return path
     print(f"  fetching {url}")
     tmp = path.with_suffix(path.suffix + ".part")
-    headers = {"User-Agent": "lexindex-benchmark/1 (corpora.py)", "Accept": accept}
+    headers = {"User-Agent": "string-index-benchmarks/1 (sib/corpora.py)", "Accept": accept}
     req = urllib.request.Request(url, headers=headers)
     with urllib.request.urlopen(req, timeout=120) as src, open(tmp, "wb") as dst:
         while chunk := src.read(1 << 20):
@@ -139,28 +151,47 @@ def _words() -> Iterator[str]:
 
 
 def _paths() -> Iterator[str]:
-    """Real paths off this filesystem. Machine-specific by nature; the manifest records the host."""
-    for top in ("/usr", str(Path.home())):
-        done = subprocess.run(
-            ["/usr/bin/find", top, "-xdev"], capture_output=True, text=True, check=False
-        )
-        for line in done.stdout.splitlines():
-            if line:
-                yield line
+    """Every file a Debian archive installs, from its `Contents` index.
+
+    A real filesystem's paths, from a snapshot that cannot move: deep, repetitive, sharing long
+    prefixes (`usr/share/doc/...`, `usr/lib/x86_64-linux-gnu/...`) and carrying the version numbers
+    and language codes that make a path hard to front-code. The file is `path` then whitespace then
+    the packages that ship it; only the first column is a key.
+    """
+    name = f"Contents-amd64-{DEBIAN_SUITE}-{DEBIAN_SNAPSHOT}.gz"
+    path = _download(
+        f"https://snapshot.debian.org/archive/debian/{DEBIAN_SNAPSHOT}"
+        f"/dists/{DEBIAN_SUITE}/main/Contents-amd64.gz",
+        name,
+    )
+    with gzip.open(path, "rt", encoding="utf-8", errors="replace") as f:
+        for line in f:
+            # rsplit, not split: a path may contain spaces, and the package list never does.
+            key = line.rstrip("\n").rsplit(None, 1)[0] if line.strip() else ""
+            if key:
+                yield "/" + key
 
 
 IDENT = re.compile(r"[A-Za-z_][A-Za-z0-9_]{2,}")
 
 
 def _identifiers() -> Iterator[str]:
-    """Identifiers as they are written in the Rust sources this machine has vendored."""
-    registry = Path.home() / ".cargo" / "registry" / "src"
-    for source in sorted(registry.rglob("*.rs")):
-        try:
-            text = source.read_text(encoding="utf-8", errors="replace")
-        except OSError:
-            continue
-        yield from IDENT.findall(text)
+    """Identifiers in the `.rs` files of a pinned `rustc` source release.
+
+    Streamed out of the tarball rather than extracted: the archive is 261 MB compressed and some
+    gigabytes unpacked, and every `.rs` file in it is read exactly once either way.
+    """
+    path = _download(
+        f"https://static.rust-lang.org/dist/rustc-{RUSTC_SRC}-src.tar.xz",
+        f"rustc-{RUSTC_SRC}-src.tar.xz",
+    )
+    with tarfile.open(path, "r:xz") as archive:
+        for member in archive:
+            if not member.isfile() or not member.name.endswith(".rs"):
+                continue
+            if (source := archive.extractfile(member)) is None:
+                continue
+            yield from IDENT.findall(source.read().decode("utf-8", "replace"))
 
 
 def _bulk(rng: random.Random, alphabet: bytes, length: int, count: int) -> Iterator[str]:
@@ -201,11 +232,13 @@ class Corpus:
 CORPORA: tuple[Corpus, ...] = (
     Corpus(
         "words",
-        "English words — /usr/share/dict/words, Fedora's `words` package",
+        "English words — /usr/share/dict/words",
         _words,
         sizes=(100_000,),
         full=True,
-        note="the corpus every table in the README is measured on",
+        tags=("host",),
+        note="the one corpus read off the machine: install a system dictionary (Fedora `words`, "
+        "Debian `wamerican`) and the manifest records which host produced the file",
     ),
     Corpus(
         "titles-en",
@@ -259,15 +292,21 @@ CORPORA: tuple[Corpus, ...] = (
     ),
     Corpus(
         "paths",
-        "filesystem paths — `find /usr -xdev` and `find $HOME -xdev` on the benchmark machine",
+        f"filesystem paths — every file Debian {DEBIAN_SUITE} installs, from the "
+        f"snapshot.debian.org archive of {DEBIAN_SNAPSHOT}",
         _paths,
+        sizes=(100_000, 1_000_000),
+        fetched=True,
         full=True,
-        note="machine-specific by nature; the manifest records the host that produced it",
+        note="the deepest keys in the set, sharing long prefixes and carrying version numbers",
     ),
     Corpus(
         "idents",
-        "source-code identifiers — every `[A-Za-z_][A-Za-z0-9_]{2,}` in the vendored Rust sources",
+        f"source-code identifiers — every `[A-Za-z_][A-Za-z0-9_]{{2,}}` in the `.rs` files of the "
+        f"rustc {RUSTC_SRC} source release, the crates it vendors included",
         _identifiers,
+        sizes=(100_000, 1_000_000),
+        fetched=True,
         full=True,
     ),
     Corpus(
@@ -340,10 +379,9 @@ def _write(path: Path, keys: list[str]) -> dict[str, object]:
 
 def _built(manifest: dict, name: str) -> bool:
     """True when the manifest's files for this corpus are all on disk with the hashes it recorded,
-    and the grid has not moved since. A corpus read off this machine is a *sample* of a live
-    filesystem, so rebuilding one draws a new sample: `paths` moved 7 332 978 → 7 343 721 keys
-    between two sweeps in the same week, because the walk includes this repo's own `target/`.
-    Keeping what is on disk is the same rule the fetched corpora already follow."""
+    and the grid has not moved since. Every corpus but `words` is now a pinned download or a seeded
+    generator, so a rebuild reproduces the same file; `words` is a *sample* of whatever dictionary
+    the host has installed, and keeping what is on disk is what makes two runs comparable."""
     entry = manifest["corpora"].get(name)
     if entry is None:
         return False

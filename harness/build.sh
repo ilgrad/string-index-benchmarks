@@ -1,21 +1,22 @@
 #!/usr/bin/env bash
 # Build the research-frontier harness: the C² benchmark (C²-FST, C²-CoCo and C²-MARISA beside FST,
 # CoCo-trie, MARISA, PDT, ART and C-ART), XCDAT under the same protocol, and `frontier_lex` for
-# lexindex, every competitor at the commit in bench/frontier/pins.sh.
+# lexindex, every competitor at the commit in harness/pins.sh.
 #
-#   bench/frontier/build.sh    # into local/frontier, or $LEXINDEX_FRONTIER
+#   harness/build.sh    # into ./build, or $SIB_BUILD
 #
-# Nothing is vendored into this repository or linked into lexindex: the competitors are fetched at
-# build time into a gitignored directory, because several carry licences this repository cannot --
-# CoCo-trie is GPLv3 and PDT is for non-commercial use only. Needs git, curl, CMake, a C++20
+# Nothing is vendored into this repository: every competitor is fetched at build time into a
+# gitignored directory, because their licences differ from this harness's and from each other's --
+# CoCo-trie is GPLv3, PDT is for non-commercial use only, and see NOTICE.md for the whole list. A
+# machine that runs this script assembles those sources for itself and distributes nothing. Needs git, curl, CMake, a C++20
 # compiler, Boost (unit_test_framework, iostreams, system, filesystem) and cargo; measured with
 # GCC 16.2, CMake 4.3 and Boost 1.90.
 set -euo pipefail
 
 root=$(git -C "$(dirname "$0")" rev-parse --show-toplevel)
-# shellcheck source=bench/frontier/pins.sh
-. "$root/bench/frontier/pins.sh"
-frontier=${LEXINDEX_FRONTIER:-$root/local/frontier}
+# shellcheck source=harness/pins.sh
+. "$root/harness/pins.sh"
+frontier=${SIB_BUILD:-$root/build}
 jobs=${JOBS:-$(nproc --all)}
 
 for tool in git curl cmake c++ ar sha256sum cargo; do
@@ -116,9 +117,9 @@ step "XCDAT under the C² protocol"
 # Header-only. Compiled with C²'s flags rather than XCDAT's own `-O3`, so that no C++ structure in
 # the campaign is built for a lesser machine than another.
 logged "$frontier/xcdat-build.log" c++ -O3 -march=native -DNDEBUG -std=c++17 \
-  -I"$frontier/xcdat/include" "$root/bench/frontier/xcdat_frontier.cpp" -o "$frontier/xcdat_frontier"
+  -I"$frontier/xcdat/include" "$root/harness/xcdat_frontier.cpp" -o "$frontier/xcdat_frontier"
 echo "xcdat_frontier"
 
-step "frontier_lex"
-cargo build --release --locked --manifest-path "$root/bench/frontier/frontier_lex/Cargo.toml"
-echo "bench/frontier/frontier_lex/target/release/frontier_lex"
+step "lexindex under the same protocol"
+cargo build --release --locked --manifest-path "$root/harness/lex/Cargo.toml"
+echo "harness/lex/target/release/frontier_lex"
