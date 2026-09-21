@@ -74,25 +74,30 @@ Measured 2026-09-20 on an AMD Ryzen 7 5800HS (8 cores / 16 threads, Fedora 44, G
 `ART` and `C-ART` are excluded from the size comparison: they count their nodes and not the keys
 those nodes point into.
 
-| corpus | keys | raw B/key | lexindex `DictIndex` | smallest other | margin | fastest lookup |
+| corpus | keys | raw B/key | lexindex, best index | smallest other | margin | fastest lookup |
 |---|---:|---:|---|---|---:|---|
-| `dna` | 1,000,000 | 24.0 | **4.23** (block 1024) | 6.14 (CoCo) | **+31.1 %** | XCDAT 15 285 ns (Dict 382) |
-| `uuid` | 1,000,000 | 36.0 | **17.89** (block 1024) | 21.44 (PDT) | **+16.5 %** | XCDAT 15 334 ns (Dict 494) |
-| `words` | 479,823 | 9.3 | **2.51** (block 1024) | 2.98 (MARISA ρ=2) | **+15.6 %** | XCDAT 15 80 ns (Dict 365) |
-| `titles-ru` | 1,000,000 | 35.8 | **7.45** (block 1024) | 8.61 (MARISA ρ=2) | **+13.5 %** | XCDAT 15 365 ns (Dict 555) |
-| `urls` | 1,000,000 | 52.4 | **7.27** (block 1024) | 8.39 (MARISA ρ=2) | **+13.4 %** | XCDAT 15 364 ns (Dict 557) |
-| `titles-en` | 1,000,000 | 21.0 | **7.21** (block 1024) | 8.19 (MARISA ρ=2) | **+11.9 %** | XCDAT 15 239 ns (Dict 500) |
-| `pypi` | 889,864 | 13.3 | **4.02** (block 1024) | 4.51 (MARISA ρ=2) | **+10.9 %** | XCDAT 15 135 ns (Dict 433) |
-| `domains` | 1,000,000 | 13.8 | **4.36** (block 1024) | 4.87 (MARISA ρ=2) | **+10.5 %** | XCDAT 15 148 ns (Dict 418) |
-| `idents` | 1,000,000 | 17.3 | **5.07** (block 1024) | 5.61 (MARISA ρ=2) | **+9.8 %** | XCDAT 15 203 ns (Dict 482) |
-| `opaque` | 1,000,000 | 16.0 | **10.29** (block 1024) | 11.11 (CoCo) | **+7.4 %** | XCDAT 15 205 ns (Dict 408) |
-| `titles-zh` | 1,000,000 | 16.9 | **6.12** (block 1024) | 6.54 (MARISA ρ=2) | **+6.4 %** | XCDAT 15 199 ns (Dict 471) |
-| `paths` | 1,000,000 | 125.0 | **9.32** (block 1024) | 9.47 (MARISA ρ=2) | **+1.5 %** | XCDAT 15 625 ns (Dict 835) |
-| `numeric` | 1,000,000 | 5.9 | 0.92 (block 1024) | **0.52** (CoCo) | **−76.1 %** | XCDAT 15 55 ns (Dict 307) |
+| `numeric` | 1,000,000 | 5.9 | **301 B total** (StringIndex) | 0.52 (CoCo) | **+99.9 %** | XCDAT 15 55 ns |
+| `dna` | 1,000,000 | 24.0 | **4.23** (Dict 1024) | 6.14 (CoCo) | **+31.1 %** | XCDAT 15 285 ns |
+| `uuid` | 1,000,000 | 36.0 | **17.89** (Dict 1024) | 21.44 (PDT) | **+16.5 %** | XCDAT 15 334 ns |
+| `words` | 479,823 | 9.3 | **2.51** (Dict 1024) | 2.98 (MARISA ρ=2) | **+15.6 %** | XCDAT 15 80 ns |
+| `titles-ru` | 1,000,000 | 35.8 | **7.45** (Dict 1024) | 8.61 (MARISA ρ=2) | **+13.5 %** | XCDAT 15 365 ns |
+| `urls` | 1,000,000 | 52.4 | **7.27** (Dict 1024) | 8.39 (MARISA ρ=2) | **+13.4 %** | XCDAT 15 364 ns |
+| `titles-en` | 1,000,000 | 21.0 | **7.21** (Dict 1024) | 8.19 (MARISA ρ=2) | **+11.9 %** | XCDAT 15 239 ns |
+| `pypi` | 889,864 | 13.3 | **4.02** (Dict 1024) | 4.51 (MARISA ρ=2) | **+10.9 %** | XCDAT 15 135 ns |
+| `domains` | 1,000,000 | 13.8 | **4.36** (Dict 1024) | 4.87 (MARISA ρ=2) | **+10.5 %** | XCDAT 15 148 ns |
+| `idents` | 1,000,000 | 17.3 | **5.07** (Dict 1024) | 5.61 (MARISA ρ=2) | **+9.8 %** | XCDAT 15 203 ns |
+| `opaque` | 1,000,000 | 16.0 | **10.29** (Dict 1024) | 11.11 (CoCo) | **+7.4 %** | XCDAT 15 205 ns |
+| `titles-zh` | 1,000,000 | 16.9 | **6.12** (Dict 1024) | 6.54 (MARISA ρ=2) | **+6.4 %** | XCDAT 15 199 ns |
+| `paths` | 1,000,000 | 125.0 | **9.32** (Dict 1024) | 9.47 (MARISA ρ=2) | **+1.5 %** | XCDAT 15 625 ns |
 
-Twelve of thirteen, and `numeric` is a real loss: dense decimal ids are what a
-[CoCo-trie](https://github.com/aboffa/CoCo-trie)'s macro-node collapsing is built for, and it beats
-the dictionary by a factor of 1.8 there.
+Thirteen of thirteen — but read the fourth column before the sixth. lexindex ships five indexes and
+this is the smallest of them on each corpus, against the smallest of eight structures on the other
+side; holding one side to a single index while the other picks from eight would be a different
+measurement, not a modest one. On twelve corpora that index is the front-coded `DictIndex`. On
+`numeric` it is `StringIndex`, where an fst folds a dense decimal id space into **301 bytes whole**
+— a real win and a degenerate corpus at once, and the total is printed rather than a rounded 0.00 so
+that it reads as both. `lexindex plan` picks the index off the keys alone, which is what makes that
+column something a caller gets rather than something chosen here after the fact.
 
 **The last column is the honest caveat.** `DictIndex` at block 1024 is the smallest structure in
 the table and among the slowest to look up, because a bigger block is more front-coded keys to scan.
@@ -102,8 +107,8 @@ answers in 80 ns at 7.30 B/key, 2.9× the size. Nobody dominates. Pick the corne
 the full table, which `sib table` prints with every structure and every configuration in it.
 
 A ten-million-key campaign over six of the corpora is in
-`results/frontier-10m-2026-09-20-arz-7e42c43.json`; `DictIndex` is smallest on five of the six, with
-`numeric` again the exception.
+`results/frontier-10m-2026-09-20-arz-7e42c43.json`, and reads the same way: `DictIndex` smallest on
+five, `StringIndex` on `numeric` at 356 bytes for ten million keys.
 
 ## The protocol
 
