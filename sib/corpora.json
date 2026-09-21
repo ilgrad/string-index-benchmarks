@@ -4,7 +4,7 @@
       "what": "DNA 24-mers over ACGT, from a seeded generator",
       "nested": false,
       "pool_keys": 10000000,
-      "built": "2026-09-12",
+      "built": "2026-09-21",
       "files": [
         {
           "file": "dna-100000.txt",
@@ -34,7 +34,7 @@
       "what": "registered domains — the Tranco ranking, permanent list 38KVL",
       "nested": true,
       "pool_keys": 1000000,
-      "built": "2026-09-12",
+      "built": "2026-09-21",
       "files": [
         {
           "file": "domains-100000.txt",
@@ -85,7 +85,7 @@
       "what": "dense decimal ids, `0` to `n-1`",
       "nested": false,
       "pool_keys": 10000000,
-      "built": "2026-09-12",
+      "built": "2026-09-21",
       "files": [
         {
           "file": "numeric-100000.txt",
@@ -115,7 +115,7 @@
       "what": "opaque 16-symbol base64url ids, from a seeded generator",
       "nested": false,
       "pool_keys": 10000000,
-      "built": "2026-09-12",
+      "built": "2026-09-21",
       "files": [
         {
           "file": "opaque-100000.txt",
@@ -173,22 +173,22 @@
     "pypi": {
       "what": "PyPI package names — the simple index",
       "nested": true,
-      "pool_keys": 889864,
-      "built": "2026-09-12",
+      "pool_keys": 895600,
+      "built": "2026-09-21",
       "files": [
         {
           "file": "pypi-100000.txt",
           "keys": 100000,
-          "bytes": 1434169,
-          "mean_key_bytes": 13.34,
-          "sha256": "4bd5d529dddaedfc863e38dcc88e5ba9ea26967803c1ae6dd01eb0cd6d2c4c5f"
+          "bytes": 1437780,
+          "mean_key_bytes": 13.38,
+          "sha256": "3463f81e860b2efe1b29bf048051881c611a7c122e36ae2bb7faf607d38fe40f"
         },
         {
           "file": "pypi-full.txt",
-          "keys": 889864,
-          "bytes": 12756399,
-          "mean_key_bytes": 13.34,
-          "sha256": "980aab52c4e3839948b91bf5d14dc48e87f319a8eee27c80decf37a6701837d4"
+          "keys": 895600,
+          "bytes": 12836944,
+          "mean_key_bytes": 13.33,
+          "sha256": "a4913e8a4da076cdf5af34f1c02f2f2a198485d7f5927e81f647f6e5300b39cf"
         }
       ],
       "note": "a real catalogue of short, human-chosen identifiers"
@@ -197,7 +197,7 @@
       "what": "English Wikipedia article titles — enwiki-20260801-all-titles-in-ns0",
       "nested": true,
       "pool_keys": 19217770,
-      "built": "2026-09-12",
+      "built": "2026-09-21",
       "files": [
         {
           "file": "titles-en-100000.txt",
@@ -233,7 +233,7 @@
       "what": "Russian Wikipedia article titles — ruwiki-20260801-all-titles-in-ns0",
       "nested": true,
       "pool_keys": 4988075,
-      "built": "2026-09-12",
+      "built": "2026-09-21",
       "files": [
         {
           "file": "titles-ru-100000.txt",
@@ -263,7 +263,7 @@
       "what": "Chinese Wikipedia article titles — zhwiki-20260801-all-titles-in-ns0",
       "nested": true,
       "pool_keys": 2997733,
-      "built": "2026-09-12",
+      "built": "2026-09-21",
       "files": [
         {
           "file": "titles-zh-100000.txt",
@@ -293,7 +293,7 @@
       "what": "English Wikipedia article URLs — the titles under `/wiki/`, percent-escaped",
       "nested": true,
       "pool_keys": 19217771,
-      "built": "2026-09-12",
+      "built": "2026-09-21",
       "files": [
         {
           "file": "urls-100000.txt",
@@ -330,7 +330,7 @@
       "what": "UUIDv4 in the canonical hyphenated form, from a seeded generator",
       "nested": false,
       "pool_keys": 10000000,
-      "built": "2026-09-12",
+      "built": "2026-09-21",
       "files": [
         {
           "file": "uuid-100000.txt",
@@ -357,10 +357,10 @@
       "note": "36 bytes of which 32 are hex: no shared structure at all past the hyphens"
     },
     "words": {
-      "what": "English words — /usr/share/dict/words, Fedora's `words` package",
+      "what": "English words — /usr/share/dict/words",
       "nested": true,
       "pool_keys": 479823,
-      "built": "2026-09-12",
+      "built": "2026-09-21",
       "files": [
         {
           "file": "words-100000.txt",
@@ -377,7 +377,7 @@
           "sha256": "cee5da174ade14c9bc146b2f67495a745b0c952b03c7ed91e9a6142a74d31bd4"
         }
       ],
-      "note": "the corpus every table in the README is measured on"
+      "note": "the one corpus read off the machine: install a system dictionary (Fedora `words`, Debian `wamerican`) and the manifest records which host produced the file"
     }
   },
   "host": "arz",
@@ -400,8 +400,8 @@
     },
     "pypi-simple.json": {
       "url": "https://pypi.org/simple/",
-      "bytes": 43667204,
-      "sha256": "d096bf31e14336e94862cebf631d75e8d9690865b58a1aa84f759adef55c0f76"
+      "bytes": 43948587,
+      "sha256": "cb5e20b2027432ccefa8cc692fd215d3ece6597b413d392ce01e73c9a52df382"
     },
     "rustc-1.85.0-src.tar.xz": {
       "url": "https://static.rust-lang.org/dist/rustc-1.85.0-src.tar.xz",

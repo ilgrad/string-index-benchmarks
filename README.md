@@ -61,7 +61,12 @@ Thirteen, of four kinds, defined in `sib/corpora.py` and hashed in `sib/corpora.
 | generated from a fixed seed | `uuid`, `numeric`, `opaque`, `dna` |
 | read off the machine | `words` — `/usr/share/dict/words`, tagged `host`, the only one that is |
 
-Twelve of thirteen reproduce byte-for-byte anywhere. Sizes are nested — the 1 M file is a prefix of
+Eleven of thirteen reproduce byte-for-byte anywhere and at any time; rebuilding them nine days
+apart reproduced every SHA-256. The other two carry a tag that says why they do not. `words` is
+`host` — it is read off the machine, and the manifest records which one. `pypi` is `dated` — the
+simple index is live and publishes no snapshot, so a rebuild picks up whatever was registered since
+(889 864 names on 2026-09-12, 895 600 on 2026-09-21), and the manifest's `built` date is which index
+a file is. Sizes are nested — the 1 M file is a prefix of
 the 10 M one — so a difference between two scales is scale and never composition. Every file is
 UTF-8, one key per line, deduplicated, and **shuffled with a fixed seed**: a sorted build order is
 the one order an ordered index must not be handed by accident.

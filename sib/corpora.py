@@ -15,9 +15,12 @@ corpora of four kinds:
 * **generated** from a fixed seed where the shape is the whole point and no real corpus exists —
   UUIDv4, dense decimal ids, opaque base64url ids, DNA 24-mers.
 
-Twelve of the thirteen come from a pinned URL or a seeded generator, so the same file comes out on
-any machine. `words` is the exception and is tagged `host`: it is read from
-`/usr/share/dict/words`, and the manifest records the host that produced it.
+Eleven of the thirteen come from a pinned URL or a seeded generator, so the same file comes out on
+any machine and at any time -- rebuilding them nine days apart reproduced every SHA-256. Two are
+tagged, and the tag is the warning. `words` is `host`: it is read from `/usr/share/dict/words`, and
+the manifest records the machine that produced it. `pypi` is `dated`: the simple index is live and
+publishes no snapshot, so a rebuild picks up whatever has been registered since, and the manifest's
+`built` date says which index a file is. Neither carries a size claim on its own.
 
 Sizes are nested: the 100 000-key file is a prefix of the 1 000 000-key one, which is a prefix of
 the 10 000 000-key one, so a difference between two sizes is scale and never composition.
@@ -288,7 +291,11 @@ CORPORA: tuple[Corpus, ...] = (
         fetched=True,
         sizes=(100_000,),
         full=True,
-        note="a real catalogue of short, human-chosen identifiers",
+        tags=("dated",),
+        note="a real catalogue of short, human-chosen identifiers, and the one fetched corpus "
+        "that is not reproducible: the simple index is live and publishes no snapshot, so a "
+        "rebuild gets the packages registered since. Measured 2026-09-12 to 2026-09-21 it grew "
+        "889 864 to 895 600 names, 0.6 %. The manifest's `built` date is which index a file is.",
     ),
     Corpus(
         "paths",
