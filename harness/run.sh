@@ -111,6 +111,26 @@ if awk -v l="$load" -v c="$LOAD_CEILING" 'BEGIN { exit !(l > c) }'; then
   exit 1
 fi
 
+# Swap in use means pages have already been evicted, and on a machine whose swap is zram the
+# compressor competes for the same cores a probe is being timed on. Sizes do not care; a
+# nanosecond does.
+swap_mib=$(awk '/SwapTotal/ { t = $2 } /SwapFree/ { f = $2 } END { print int((t - f) / 1024) }' /proc/meminfo)
+if [ "$swap_mib" -gt "${SIB_SWAP_CEILING_MIB:-64}" ]; then
+  echo "refusing: ${swap_mib} MiB of swap is in use -- something has already been evicted, and a" >&2
+  echo "latency number measured over it is the swap's. Free memory or reboot, then re-run." >&2
+  exit 1
+fi
+
+# Two DIMMs of different size interleave only over twice the smaller one; the rest is single
+# channel, and which half a buffer lands in is the kernel's choice. Headroom is what keeps a
+# campaign out of the half it did not measure last time.
+avail_gib=$(awk '/MemAvailable/ { printf "%.1f", $2 / 1048576 }' /proc/meminfo)
+if awk -v a="$avail_gib" -v n="${SIB_FREE_GIB:-12}" 'BEGIN { exit !(a < n) }'; then
+  echo "refusing: ${avail_gib} GiB available, under ${SIB_FREE_GIB:-12} GiB -- a campaign this" >&2
+  echo "close to the edge measures reclaim. Close what is holding memory, or reboot." >&2
+  exit 1
+fi
+
 if [ ! -x /usr/bin/time ]; then
   echo "refusing: /usr/bin/time (GNU time) is needed for each process's peak memory" >&2
   exit 1
@@ -184,6 +204,11 @@ header() {
   echo "compiler: $(c++ --version | head -1)"
   echo "rustc: $(rustc --version)"
   echo "load at start: $(cut -d' ' -f1-3 /proc/loadavg)"
+  # A machine with two unequal DIMMs interleaves only part of its memory, so how much was free
+  # says which half a campaign is likely to have run in. Swap in use says the answer is neither.
+  echo "memory: $(awk '/MemTotal/ { printf "%.1f GiB total", $2 / 1048576 }' /proc/meminfo), \
+$(awk '/MemAvailable/ { printf "%.1f available", $2 / 1048576 }' /proc/meminfo)"
+  echo "swap in use: ${swap_mib} MiB"
   echo "rounds: $rounds, even rounds in the reverse order"
   echo "quiet before each process: under $QUIET_CPUS busy CPUs for 1 s"
   echo "clock ticks: $ticks"

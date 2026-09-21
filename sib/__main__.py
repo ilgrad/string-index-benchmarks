@@ -71,7 +71,13 @@ def cmd_run(args: argparse.Namespace) -> int:
         # Your keys are not this repository's commit, and your laptop is not a quiet machine. Both
         # gates come off, and `sib table` prints the warning that goes with that.
         argv.append("--allow-dirty")
-        env |= {"SIB_LOAD_CEILING": "1000", "SIB_QUIET_CPUS": "1000", "SIB_SETTLE_SECONDS": "1"}
+        env |= {
+            "SIB_LOAD_CEILING": "1000",
+            "SIB_QUIET_CPUS": "1000",
+            "SIB_SETTLE_SECONDS": "1",
+            "SIB_SWAP_CEILING_MIB": "999999",
+            "SIB_FREE_GIB": "0",
+        }
         print(
             "\nNOTE: the quiet-machine gates are off for a --keys run. Sizes are\n"
             "      deterministic and stand anywhere; the nanoseconds are this machine\n"
