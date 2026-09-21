@@ -115,6 +115,50 @@ A ten-million-key campaign over six of the corpora is in
 `results/frontier-10m-2026-09-20-arz-7e42c43.json`, and reads the same way: `DictIndex` smallest on
 five, `StringIndex` on `numeric` at 356 bytes for ten million keys.
 
+## Results: past ten million keys
+
+Two campaigns on 2026-09-21, same machine, toolchain and protocol, at this repository's `a6c13d0`.
+`results/frontier-full-2026-09-21-arz-a6c13d0.json` runs every structure over English Wikipedia's
+titles and URLs whole, 19.2 million keys each; no fetched corpus here is larger.
+
+| corpus | keys | lexindex, best index | smallest other | margin | fastest lookup | lexindex's fastest |
+|---|---:|---|---|---:|---|---|
+| `urls` | 19,217,771 | **5.06** (Dict 1024) | 5.33 (MARISA ρ=2) | **+4.9 %** | XCDAT 15 824 ns | Dict 256 891 ns |
+| `titles-en` | 19,217,770 | **5.02** (Dict 1024) | 5.23 (MARISA ρ=2) | **+4.1 %** | XCDAT 15 659 ns | Dict 256 769 ns |
+
+`results/frontier-100m-2026-09-21-arz-a6c13d0.json` runs the four generated corpora at a hundred
+million keys with **four structures, not twenty-five**: there every driver peaks near ten times its
+ten-million figure, and the whole set would run for two days. The four are both ends of every
+ten-million front — `DictIndex` at blocks 256 and 1024, `StringIndex`, and XCDAT 15, the fastest
+lookup at every smaller scale — so this table says where the two ends went and nothing about the
+structures that were not run.
+
+| corpus | lexindex, smallest | XCDAT 15 | lexindex, fastest | XCDAT 15 |
+|---|---|---:|---|---:|
+| `numeric` | **420 B total** (StringIndex) | 7.05 | **156 ns** (StringIndex) | 408 ns |
+| `dna` | **3.40** (Dict 1024) | 9.45 | 844 ns (Dict 1024) | 864 ns |
+| `uuid` | **16.94** (Dict 1024) | 37.98 | 924 ns (StringIndex, 34.91) | **873 ns** |
+| `opaque` | **9.46** (Dict 1024) | 19.99 | 833 ns (StringIndex, 19.58) | **546 ns** |
+
+**The lookup gap closed from a million keys to ten million, and then stopped closing.** lexindex's
+fastest index over XCDAT 15's time:
+
+| corpus | 1 M | 10 M | 19.2 M or 100 M |
+|---|---:|---:|---:|
+| `titles-en` | 1.69 | 1.18 | 1.17 |
+| `urls` | 1.26 | 1.07 | 1.08 |
+| `uuid` | 1.36 | 1.24 | 1.06 (`DictIndex` 1.21) |
+| `opaque` | 1.70 | 1.72 | 1.53 (`DictIndex` 1.59) |
+| `dna` | 1.23 | **0.91** | 0.98 |
+| `numeric` | 2.05 | **0.67** | **0.38** |
+
+`dna` at a hundred million is a tie, not a win: 2 % is inside what the placement of a process's
+memory alone moves a lookup on this machine, whose two DIMMs are unequal — the artifact records the
+layout. `DictIndex` builds before every structure at both sizes: 3.8 and 4.0 s on the 19.2 M
+corpora against ART's 3.9 and 7.2, C-ART's 5.1 and 8.3, and 12.8 s or more for everything else,
+and 8–14 s at a hundred million against XCDAT 15's 23–132. CoCo-trie runs out of the 28 GB of
+address space a process is allowed on both 19.2 M corpora, as it did on five of six at ten million.
+
 ## The protocol
 
 The rules a number here had to survive:

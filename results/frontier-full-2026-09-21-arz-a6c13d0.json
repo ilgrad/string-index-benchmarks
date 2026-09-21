@@ -1,0 +1,2482 @@
+{
+  "table": "frontier-full",
+  "environment": {
+    "date": "2026-09-21T21:48:01+03:00",
+    "host": "arz",
+    "commit": "a6c13d0",
+    "table": "frontier-full",
+    "lexindex": "4.0.0",
+    "kernel": "Linux 7.2.5-200.fc44.x86_64 x86_64",
+    "cpu": "AMD Ryzen 7 5800HS with Radeon Graphics",
+    "cores/threads": "8 / 16",
+    "caches": "L2 512 KiB, L3 16384 KiB",
+    "governor": "powersave",
+    "transparent hugepages": "always [madvise] never",
+    "compiler": "c++ (GCC) 16.2.1 20260819 (Red Hat 16.2.1-2)",
+    "rustc": "rustc 1.98.1 (48a229cea 2026-09-01)",
+    "load at start": "0.27 0.61 0.86",
+    "memory": "38.6 GiB total, 35.1 available",
+    "swap in use": "0 MiB",
+    "memory layout": "not read (needs root)",
+    "rounds": "3, even rounds in the reverse order",
+    "quiet before each process": "under 1.0 busy CPUs for 1 s",
+    "clock ticks": "100",
+    "address space cap": "28000000 KB",
+    "timeout": "7200 s a process",
+    "pin c2": "92c1b861456b https://github.com/alexztc/C2",
+    "pin c2/lib/sdsl-lite": "4312ea9c9370 https://github.com/vgteam/sdsl-lite",
+    "pin c2/lib/ds2i": "4f46606cc077 https://github.com/aboffa/ds2i (modified: compact_elias_fano.hpp,succinct)",
+    "pin c2/lib/sux": "5944f6b5c1c7 https://github.com/vigna/sux (modified: sux/util/Vector.hpp)",
+    "pin c2/lib/fsst": "e638d4cf8c26 https://github.com/cwida/fsst",
+    "pin c2/baseline_marisa/marisa": "e54f296bb52d https://github.com/s-yata/marisa-trie",
+    "pin c2/baseline_ctriepp/ctriepp": "52d2c16a7bb6 https://gitlab.com/ofek.gila1/ctriepp",
+    "pin xcdat": "2451441dcc09 https://github.com/kampersanda/xcdat",
+    "pin c2/lib/ds2i/succinct": "ea74747a8b1c (gitlink)",
+    "pin c2/lib/sdsl-lite/external/googletest": "71815bbf7de6 (gitlink)",
+    "pin c2/lib/sdsl-lite/external/libdivsufsort": "0f24acd8de20 (gitlink)",
+    "pin coco adapted headers": "ee860d4b1e62 https://github.com/aboffa/CoCo-trie (by sha256)"
+  },
+  "replaced": {},
+  "cells": [
+    {
+      "corpus": "titles-en-full",
+      "keys": 19217770,
+      "raw_bytes_per_key": 20.972,
+      "structure": "lexindex Dict 32",
+      "bytes_per_key": 5.662965863328368,
+      "id_ns": 837.041,
+      "id_ns_spread": 0.002337997780276124,
+      "build_ms": 3864.766,
+      "maxrss_mib": 3059.58984375,
+      "runs": [
+        {
+          "round": 1,
+          "id_ns_warm_mean": 831.8,
+          "id_ns_warm_min": 830.5,
+          "build_ms": 3833.296,
+          "bytes_per_key": 5.662965863328368,
+          "id_ns": 835.661,
+          "seconds": 80.65,
+          "cpu_seconds": 106.71,
+          "maxrss_mib": 3051.5546875,
+          "busy_ticks": 10957,
+          "exit": 0,
+          "others_busy_cpus": 0.04
+        },
+        {
+          "round": 2,
+          "id_ns_warm_mean": 836.8,
+          "id_ns_warm_min": 834.1,
+          "build_ms": 3924.573,
+          "bytes_per_key": 5.662965863328368,
+          "id_ns": 837.618,
+          "seconds": 81.24,
+          "cpu_seconds": 108.07,
+          "maxrss_mib": 3051.11328125,
+          "busy_ticks": 11087,
+          "exit": 0,
+          "others_busy_cpus": 0.03
+        },
+        {
+          "round": 3,
+          "id_ns_warm_mean": 834.3,
+          "id_ns_warm_min": 830.8,
+          "build_ms": 3864.766,
+          "bytes_per_key": 5.662965863328368,
+          "id_ns": 837.041,
+          "seconds": 80.99,
+          "cpu_seconds": 107.87,
+          "maxrss_mib": 3059.58984375,
+          "busy_ticks": 11066,
+          "exit": 0,
+          "others_busy_cpus": 0.03
+        }
+      ]
+    },
+    {
+      "corpus": "titles-en-full",
+      "keys": 19217770,
+      "raw_bytes_per_key": 20.972,
+      "structure": "lexindex Dict 256",
+      "bytes_per_key": 5.19001232384236,
+      "id_ns": 768.858,
+      "id_ns_spread": 0.013287238996017482,
+      "build_ms": 3895.223,
+      "maxrss_mib": 3050.78125,
+      "runs": [
+        {
+          "round": 1,
+          "id_ns_warm_mean": 766.3,
+          "id_ns_warm_min": 765.8,
+          "build_ms": 3824.558,
+          "bytes_per_key": 5.19001232384236,
+          "id_ns": 764.126,
+          "seconds": 75.56,
+          "cpu_seconds": 102.36,
+          "maxrss_mib": 3046.22265625,
+          "busy_ticks": 10473,
+          "exit": 0,
+          "others_busy_cpus": 0.03
+        },
+        {
+          "round": 2,
+          "id_ns_warm_mean": 768.2,
+          "id_ns_warm_min": 766.8,
+          "build_ms": 3900.002,
+          "bytes_per_key": 5.19001232384236,
+          "id_ns": 768.858,
+          "seconds": 75.88,
+          "cpu_seconds": 103.23,
+          "maxrss_mib": 3050.78125,
+          "busy_ticks": 10573,
+          "exit": 0,
+          "others_busy_cpus": 0.03
+        },
+        {
+          "round": 3,
+          "id_ns_warm_mean": 773.2,
+          "id_ns_warm_min": 773.0,
+          "build_ms": 3895.223,
+          "bytes_per_key": 5.19001232384236,
+          "id_ns": 774.342,
+          "seconds": 76.33,
+          "cpu_seconds": 103.64,
+          "maxrss_mib": 3044.5078125,
+          "busy_ticks": 10607,
+          "exit": 0,
+          "others_busy_cpus": 0.03
+        }
+      ]
+    },
+    {
+      "corpus": "titles-en-full",
+      "keys": 19217770,
+      "raw_bytes_per_key": 20.972,
+      "structure": "lexindex Dict 1024",
+      "bytes_per_key": 5.018892526619686,
+      "id_ns": 784.218,
+      "id_ns_spread": 0.04502702054785791,
+      "build_ms": 3797.795,
+      "maxrss_mib": 3034.08203125,
+      "runs": [
+        {
+          "round": 1,
+          "id_ns_warm_mean": 783.4,
+          "id_ns_warm_min": 782.6,
+          "build_ms": 3788.309,
+          "bytes_per_key": 5.018892526619686,
+          "id_ns": 784.218,
+          "seconds": 76.89,
+          "cpu_seconds": 103.02,
+          "maxrss_mib": 3030.5546875,
+          "busy_ticks": 10563,
+          "exit": 0,
+          "others_busy_cpus": 0.03
+        },
+        {
+          "round": 2,
+          "id_ns_warm_mean": 816.8,
+          "id_ns_warm_min": 815.9,
+          "build_ms": 3797.795,
+          "bytes_per_key": 5.018892526619686,
+          "id_ns": 816.995,
+          "seconds": 79.53,
+          "cpu_seconds": 105.86,
+          "maxrss_mib": 3028.29296875,
+          "busy_ticks": 10845,
+          "exit": 0,
+          "others_busy_cpus": 0.03
+        },
+        {
+          "round": 3,
+          "id_ns_warm_mean": 781.7,
+          "id_ns_warm_min": 780.6,
+          "build_ms": 3852.335,
+          "bytes_per_key": 5.018892526619686,
+          "id_ns": 781.684,
+          "seconds": 76.9,
+          "cpu_seconds": 103.2,
+          "maxrss_mib": 3034.08203125,
+          "busy_ticks": 10584,
+          "exit": 0,
+          "others_busy_cpus": 0.03
+        }
+      ]
+    },
+    {
+      "corpus": "titles-en-full",
+      "keys": 19217770,
+      "raw_bytes_per_key": 20.972,
+      "structure": "lexindex StringIndex",
+      "bytes_per_key": 11.621908803412675,
+      "id_ns": 882.545,
+      "id_ns_spread": 0.04644975610308826,
+      "build_ms": 14210.446,
+      "maxrss_mib": 2917.6640625,
+      "runs": [
+        {
+          "round": 1,
+          "id_ns_warm_mean": 877.5,
+          "id_ns_warm_min": 872.6,
+          "build_ms": 14356.611,
+          "bytes_per_key": 11.621908803412675,
+          "id_ns": 882.545,
+          "seconds": 94.63,
+          "cpu_seconds": 94.26,
+          "maxrss_mib": 2917.5859375,
+          "busy_ticks": 9706,
+          "exit": 0,
+          "others_busy_cpus": 0.03
+        },
+        {
+          "round": 2,
+          "id_ns_warm_mean": 870.9,
+          "id_ns_warm_min": 870.5,
+          "build_ms": 14210.446,
+          "bytes_per_key": 11.621908803412675,
+          "id_ns": 867.733,
+          "seconds": 93.88,
+          "cpu_seconds": 93.52,
+          "maxrss_mib": 2917.6640625,
+          "busy_ticks": 9627,
+          "exit": 0,
+          "others_busy_cpus": 0.03
+        },
+        {
+          "round": 3,
+          "id_ns_warm_mean": 908.3,
+          "id_ns_warm_min": 907.3,
+          "build_ms": 14192.579,
+          "bytes_per_key": 11.621908803412675,
+          "id_ns": 908.727,
+          "seconds": 96.78,
+          "cpu_seconds": 96.4,
+          "maxrss_mib": 2917.3671875,
+          "busy_ticks": 9938,
+          "exit": 0,
+          "others_busy_cpus": 0.03
+        }
+      ]
+    },
+    {
+      "corpus": "titles-en-full",
+      "keys": 19217770,
+      "raw_bytes_per_key": 20.972,
+      "structure": "C²-FST",
+      "bytes_per_key": 8.292902606135884,
+      "id_ns": 1647.815656,
+      "id_ns_spread": 0.02826434366636466,
+      "build_ms": 19808.69526,
+      "maxrss_mib": 2565.55859375,
+      "runs": [
+        {
+          "round": 1,
+          "build_ms": 19755.439428,
+          "bytes_per_key": 8.292902606135884,
+          "id_ns": 1647.815656,
+          "seconds": 67.24,
+          "cpu_seconds": 66.97,
+          "maxrss_mib": 2565.2109375,
+          "busy_ticks": 6924,
+          "exit": 0,
+          "others_busy_cpus": 0.03
+        },
+        {
+          "round": 2,
+          "build_ms": 19913.961033,
+          "bytes_per_key": 8.292902606135884,
+          "id_ns": 1611.859037,
+          "seconds": 66.7,
+          "cpu_seconds": 66.42,
+          "maxrss_mib": 2565.3203125,
+          "busy_ticks": 6861,
+          "exit": 0,
+          "others_busy_cpus": 0.03
+        },
+        {
+          "round": 3,
+          "build_ms": 19808.69526,
+          "bytes_per_key": 8.292902606135884,
+          "id_ns": 1658.433465,
+          "seconds": 67.45,
+          "cpu_seconds": 67.17,
+          "maxrss_mib": 2565.55859375,
+          "busy_ticks": 6932,
+          "exit": 0,
+          "others_busy_cpus": 0.03
+        }
+      ]
+    },
+    {
+      "corpus": "titles-en-full",
+      "keys": 19217770,
+      "raw_bytes_per_key": 20.972,
+      "structure": "C²-FST ρ=1",
+      "bytes_per_key": 7.483700580535619,
+      "id_ns": 1866.373217,
+      "id_ns_spread": 0.007344976275449803,
+      "build_ms": 22383.140779,
+      "maxrss_mib": 2359.35546875,
+      "runs": [
+        {
+          "round": 1,
+          "build_ms": 22387.952259,
+          "bytes_per_key": 7.483700580535619,
+          "id_ns": 1866.373217,
+          "seconds": 74.02,
+          "cpu_seconds": 73.72,
+          "maxrss_mib": 2359.2890625,
+          "busy_ticks": 7617,
+          "exit": 0,
+          "others_busy_cpus": 0.03
+        },
+        {
+          "round": 2,
+          "build_ms": 22383.140779,
+          "bytes_per_key": 7.483700580535619,
+          "id_ns": 1874.67223,
+          "seconds": 74.34,
+          "cpu_seconds": 74.04,
+          "maxrss_mib": 2359.35546875,
+          "busy_ticks": 7654,
+          "exit": 0,
+          "others_busy_cpus": 0.03
+        },
+        {
+          "round": 3,
+          "build_ms": 22180.417081,
+          "bytes_per_key": 7.483700580535619,
+          "id_ns": 1860.963763,
+          "seconds": 73.8,
+          "cpu_seconds": 73.5,
+          "maxrss_mib": 2359.15234375,
+          "busy_ticks": 7587,
+          "exit": 0,
+          "others_busy_cpus": 0.03
+        }
+      ]
+    },
+    {
+      "corpus": "titles-en-full",
+      "keys": 19217770,
+      "raw_bytes_per_key": 20.972,
+      "structure": "C²-FST ρ=2",
+      "bytes_per_key": 7.483700580535619,
+      "id_ns": 1844.711534,
+      "id_ns_spread": 0.010560401255668646,
+      "build_ms": 22919.307534,
+      "maxrss_mib": 2373.88671875,
+      "runs": [
+        {
+          "round": 1,
+          "build_ms": 22829.787545,
+          "bytes_per_key": 7.483700580535619,
+          "id_ns": 1844.711534,
+          "seconds": 74.03,
+          "cpu_seconds": 73.72,
+          "maxrss_mib": 2373.7109375,
+          "busy_ticks": 7618,
+          "exit": 0,
+          "others_busy_cpus": 0.03
+        },
+        {
+          "round": 2,
+          "build_ms": 22952.421001,
+          "bytes_per_key": 7.483700580535619,
+          "id_ns": 1863.938006,
+          "seconds": 74.67,
+          "cpu_seconds": 74.37,
+          "maxrss_mib": 2373.7578125,
+          "busy_ticks": 7682,
+          "exit": 0,
+          "others_busy_cpus": 0.03
+        },
+        {
+          "round": 3,
+          "build_ms": 22919.307534,
+          "bytes_per_key": 7.483700580535619,
+          "id_ns": 1844.457112,
+          "seconds": 74.21,
+          "cpu_seconds": 73.9,
+          "maxrss_mib": 2373.88671875,
+          "busy_ticks": 7629,
+          "exit": 0,
+          "others_busy_cpus": 0.03
+        }
+      ]
+    },
+    {
+      "corpus": "titles-en-full",
+      "keys": 19217770,
+      "raw_bytes_per_key": 20.972,
+      "structure": "C²-CoCo",
+      "bytes_per_key": 9.530333452454473,
+      "id_ns": 1775.397308,
+      "id_ns_spread": 0.0035211132583287956,
+      "build_ms": 49478.197046,
+      "maxrss_mib": 5840.0078125,
+      "runs": [
+        {
+          "round": 1,
+          "build_ms": 49097.601129,
+          "bytes_per_key": 9.530333452454473,
+          "id_ns": 1775.397308,
+          "seconds": 98.99,
+          "cpu_seconds": 98.58,
+          "maxrss_mib": 5840.00390625,
+          "busy_ticks": 10157,
+          "exit": 0,
+          "others_busy_cpus": 0.03
+        },
+        {
+          "round": 2,
+          "build_ms": 49478.197046,
+          "bytes_per_key": 9.530333452454473,
+          "id_ns": 1776.681237,
+          "seconds": 99.51,
+          "cpu_seconds": 99.11,
+          "maxrss_mib": 5840.0078125,
+          "busy_ticks": 10211,
+          "exit": 0,
+          "others_busy_cpus": 0.03
+        },
+        {
+          "round": 3,
+          "build_ms": 49481.286911,
+          "bytes_per_key": 9.530333452454473,
+          "id_ns": 1770.429862,
+          "seconds": 99.36,
+          "cpu_seconds": 98.96,
+          "maxrss_mib": 5839.95703125,
+          "busy_ticks": 10204,
+          "exit": 0,
+          "others_busy_cpus": 0.03
+        }
+      ]
+    },
+    {
+      "corpus": "titles-en-full",
+      "keys": 19217770,
+      "raw_bytes_per_key": 20.972,
+      "structure": "C²-CoCo ρ=1",
+      "bytes_per_key": 8.721131372291374,
+      "id_ns": 1988.04438,
+      "id_ns_spread": 0.003959466438068183,
+      "build_ms": 51859.519423,
+      "maxrss_mib": 5655.515625,
+      "runs": [
+        {
+          "round": 1,
+          "build_ms": 51859.519423,
+          "bytes_per_key": 8.721131372291374,
+          "id_ns": 1988.331068,
+          "seconds": 105.84,
+          "cpu_seconds": 105.42,
+          "maxrss_mib": 5655.515625,
+          "busy_ticks": 10860,
+          "exit": 0,
+          "others_busy_cpus": 0.03
+        },
+        {
+          "round": 2,
+          "build_ms": 51968.403934,
+          "bytes_per_key": 8.721131372291374,
+          "id_ns": 1980.459473,
+          "seconds": 105.89,
+          "cpu_seconds": 105.47,
+          "maxrss_mib": 5655.1875,
+          "busy_ticks": 10858,
+          "exit": 0,
+          "others_busy_cpus": 0.03
+        },
+        {
+          "round": 3,
+          "build_ms": 51764.074374,
+          "bytes_per_key": 8.721131372291374,
+          "id_ns": 1988.04438,
+          "seconds": 105.81,
+          "cpu_seconds": 105.38,
+          "maxrss_mib": 5655.45703125,
+          "busy_ticks": 10850,
+          "exit": 0,
+          "others_busy_cpus": 0.03
+        }
+      ]
+    },
+    {
+      "corpus": "titles-en-full",
+      "keys": 19217770,
+      "raw_bytes_per_key": 20.972,
+      "structure": "C²-CoCo ρ=2",
+      "bytes_per_key": 8.721131372291374,
+      "id_ns": 1990.728401,
+      "id_ns_spread": 0.012750019534181572,
+      "build_ms": 52334.471699,
+      "maxrss_mib": 5676.8125,
+      "runs": [
+        {
+          "round": 1,
+          "build_ms": 52320.140205,
+          "bytes_per_key": 8.721131372291374,
+          "id_ns": 2007.594893,
+          "seconds": 106.67,
+          "cpu_seconds": 106.24,
+          "maxrss_mib": 5676.8125,
+          "busy_ticks": 10949,
+          "exit": 0,
+          "others_busy_cpus": 0.03
+        },
+        {
+          "round": 2,
+          "build_ms": 52334.471699,
+          "bytes_per_key": 8.721131372291374,
+          "id_ns": 1990.728401,
+          "seconds": 106.45,
+          "cpu_seconds": 106.02,
+          "maxrss_mib": 5676.78125,
+          "busy_ticks": 10923,
+          "exit": 0,
+          "others_busy_cpus": 0.03
+        },
+        {
+          "round": 3,
+          "build_ms": 52562.237679,
+          "bytes_per_key": 8.721131372291374,
+          "id_ns": 1982.213067,
+          "seconds": 106.48,
+          "cpu_seconds": 106.06,
+          "maxrss_mib": 5676.74609375,
+          "busy_ticks": 10947,
+          "exit": 0,
+          "others_busy_cpus": 0.03
+        }
+      ]
+    },
+    {
+      "corpus": "titles-en-full",
+      "keys": 19217770,
+      "raw_bytes_per_key": 20.972,
+      "structure": "C²-MARISA",
+      "bytes_per_key": 7.363805081464499,
+      "id_ns": 1003.633387,
+      "id_ns_spread": 0.007426216680852648,
+      "build_ms": 20150.634337,
+      "maxrss_mib": 2863.609375,
+      "runs": [
+        {
+          "round": 1,
+          "build_ms": 20106.989299,
+          "bytes_per_key": 7.363805081464499,
+          "id_ns": 1003.633387,
+          "seconds": 55.24,
+          "cpu_seconds": 55.01,
+          "maxrss_mib": 2863.609375,
+          "busy_ticks": 5691,
+          "exit": 0,
+          "others_busy_cpus": 0.03
+        },
+        {
+          "round": 2,
+          "build_ms": 20150.634337,
+          "bytes_per_key": 7.363805081464499,
+          "id_ns": 1005.001939,
+          "seconds": 55.32,
+          "cpu_seconds": 55.09,
+          "maxrss_mib": 2863.27734375,
+          "busy_ticks": 5689,
+          "exit": 0,
+          "others_busy_cpus": 0.03
+        },
+        {
+          "round": 3,
+          "build_ms": 20311.48386,
+          "bytes_per_key": 7.363805081464499,
+          "id_ns": 997.54874,
+          "seconds": 55.48,
+          "cpu_seconds": 55.25,
+          "maxrss_mib": 2863.3203125,
+          "busy_ticks": 5709,
+          "exit": 0,
+          "others_busy_cpus": 0.03
+        }
+      ]
+    },
+    {
+      "corpus": "titles-en-full",
+      "keys": 19217770,
+      "raw_bytes_per_key": 20.972,
+      "structure": "C²-MARISA ρ=1",
+      "bytes_per_key": 6.181749346353506,
+      "id_ns": 1254.844768,
+      "id_ns_spread": 0.007482481689719273,
+      "build_ms": 23342.550791,
+      "maxrss_mib": 2608.80859375,
+      "runs": [
+        {
+          "round": 1,
+          "build_ms": 23244.954702,
+          "bytes_per_key": 6.181749346353506,
+          "id_ns": 1263.266588,
+          "seconds": 63.32,
+          "cpu_seconds": 63.06,
+          "maxrss_mib": 2608.3046875,
+          "busy_ticks": 6517,
+          "exit": 0,
+          "others_busy_cpus": 0.03
+        },
+        {
+          "round": 2,
+          "build_ms": 23427.832485,
+          "bytes_per_key": 6.181749346353506,
+          "id_ns": 1253.877235,
+          "seconds": 63.49,
+          "cpu_seconds": 63.23,
+          "maxrss_mib": 2608.80859375,
+          "busy_ticks": 6538,
+          "exit": 0,
+          "others_busy_cpus": 0.03
+        },
+        {
+          "round": 3,
+          "build_ms": 23342.550791,
+          "bytes_per_key": 6.181749346353506,
+          "id_ns": 1254.844768,
+          "seconds": 63.29,
+          "cpu_seconds": 63.03,
+          "maxrss_mib": 2608.69921875,
+          "busy_ticks": 6523,
+          "exit": 0,
+          "others_busy_cpus": 0.03
+        }
+      ]
+    },
+    {
+      "corpus": "titles-en-full",
+      "keys": 19217770,
+      "raw_bytes_per_key": 20.972,
+      "structure": "C²-MARISA ρ=2",
+      "bytes_per_key": 6.181749346353506,
+      "id_ns": 1258.462585,
+      "id_ns_spread": 0.0023731853736437686,
+      "build_ms": 23994.451105,
+      "maxrss_mib": 2637.0859375,
+      "runs": [
+        {
+          "round": 1,
+          "build_ms": 23994.451105,
+          "bytes_per_key": 6.181749346353506,
+          "id_ns": 1259.116918,
+          "seconds": 64.03,
+          "cpu_seconds": 63.76,
+          "maxrss_mib": 2636.6953125,
+          "busy_ticks": 6585,
+          "exit": 0,
+          "others_busy_cpus": 0.03
+        },
+        {
+          "round": 2,
+          "build_ms": 23990.026532,
+          "bytes_per_key": 6.181749346353506,
+          "id_ns": 1256.130353,
+          "seconds": 64.08,
+          "cpu_seconds": 63.81,
+          "maxrss_mib": 2637.0859375,
+          "busy_ticks": 6593,
+          "exit": 0,
+          "others_busy_cpus": 0.03
+        },
+        {
+          "round": 3,
+          "build_ms": 24037.898489,
+          "bytes_per_key": 6.181749346353506,
+          "id_ns": 1258.462585,
+          "seconds": 64.02,
+          "cpu_seconds": 63.75,
+          "maxrss_mib": 2636.77734375,
+          "busy_ticks": 6600,
+          "exit": 0,
+          "others_busy_cpus": 0.04
+        }
+      ]
+    },
+    {
+      "corpus": "titles-en-full",
+      "keys": 19217770,
+      "raw_bytes_per_key": 20.972,
+      "structure": "FST",
+      "bytes_per_key": 8.364331412700642,
+      "id_ns": 1983.145366,
+      "id_ns_spread": 0.01772093695324198,
+      "build_ms": 19358.935127,
+      "maxrss_mib": 2297.83203125,
+      "runs": [
+        {
+          "round": 1,
+          "build_ms": 19324.788803,
+          "bytes_per_key": 8.364331412700642,
+          "id_ns": 1983.145366,
+          "seconds": 73.15,
+          "cpu_seconds": 72.85,
+          "maxrss_mib": 2297.83203125,
+          "busy_ticks": 7514,
+          "exit": 0,
+          "others_busy_cpus": 0.03
+        },
+        {
+          "round": 2,
+          "build_ms": 19358.935127,
+          "bytes_per_key": 8.364331412700642,
+          "id_ns": 1998.648067,
+          "seconds": 73.72,
+          "cpu_seconds": 73.41,
+          "maxrss_mib": 2297.53515625,
+          "busy_ticks": 7564,
+          "exit": 0,
+          "others_busy_cpus": 0.03
+        },
+        {
+          "round": 3,
+          "build_ms": 19441.477305,
+          "bytes_per_key": 8.364331412700642,
+          "id_ns": 1963.504873,
+          "seconds": 73.01,
+          "cpu_seconds": 72.71,
+          "maxrss_mib": 2297.60546875,
+          "busy_ticks": 7494,
+          "exit": 0,
+          "others_busy_cpus": 0.03
+        }
+      ]
+    },
+    {
+      "corpus": "titles-en-full",
+      "keys": 19217770,
+      "raw_bytes_per_key": 20.972,
+      "structure": "CoCo",
+      "failure": "aborted: std::bad_alloc",
+      "runs": [
+        {
+          "round": 1,
+          "what": "std::bad_alloc",
+          "signal": 6,
+          "seconds": 34.73,
+          "cpu_seconds": 34.48,
+          "maxrss_mib": 26902.6015625,
+          "busy_ticks": 3709,
+          "exit": 134,
+          "others_busy_cpus": 0.08
+        }
+      ]
+    },
+    {
+      "corpus": "titles-en-full",
+      "keys": 19217770,
+      "raw_bytes_per_key": 20.972,
+      "structure": "MARISA",
+      "bytes_per_key": 7.047911915437431,
+      "id_ns": 1274.590842,
+      "id_ns_spread": 0.01565742145823463,
+      "build_ms": 12773.23552,
+      "maxrss_mib": 3051.15625,
+      "runs": [
+        {
+          "round": 1,
+          "build_ms": 12787.60652,
+          "bytes_per_key": 7.047911915437431,
+          "id_ns": 1256.240664,
+          "seconds": 52.81,
+          "cpu_seconds": 52.58,
+          "maxrss_mib": 3050.59765625,
+          "busy_ticks": 5531,
+          "exit": 0,
+          "others_busy_cpus": 0.05
+        },
+        {
+          "round": 2,
+          "build_ms": 12764.436291,
+          "bytes_per_key": 7.047911915437431,
+          "id_ns": 1274.590842,
+          "seconds": 53.02,
+          "cpu_seconds": 52.8,
+          "maxrss_mib": 3050.79296875,
+          "busy_ticks": 5461,
+          "exit": 0,
+          "others_busy_cpus": 0.03
+        },
+        {
+          "round": 3,
+          "build_ms": 12773.23552,
+          "bytes_per_key": 7.047911915437431,
+          "id_ns": 1276.19747,
+          "seconds": 53.08,
+          "cpu_seconds": 52.86,
+          "maxrss_mib": 3051.15625,
+          "busy_ticks": 5462,
+          "exit": 0,
+          "others_busy_cpus": 0.03
+        }
+      ]
+    },
+    {
+      "corpus": "titles-en-full",
+      "keys": 19217770,
+      "raw_bytes_per_key": 20.972,
+      "structure": "MARISA ρ=1",
+      "bytes_per_key": 5.468914398108834,
+      "id_ns": 1667.133058,
+      "id_ns_spread": 0.03173482989022474,
+      "build_ms": 14639.873703,
+      "maxrss_mib": 3051.10546875,
+      "runs": [
+        {
+          "round": 1,
+          "build_ms": 14639.873703,
+          "bytes_per_key": 5.468914398108834,
+          "id_ns": 1677.765671,
+          "seconds": 62.52,
+          "cpu_seconds": 62.26,
+          "maxrss_mib": 3050.8828125,
+          "busy_ticks": 6574,
+          "exit": 0,
+          "others_busy_cpus": 0.06
+        },
+        {
+          "round": 2,
+          "build_ms": 14632.807744,
+          "bytes_per_key": 5.468914398108834,
+          "id_ns": 1624.859487,
+          "seconds": 61.47,
+          "cpu_seconds": 61.22,
+          "maxrss_mib": 3051.10546875,
+          "busy_ticks": 6315,
+          "exit": 0,
+          "others_busy_cpus": 0.03
+        },
+        {
+          "round": 3,
+          "build_ms": 14668.592952,
+          "bytes_per_key": 5.468914398108834,
+          "id_ns": 1667.133058,
+          "seconds": 62.39,
+          "cpu_seconds": 62.13,
+          "maxrss_mib": 3050.80859375,
+          "busy_ticks": 6420,
+          "exit": 0,
+          "others_busy_cpus": 0.03
+        }
+      ]
+    },
+    {
+      "corpus": "titles-en-full",
+      "keys": 19217770,
+      "raw_bytes_per_key": 20.972,
+      "structure": "MARISA ρ=2",
+      "bytes_per_key": 5.232651323706341,
+      "id_ns": 1694.687051,
+      "id_ns_spread": 0.011390105912835088,
+      "build_ms": 14914.480315,
+      "maxrss_mib": 3051.1015625,
+      "runs": [
+        {
+          "round": 1,
+          "build_ms": 14914.480315,
+          "bytes_per_key": 5.232651323706341,
+          "id_ns": 1708.27572,
+          "seconds": 63.49,
+          "cpu_seconds": 63.23,
+          "maxrss_mib": 3051.1015625,
+          "busy_ticks": 6579,
+          "exit": 0,
+          "others_busy_cpus": 0.04
+        },
+        {
+          "round": 2,
+          "build_ms": 14835.476064,
+          "bytes_per_key": 5.232651323706341,
+          "id_ns": 1688.973055,
+          "seconds": 62.95,
+          "cpu_seconds": 62.69,
+          "maxrss_mib": 3051.09375,
+          "busy_ticks": 6464,
+          "exit": 0,
+          "others_busy_cpus": 0.03
+        },
+        {
+          "round": 3,
+          "build_ms": 14926.973626,
+          "bytes_per_key": 5.232651323706341,
+          "id_ns": 1694.687051,
+          "seconds": 63.16,
+          "cpu_seconds": 62.89,
+          "maxrss_mib": 3050.56640625,
+          "busy_ticks": 6487,
+          "exit": 0,
+          "others_busy_cpus": 0.03
+        }
+      ]
+    },
+    {
+      "corpus": "titles-en-full",
+      "keys": 19217770,
+      "raw_bytes_per_key": 20.972,
+      "structure": "PDT",
+      "bytes_per_key": 6.652383419753697,
+      "id_ns": 1308.071118,
+      "id_ns_spread": 0.01596123155132609,
+      "build_ms": 43682.436789,
+      "maxrss_mib": 2302.16796875,
+      "runs": [
+        {
+          "round": 1,
+          "build_ms": 43682.436789,
+          "bytes_per_key": 6.652383419753697,
+          "id_ns": 1291.630124,
+          "seconds": 84.29,
+          "cpu_seconds": 83.95,
+          "maxrss_mib": 2301.7890625,
+          "busy_ticks": 8696,
+          "exit": 0,
+          "others_busy_cpus": 0.04
+        },
+        {
+          "round": 2,
+          "build_ms": 43705.656867,
+          "bytes_per_key": 6.652383419753697,
+          "id_ns": 1312.50855,
+          "seconds": 84.82,
+          "cpu_seconds": 84.48,
+          "maxrss_mib": 2302.16796875,
+          "busy_ticks": 8716,
+          "exit": 0,
+          "others_busy_cpus": 0.03
+        },
+        {
+          "round": 3,
+          "build_ms": 43591.551855,
+          "bytes_per_key": 6.652383419753697,
+          "id_ns": 1308.071118,
+          "seconds": 84.63,
+          "cpu_seconds": 84.29,
+          "maxrss_mib": 2302.04296875,
+          "busy_ticks": 8691,
+          "exit": 0,
+          "others_busy_cpus": 0.03
+        }
+      ]
+    },
+    {
+      "corpus": "titles-en-full",
+      "keys": 19217770,
+      "raw_bytes_per_key": 20.972,
+      "structure": "ART",
+      "bytes_per_key": 36.02204420165878,
+      "id_ns": 746.0265,
+      "id_ns_spread": 0.00456230308172697,
+      "build_ms": 3868.344267,
+      "maxrss_mib": 3271.234375,
+      "runs": [
+        {
+          "round": 1,
+          "build_ms": 3870.723795,
+          "bytes_per_key": 36.02204420165878,
+          "id_ns": 746.344393,
+          "seconds": 34.25,
+          "cpu_seconds": 34.1,
+          "maxrss_mib": 3270.33984375,
+          "busy_ticks": 3524,
+          "exit": 0,
+          "others_busy_cpus": 0.03
+        },
+        {
+          "round": 2,
+          "build_ms": 3861.188585,
+          "bytes_per_key": 36.02204420165878,
+          "id_ns": 746.0265,
+          "seconds": 34.12,
+          "cpu_seconds": 33.97,
+          "maxrss_mib": 3271.234375,
+          "busy_ticks": 3507,
+          "exit": 0,
+          "others_busy_cpus": 0.03
+        },
+        {
+          "round": 3,
+          "build_ms": 3868.344267,
+          "bytes_per_key": 36.02204420165878,
+          "id_ns": 742.940794,
+          "seconds": 34.19,
+          "cpu_seconds": 34.05,
+          "maxrss_mib": 3270.796875,
+          "busy_ticks": 3514,
+          "exit": 0,
+          "others_busy_cpus": 0.03
+        }
+      ]
+    },
+    {
+      "corpus": "titles-en-full",
+      "keys": 19217770,
+      "raw_bytes_per_key": 20.972,
+      "structure": "C-ART",
+      "bytes_per_key": 16.901952913920816,
+      "id_ns": 859.903856,
+      "id_ns_spread": 0.062220538524948805,
+      "build_ms": 5075.602296,
+      "maxrss_mib": 3048.0078125,
+      "runs": [
+        {
+          "round": 1,
+          "build_ms": 5087.129299,
+          "bytes_per_key": 16.901952913920816,
+          "id_ns": 866.019313,
+          "seconds": 37.62,
+          "cpu_seconds": 37.46,
+          "maxrss_mib": 3047.890625,
+          "busy_ticks": 3867,
+          "exit": 0,
+          "others_busy_cpus": 0.03
+        },
+        {
+          "round": 2,
+          "build_ms": 5054.40267,
+          "bytes_per_key": 16.901952913920816,
+          "id_ns": 859.903856,
+          "seconds": 37.44,
+          "cpu_seconds": 37.28,
+          "maxrss_mib": 3047.84375,
+          "busy_ticks": 3844,
+          "exit": 0,
+          "others_busy_cpus": 0.03
+        },
+        {
+          "round": 3,
+          "build_ms": 5075.602296,
+          "bytes_per_key": 16.901952913920816,
+          "id_ns": 812.515632,
+          "seconds": 36.96,
+          "cpu_seconds": 36.81,
+          "maxrss_mib": 3048.0078125,
+          "busy_ticks": 3795,
+          "exit": 0,
+          "others_busy_cpus": 0.03
+        }
+      ]
+    },
+    {
+      "corpus": "titles-en-full",
+      "keys": 19217770,
+      "raw_bytes_per_key": 20.972,
+      "structure": "XCDAT 7",
+      "bytes_per_key": 10.957981087998451,
+      "id_ns": 855.73786,
+      "id_ns_spread": 0.04982533552973792,
+      "build_ms": 14112.844538,
+      "maxrss_mib": 2711.2109375,
+      "runs": [
+        {
+          "round": 1,
+          "build_ms": 14112.844538,
+          "bytes_per_key": 10.957981087998451,
+          "id_ns": 843.882859,
+          "seconds": 46.5,
+          "cpu_seconds": 46.3,
+          "maxrss_mib": 2711.2109375,
+          "busy_ticks": 4780,
+          "exit": 0,
+          "others_busy_cpus": 0.03
+        },
+        {
+          "round": 2,
+          "build_ms": 14093.798317,
+          "bytes_per_key": 10.957981087998451,
+          "id_ns": 855.73786,
+          "seconds": 46.58,
+          "cpu_seconds": 46.39,
+          "maxrss_mib": 2711.203125,
+          "busy_ticks": 4787,
+          "exit": 0,
+          "others_busy_cpus": 0.03
+        },
+        {
+          "round": 3,
+          "build_ms": 14125.003005,
+          "bytes_per_key": 10.957981087998451,
+          "id_ns": 886.520285,
+          "seconds": 47.13,
+          "cpu_seconds": 46.93,
+          "maxrss_mib": 2711.1875,
+          "busy_ticks": 4844,
+          "exit": 0,
+          "others_busy_cpus": 0.03
+        }
+      ]
+    },
+    {
+      "corpus": "titles-en-full",
+      "keys": 19217770,
+      "raw_bytes_per_key": 20.972,
+      "structure": "XCDAT 8",
+      "bytes_per_key": 10.559644734299141,
+      "id_ns": 848.395109,
+      "id_ns_spread": 0.035613814459177946,
+      "build_ms": 13446.780407,
+      "maxrss_mib": 2691.453125,
+      "runs": [
+        {
+          "round": 1,
+          "build_ms": 13446.780407,
+          "bytes_per_key": 10.559644734299141,
+          "id_ns": 848.395109,
+          "seconds": 45.78,
+          "cpu_seconds": 45.6,
+          "maxrss_mib": 2691.35546875,
+          "busy_ticks": 4717,
+          "exit": 0,
+          "others_busy_cpus": 0.03
+        },
+        {
+          "round": 2,
+          "build_ms": 13430.062831,
+          "bytes_per_key": 10.559644734299141,
+          "id_ns": 850.387454,
+          "seconds": 45.89,
+          "cpu_seconds": 45.7,
+          "maxrss_mib": 2691.30859375,
+          "busy_ticks": 4715,
+          "exit": 0,
+          "others_busy_cpus": 0.03
+        },
+        {
+          "round": 3,
+          "build_ms": 13457.921418,
+          "bytes_per_key": 10.559644734299141,
+          "id_ns": 820.172868,
+          "seconds": 45.19,
+          "cpu_seconds": 45.0,
+          "maxrss_mib": 2691.453125,
+          "busy_ticks": 4643,
+          "exit": 0,
+          "others_busy_cpus": 0.03
+        }
+      ]
+    },
+    {
+      "corpus": "titles-en-full",
+      "keys": 19217770,
+      "raw_bytes_per_key": 20.972,
+      "structure": "XCDAT 15",
+      "bytes_per_key": 13.303083848883611,
+      "id_ns": 658.5261,
+      "id_ns_spread": 0.04074494845382734,
+      "build_ms": 14129.019604,
+      "maxrss_mib": 2796.2265625,
+      "runs": [
+        {
+          "round": 1,
+          "build_ms": 14133.907729,
+          "bytes_per_key": 13.303083848883611,
+          "id_ns": 641.544172,
+          "seconds": 42.42,
+          "cpu_seconds": 42.25,
+          "maxrss_mib": 2796.12109375,
+          "busy_ticks": 4363,
+          "exit": 0,
+          "others_busy_cpus": 0.03
+        },
+        {
+          "round": 2,
+          "build_ms": 14129.019604,
+          "bytes_per_key": 13.303083848883611,
+          "id_ns": 658.5261,
+          "seconds": 42.77,
+          "cpu_seconds": 42.59,
+          "maxrss_mib": 2796.125,
+          "busy_ticks": 4393,
+          "exit": 0,
+          "others_busy_cpus": 0.03
+        },
+        {
+          "round": 3,
+          "build_ms": 14120.977414,
+          "bytes_per_key": 13.303083848883611,
+          "id_ns": 668.375784,
+          "seconds": 42.94,
+          "cpu_seconds": 42.75,
+          "maxrss_mib": 2796.2265625,
+          "busy_ticks": 4420,
+          "exit": 0,
+          "others_busy_cpus": 0.03
+        }
+      ]
+    },
+    {
+      "corpus": "titles-en-full",
+      "keys": 19217770,
+      "raw_bytes_per_key": 20.972,
+      "structure": "XCDAT 16",
+      "bytes_per_key": 13.963801414505014,
+      "id_ns": 723.080858,
+      "id_ns_spread": 0.03200762783849007,
+      "build_ms": 13505.447318,
+      "maxrss_mib": 2814.5859375,
+      "runs": [
+        {
+          "round": 1,
+          "build_ms": 13467.332248,
+          "bytes_per_key": 13.963801414505014,
+          "id_ns": 723.080858,
+          "seconds": 43.33,
+          "cpu_seconds": 43.15,
+          "maxrss_mib": 2814.5859375,
+          "busy_ticks": 4461,
+          "exit": 0,
+          "others_busy_cpus": 0.03
+        },
+        {
+          "round": 2,
+          "build_ms": 13505.447318,
+          "bytes_per_key": 13.963801414505014,
+          "id_ns": 708.878125,
+          "seconds": 43.06,
+          "cpu_seconds": 42.87,
+          "maxrss_mib": 2814.4453125,
+          "busy_ticks": 4429,
+          "exit": 0,
+          "others_busy_cpus": 0.03
+        },
+        {
+          "round": 3,
+          "build_ms": 13518.665634,
+          "bytes_per_key": 13.963801414505014,
+          "id_ns": 732.022228,
+          "seconds": 43.6,
+          "cpu_seconds": 43.42,
+          "maxrss_mib": 2814.38671875,
+          "busy_ticks": 4486,
+          "exit": 0,
+          "others_busy_cpus": 0.03
+        }
+      ]
+    },
+    {
+      "corpus": "urls-full",
+      "keys": 19217771,
+      "raw_bytes_per_key": 52.363,
+      "structure": "lexindex Dict 32",
+      "bytes_per_key": 6.6669872519371784,
+      "id_ns": 973.243,
+      "id_ns_spread": 0.0096974753478833,
+      "build_ms": 4075.488,
+      "maxrss_mib": 4191.44921875,
+      "runs": [
+        {
+          "round": 1,
+          "id_ns_warm_mean": 966.2,
+          "id_ns_warm_min": 963.4,
+          "build_ms": 4071.051,
+          "bytes_per_key": 6.6669872519371784,
+          "id_ns": 972.451,
+          "seconds": 92.97,
+          "cpu_seconds": 121.97,
+          "maxrss_mib": 4188.3671875,
+          "busy_ticks": 12521,
+          "exit": 0,
+          "others_busy_cpus": 0.03
+        },
+        {
+          "round": 2,
+          "id_ns_warm_mean": 973.5,
+          "id_ns_warm_min": 972.6,
+          "build_ms": 4075.488,
+          "bytes_per_key": 6.6669872519371784,
+          "id_ns": 973.243,
+          "seconds": 93.39,
+          "cpu_seconds": 122.31,
+          "maxrss_mib": 4191.44921875,
+          "busy_ticks": 12535,
+          "exit": 0,
+          "others_busy_cpus": 0.03
+        },
+        {
+          "round": 3,
+          "id_ns_warm_mean": 1038.3,
+          "id_ns_warm_min": 984.8,
+          "build_ms": 4077.593,
+          "bytes_per_key": 6.6669872519371784,
+          "id_ns": 981.889,
+          "seconds": 97.48,
+          "cpu_seconds": 126.44,
+          "maxrss_mib": 4188.6875,
+          "busy_ticks": 14680,
+          "exit": 0,
+          "others_busy_cpus": 0.21
+        }
+      ]
+    },
+    {
+      "corpus": "urls-full",
+      "keys": 19217771,
+      "raw_bytes_per_key": 52.363,
+      "structure": "lexindex Dict 256",
+      "bytes_per_key": 5.324973817572496,
+      "id_ns": 891.448,
+      "id_ns_spread": 0.10601403559153195,
+      "build_ms": 4091.736,
+      "maxrss_mib": 4105.25,
+      "runs": [
+        {
+          "round": 1,
+          "id_ns_warm_mean": 871.9,
+          "id_ns_warm_min": 870.5,
+          "build_ms": 4091.736,
+          "bytes_per_key": 5.324973817572496,
+          "id_ns": 875.706,
+          "seconds": 85.69,
+          "cpu_seconds": 114.86,
+          "maxrss_mib": 4105.25,
+          "busy_ticks": 11757,
+          "exit": 0,
+          "others_busy_cpus": 0.03
+        },
+        {
+          "round": 2,
+          "id_ns_warm_mean": 891.3,
+          "id_ns_warm_min": 890.5,
+          "build_ms": 4039.828,
+          "bytes_per_key": 5.324973817572496,
+          "id_ns": 891.448,
+          "seconds": 87.12,
+          "cpu_seconds": 116.9,
+          "maxrss_mib": 4105.05859375,
+          "busy_ticks": 11986,
+          "exit": 0,
+          "others_busy_cpus": 0.03
+        },
+        {
+          "round": 3,
+          "id_ns_warm_mean": 883.6,
+          "id_ns_warm_min": 882.5,
+          "build_ms": 4240.68,
+          "bytes_per_key": 5.324973817572496,
+          "id_ns": 970.212,
+          "seconds": 89.15,
+          "cpu_seconds": 119.3,
+          "maxrss_mib": 4102.4140625,
+          "busy_ticks": 14311,
+          "exit": 0,
+          "others_busy_cpus": 0.27
+        }
+      ]
+    },
+    {
+      "corpus": "urls-full",
+      "keys": 19217771,
+      "raw_bytes_per_key": 52.363,
+      "structure": "lexindex Dict 1024",
+      "bytes_per_key": 5.064729299783205,
+      "id_ns": 901.3,
+      "id_ns_spread": 0.044941750804393624,
+      "build_ms": 4010.214,
+      "maxrss_mib": 4090.00390625,
+      "runs": [
+        {
+          "round": 1,
+          "id_ns_warm_mean": 904.5,
+          "id_ns_warm_min": 902.9,
+          "build_ms": 3951.676,
+          "bytes_per_key": 5.064729299783205,
+          "id_ns": 908.454,
+          "seconds": 88.02,
+          "cpu_seconds": 116.52,
+          "maxrss_mib": 4089.390625,
+          "busy_ticks": 12025,
+          "exit": 0,
+          "others_busy_cpus": 0.04
+        },
+        {
+          "round": 2,
+          "id_ns_warm_mean": 901.0,
+          "id_ns_warm_min": 900.8,
+          "build_ms": 4033.259,
+          "bytes_per_key": 5.064729299783205,
+          "id_ns": 901.3,
+          "seconds": 87.79,
+          "cpu_seconds": 116.27,
+          "maxrss_mib": 4088.453125,
+          "busy_ticks": 11936,
+          "exit": 0,
+          "others_busy_cpus": 0.04
+        },
+        {
+          "round": 3,
+          "id_ns_warm_mean": 863.8,
+          "id_ns_warm_min": 862.5,
+          "build_ms": 4010.214,
+          "bytes_per_key": 5.064729299783205,
+          "id_ns": 867.948,
+          "seconds": 85.0,
+          "cpu_seconds": 113.41,
+          "maxrss_mib": 4090.00390625,
+          "busy_ticks": 11631,
+          "exit": 0,
+          "others_busy_cpus": 0.03
+        }
+      ]
+    },
+    {
+      "corpus": "urls-full",
+      "keys": 19217771,
+      "raw_bytes_per_key": 52.363,
+      "structure": "lexindex StringIndex",
+      "bytes_per_key": 11.54340128706914,
+      "id_ns": 1043.453,
+      "id_ns_spread": 0.00802144418579456,
+      "build_ms": 16391.862,
+      "maxrss_mib": 3979.453125,
+      "runs": [
+        {
+          "round": 1,
+          "id_ns_warm_mean": 1043.3,
+          "id_ns_warm_min": 1040.0,
+          "build_ms": 16391.862,
+          "bytes_per_key": 11.54340128706914,
+          "id_ns": 1048.789,
+          "seconds": 111.04,
+          "cpu_seconds": 110.6,
+          "maxrss_mib": 3979.234375,
+          "busy_ticks": 11396,
+          "exit": 0,
+          "others_busy_cpus": 0.03
+        },
+        {
+          "round": 2,
+          "id_ns_warm_mean": 1040.1,
+          "id_ns_warm_min": 1037.6,
+          "build_ms": 16293.35,
+          "bytes_per_key": 11.54340128706914,
+          "id_ns": 1040.419,
+          "seconds": 110.58,
+          "cpu_seconds": 110.15,
+          "maxrss_mib": 3979.453125,
+          "busy_ticks": 11341,
+          "exit": 0,
+          "others_busy_cpus": 0.03
+        },
+        {
+          "round": 3,
+          "id_ns_warm_mean": 1054.1,
+          "id_ns_warm_min": 1043.3,
+          "build_ms": 16490.36,
+          "bytes_per_key": 11.54340128706914,
+          "id_ns": 1043.453,
+          "seconds": 111.7,
+          "cpu_seconds": 111.26,
+          "maxrss_mib": 3979.328125,
+          "busy_ticks": 11471,
+          "exit": 0,
+          "others_busy_cpus": 0.03
+        }
+      ]
+    },
+    {
+      "corpus": "urls-full",
+      "keys": 19217771,
+      "raw_bytes_per_key": 52.363,
+      "structure": "C²-FST",
+      "bytes_per_key": 8.57752787538659,
+      "id_ns": 2048.21167,
+      "id_ns_spread": 0.01626006896054853,
+      "build_ms": 23297.670937,
+      "maxrss_mib": 3871.94921875,
+      "runs": [
+        {
+          "round": 1,
+          "build_ms": 23297.670937,
+          "bytes_per_key": 8.57752787538659,
+          "id_ns": 2048.21167,
+          "seconds": 83.12,
+          "cpu_seconds": 82.78,
+          "maxrss_mib": 3871.4453125,
+          "busy_ticks": 8559,
+          "exit": 0,
+          "others_busy_cpus": 0.03
+        },
+        {
+          "round": 2,
+          "build_ms": 23305.455935,
+          "bytes_per_key": 8.57752787538659,
+          "id_ns": 2081.241718,
+          "seconds": 83.81,
+          "cpu_seconds": 83.47,
+          "maxrss_mib": 3871.62109375,
+          "busy_ticks": 8620,
+          "exit": 0,
+          "others_busy_cpus": 0.03
+        },
+        {
+          "round": 3,
+          "build_ms": 23101.132111,
+          "bytes_per_key": 8.57752787538659,
+          "id_ns": 2047.937655,
+          "seconds": 82.92,
+          "cpu_seconds": 82.58,
+          "maxrss_mib": 3871.94921875,
+          "busy_ticks": 8513,
+          "exit": 0,
+          "others_busy_cpus": 0.03
+        }
+      ]
+    },
+    {
+      "corpus": "urls-full",
+      "keys": 19217771,
+      "raw_bytes_per_key": 52.363,
+      "structure": "C²-FST ρ=1",
+      "bytes_per_key": 7.741570789238357,
+      "id_ns": 2323.67447,
+      "id_ns_spread": 0.01708184752746372,
+      "build_ms": 26014.545479,
+      "maxrss_mib": 3856.70703125,
+      "runs": [
+        {
+          "round": 1,
+          "build_ms": 25944.152912,
+          "bytes_per_key": 7.741570789238357,
+          "id_ns": 2294.257785,
+          "seconds": 90.44,
+          "cpu_seconds": 90.07,
+          "maxrss_mib": 3856.70703125,
+          "busy_ticks": 9316,
+          "exit": 0,
+          "others_busy_cpus": 0.03
+        },
+        {
+          "round": 2,
+          "build_ms": 26138.112553,
+          "bytes_per_key": 7.741570789238357,
+          "id_ns": 2333.950438,
+          "seconds": 91.48,
+          "cpu_seconds": 91.1,
+          "maxrss_mib": 3856.59375,
+          "busy_ticks": 9419,
+          "exit": 0,
+          "others_busy_cpus": 0.03
+        },
+        {
+          "round": 3,
+          "build_ms": 26014.545479,
+          "bytes_per_key": 7.741570789238357,
+          "id_ns": 2323.67447,
+          "seconds": 91.11,
+          "cpu_seconds": 90.74,
+          "maxrss_mib": 3856.4609375,
+          "busy_ticks": 9367,
+          "exit": 0,
+          "others_busy_cpus": 0.03
+        }
+      ]
+    },
+    {
+      "corpus": "urls-full",
+      "keys": 19217771,
+      "raw_bytes_per_key": 52.363,
+      "structure": "C²-FST ρ=2",
+      "bytes_per_key": 7.741570789238357,
+      "id_ns": 2308.085322,
+      "id_ns_spread": 0.011042672364431827,
+      "build_ms": 26624.474596,
+      "maxrss_mib": 3856.77734375,
+      "runs": [
+        {
+          "round": 1,
+          "build_ms": 26694.766555,
+          "bytes_per_key": 7.741570789238357,
+          "id_ns": 2286.712479,
+          "seconds": 91.11,
+          "cpu_seconds": 90.74,
+          "maxrss_mib": 3856.46484375,
+          "busy_ticks": 9379,
+          "exit": 0,
+          "others_busy_cpus": 0.03
+        },
+        {
+          "round": 2,
+          "build_ms": 26531.255723,
+          "bytes_per_key": 7.741570789238357,
+          "id_ns": 2308.085322,
+          "seconds": 91.28,
+          "cpu_seconds": 90.91,
+          "maxrss_mib": 3856.77734375,
+          "busy_ticks": 9420,
+          "exit": 0,
+          "others_busy_cpus": 0.04
+        },
+        {
+          "round": 3,
+          "build_ms": 26624.474596,
+          "bytes_per_key": 7.741570789238357,
+          "id_ns": 2312.199909,
+          "seconds": 91.51,
+          "cpu_seconds": 91.14,
+          "maxrss_mib": 3856.3828125,
+          "busy_ticks": 9398,
+          "exit": 0,
+          "others_busy_cpus": 0.03
+        }
+      ]
+    },
+    {
+      "corpus": "urls-full",
+      "keys": 19217771,
+      "raw_bytes_per_key": 52.363,
+      "structure": "C²-CoCo",
+      "bytes_per_key": 9.100361748646916,
+      "id_ns": 1918.834784,
+      "id_ns_spread": 0.01706875718175431,
+      "build_ms": 57312.77933,
+      "maxrss_mib": 6799.08984375,
+      "runs": [
+        {
+          "round": 1,
+          "build_ms": 57043.515827,
+          "bytes_per_key": 9.100361748646916,
+          "id_ns": 1918.834784,
+          "seconds": 114.36,
+          "cpu_seconds": 113.89,
+          "maxrss_mib": 6798.93359375,
+          "busy_ticks": 11750,
+          "exit": 0,
+          "others_busy_cpus": 0.03
+        },
+        {
+          "round": 2,
+          "build_ms": 57500.295098,
+          "bytes_per_key": 9.100361748646916,
+          "id_ns": 1894.39379,
+          "seconds": 114.43,
+          "cpu_seconds": 113.97,
+          "maxrss_mib": 6799.08984375,
+          "busy_ticks": 11751,
+          "exit": 0,
+          "others_busy_cpus": 0.03
+        },
+        {
+          "round": 3,
+          "build_ms": 57312.77933,
+          "bytes_per_key": 9.100361748646916,
+          "id_ns": 1927.145915,
+          "seconds": 114.79,
+          "cpu_seconds": 114.33,
+          "maxrss_mib": 6798.859375,
+          "busy_ticks": 11814,
+          "exit": 0,
+          "others_busy_cpus": 0.03
+        }
+      ]
+    },
+    {
+      "corpus": "urls-full",
+      "keys": 19217771,
+      "raw_bytes_per_key": 52.363,
+      "structure": "C²-CoCo ρ=1",
+      "bytes_per_key": 8.264404717061517,
+      "id_ns": 2184.241687,
+      "id_ns_spread": 0.017119260758802757,
+      "build_ms": 60160.272447,
+      "maxrss_mib": 6597.74609375,
+      "runs": [
+        {
+          "round": 1,
+          "build_ms": 60160.272447,
+          "bytes_per_key": 8.264404717061517,
+          "id_ns": 2146.865939,
+          "seconds": 121.83,
+          "cpu_seconds": 121.34,
+          "maxrss_mib": 6597.74609375,
+          "busy_ticks": 12508,
+          "exit": 0,
+          "others_busy_cpus": 0.03
+        },
+        {
+          "round": 2,
+          "build_ms": 60110.976831,
+          "bytes_per_key": 8.264404717061517,
+          "id_ns": 2184.241687,
+          "seconds": 122.62,
+          "cpu_seconds": 122.13,
+          "maxrss_mib": 6597.59375,
+          "busy_ticks": 12597,
+          "exit": 0,
+          "others_busy_cpus": 0.03
+        },
+        {
+          "round": 3,
+          "build_ms": 60310.08752,
+          "bytes_per_key": 8.264404717061517,
+          "id_ns": 2184.258542,
+          "seconds": 122.72,
+          "cpu_seconds": 122.22,
+          "maxrss_mib": 6597.62109375,
+          "busy_ticks": 12623,
+          "exit": 0,
+          "others_busy_cpus": 0.03
+        }
+      ]
+    },
+    {
+      "corpus": "urls-full",
+      "keys": 19217771,
+      "raw_bytes_per_key": 52.363,
+      "structure": "C²-CoCo ρ=2",
+      "bytes_per_key": 8.264404717061517,
+      "id_ns": 2185.033807,
+      "id_ns_spread": 0.006896434257321255,
+      "build_ms": 60870.465662,
+      "maxrss_mib": 6625.71484375,
+      "runs": [
+        {
+          "round": 1,
+          "build_ms": 60880.697776,
+          "bytes_per_key": 8.264404717061517,
+          "id_ns": 2185.033807,
+          "seconds": 123.37,
+          "cpu_seconds": 122.87,
+          "maxrss_mib": 6625.71484375,
+          "busy_ticks": 12664,
+          "exit": 0,
+          "others_busy_cpus": 0.03
+        },
+        {
+          "round": 2,
+          "build_ms": 60870.465662,
+          "bytes_per_key": 8.264404717061517,
+          "id_ns": 2184.233288,
+          "seconds": 123.31,
+          "cpu_seconds": 122.82,
+          "maxrss_mib": 6625.4453125,
+          "busy_ticks": 12668,
+          "exit": 0,
+          "others_busy_cpus": 0.03
+        },
+        {
+          "round": 3,
+          "build_ms": 60530.787192,
+          "bytes_per_key": 8.264404717061517,
+          "id_ns": 2199.30223,
+          "seconds": 123.25,
+          "cpu_seconds": 122.75,
+          "maxrss_mib": 6625.2265625,
+          "busy_ticks": 12644,
+          "exit": 0,
+          "others_busy_cpus": 0.03
+        }
+      ]
+    },
+    {
+      "corpus": "urls-full",
+      "keys": 19217771,
+      "raw_bytes_per_key": 52.363,
+      "structure": "C²-MARISA",
+      "bytes_per_key": 7.555659126438337,
+      "id_ns": 1115.450047,
+      "id_ns_spread": 0.009112675217808255,
+      "build_ms": 23794.40709,
+      "maxrss_mib": 3854.0546875,
+      "runs": [
+        {
+          "round": 1,
+          "build_ms": 23587.965659,
+          "bytes_per_key": 7.555659126438337,
+          "id_ns": 1122.859352,
+          "seconds": 65.67,
+          "cpu_seconds": 65.39,
+          "maxrss_mib": 3853.609375,
+          "busy_ticks": 6760,
+          "exit": 0,
+          "others_busy_cpus": 0.03
+        },
+        {
+          "round": 2,
+          "build_ms": 23794.40709,
+          "bytes_per_key": 7.555659126438337,
+          "id_ns": 1115.450047,
+          "seconds": 65.75,
+          "cpu_seconds": 65.48,
+          "maxrss_mib": 3854.0546875,
+          "busy_ticks": 6759,
+          "exit": 0,
+          "others_busy_cpus": 0.03
+        },
+        {
+          "round": 3,
+          "build_ms": 23876.808064,
+          "bytes_per_key": 7.555659126438337,
+          "id_ns": 1112.694618,
+          "seconds": 65.71,
+          "cpu_seconds": 65.44,
+          "maxrss_mib": 3853.54296875,
+          "busy_ticks": 6768,
+          "exit": 0,
+          "others_busy_cpus": 0.03
+        }
+      ]
+    },
+    {
+      "corpus": "urls-full",
+      "keys": 19217771,
+      "raw_bytes_per_key": 52.363,
+      "structure": "C²-MARISA ρ=1",
+      "bytes_per_key": 6.322298458922005,
+      "id_ns": 1456.084249,
+      "id_ns_spread": 0.004597741514337266,
+      "build_ms": 27234.645442,
+      "maxrss_mib": 3831.5703125,
+      "runs": [
+        {
+          "round": 1,
+          "build_ms": 27186.423574,
+          "bytes_per_key": 6.322298458922005,
+          "id_ns": 1456.084249,
+          "seconds": 75.65,
+          "cpu_seconds": 75.33,
+          "maxrss_mib": 3831.5703125,
+          "busy_ticks": 7770,
+          "exit": 0,
+          "others_busy_cpus": 0.03
+        },
+        {
+          "round": 2,
+          "build_ms": 27234.645442,
+          "bytes_per_key": 6.322298458922005,
+          "id_ns": 1459.547003,
+          "seconds": 75.78,
+          "cpu_seconds": 75.47,
+          "maxrss_mib": 3831.40234375,
+          "busy_ticks": 7798,
+          "exit": 0,
+          "others_busy_cpus": 0.03
+        },
+        {
+          "round": 3,
+          "build_ms": 27251.006324,
+          "bytes_per_key": 6.322298458922005,
+          "id_ns": 1452.852304,
+          "seconds": 75.72,
+          "cpu_seconds": 75.41,
+          "maxrss_mib": 3831.0859375,
+          "busy_ticks": 7792,
+          "exit": 0,
+          "others_busy_cpus": 0.03
+        }
+      ]
+    },
+    {
+      "corpus": "urls-full",
+      "keys": 19217771,
+      "raw_bytes_per_key": 52.363,
+      "structure": "C²-MARISA ρ=2",
+      "bytes_per_key": 6.322298458922005,
+      "id_ns": 1466.035544,
+      "id_ns_spread": 0.008964140776657657,
+      "build_ms": 27983.567514,
+      "maxrss_mib": 3831.69140625,
+      "runs": [
+        {
+          "round": 1,
+          "build_ms": 27900.965755,
+          "bytes_per_key": 6.322298458922005,
+          "id_ns": 1466.965148,
+          "seconds": 76.52,
+          "cpu_seconds": 76.2,
+          "maxrss_mib": 3831.234375,
+          "busy_ticks": 7874,
+          "exit": 0,
+          "others_busy_cpus": 0.03
+        },
+        {
+          "round": 2,
+          "build_ms": 27983.567514,
+          "bytes_per_key": 6.322298458922005,
+          "id_ns": 1466.035544,
+          "seconds": 76.66,
+          "cpu_seconds": 76.35,
+          "maxrss_mib": 3831.69140625,
+          "busy_ticks": 7875,
+          "exit": 0,
+          "others_busy_cpus": 0.03
+        },
+        {
+          "round": 3,
+          "build_ms": 28169.563276,
+          "bytes_per_key": 6.322298458922005,
+          "id_ns": 1453.823399,
+          "seconds": 76.57,
+          "cpu_seconds": 76.26,
+          "maxrss_mib": 3831.16015625,
+          "busy_ticks": 7890,
+          "exit": 0,
+          "others_busy_cpus": 0.03
+        }
+      ]
+    },
+    {
+      "corpus": "urls-full",
+      "keys": 19217771,
+      "raw_bytes_per_key": 52.363,
+      "structure": "FST",
+      "bytes_per_key": 8.727060479631275,
+      "id_ns": 2658.378757,
+      "id_ns_spread": 0.02222807222048533,
+      "build_ms": 31043.499568,
+      "maxrss_mib": 3872.90625,
+      "runs": [
+        {
+          "round": 1,
+          "build_ms": 31018.728542,
+          "bytes_per_key": 8.727060479631275,
+          "id_ns": 2674.64595,
+          "seconds": 102.85,
+          "cpu_seconds": 102.43,
+          "maxrss_mib": 3872.90625,
+          "busy_ticks": 10557,
+          "exit": 0,
+          "others_busy_cpus": 0.03
+        },
+        {
+          "round": 2,
+          "build_ms": 31043.499568,
+          "bytes_per_key": 8.727060479631275,
+          "id_ns": 2615.555315,
+          "seconds": 101.79,
+          "cpu_seconds": 101.37,
+          "maxrss_mib": 3872.828125,
+          "busy_ticks": 10441,
+          "exit": 0,
+          "others_busy_cpus": 0.03
+        },
+        {
+          "round": 3,
+          "build_ms": 31058.652092,
+          "bytes_per_key": 8.727060479631275,
+          "id_ns": 2658.378757,
+          "seconds": 102.68,
+          "cpu_seconds": 102.27,
+          "maxrss_mib": 3872.90625,
+          "busy_ticks": 10550,
+          "exit": 0,
+          "others_busy_cpus": 0.03
+        }
+      ]
+    },
+    {
+      "corpus": "urls-full",
+      "keys": 19217771,
+      "raw_bytes_per_key": 52.363,
+      "structure": "CoCo",
+      "failure": "aborted: std::bad_alloc",
+      "runs": [
+        {
+          "round": 1,
+          "what": "std::bad_alloc",
+          "signal": 6,
+          "seconds": 43.48,
+          "cpu_seconds": 43.25,
+          "maxrss_mib": 26902.70703125,
+          "busy_ticks": 4504,
+          "exit": 134,
+          "others_busy_cpus": 0.04
+        }
+      ]
+    },
+    {
+      "corpus": "urls-full",
+      "keys": 19217771,
+      "raw_bytes_per_key": 52.363,
+      "structure": "MARISA",
+      "bytes_per_key": 7.30077578877925,
+      "id_ns": 1342.893556,
+      "id_ns_spread": 0.02344696782505072,
+      "build_ms": 21078.371235,
+      "maxrss_mib": 4419.1171875,
+      "runs": [
+        {
+          "round": 1,
+          "build_ms": 21185.174869,
+          "bytes_per_key": 7.30077578877925,
+          "id_ns": 1334.926345,
+          "seconds": 66.74,
+          "cpu_seconds": 66.47,
+          "maxrss_mib": 4419.1171875,
+          "busy_ticks": 6881,
+          "exit": 0,
+          "others_busy_cpus": 0.04
+        },
+        {
+          "round": 2,
+          "build_ms": 21078.371235,
+          "bytes_per_key": 7.30077578877925,
+          "id_ns": 1366.413127,
+          "seconds": 67.22,
+          "cpu_seconds": 66.95,
+          "maxrss_mib": 4418.91796875,
+          "busy_ticks": 6926,
+          "exit": 0,
+          "others_busy_cpus": 0.03
+        },
+        {
+          "round": 3,
+          "build_ms": 20818.977154,
+          "bytes_per_key": 7.30077578877925,
+          "id_ns": 1342.893556,
+          "seconds": 66.59,
+          "cpu_seconds": 66.32,
+          "maxrss_mib": 4418.578125,
+          "busy_ticks": 6859,
+          "exit": 0,
+          "others_busy_cpus": 0.03
+        }
+      ]
+    },
+    {
+      "corpus": "urls-full",
+      "keys": 19217771,
+      "raw_bytes_per_key": 52.363,
+      "structure": "MARISA ρ=1",
+      "bytes_per_key": 5.589669243774837,
+      "id_ns": 1721.738697,
+      "id_ns_spread": 0.011160848062184177,
+      "build_ms": 23003.731796,
+      "maxrss_mib": 4418.95703125,
+      "runs": [
+        {
+          "round": 1,
+          "build_ms": 23171.192796,
+          "bytes_per_key": 5.589669243774837,
+          "id_ns": 1718.263528,
+          "seconds": 76.19,
+          "cpu_seconds": 75.88,
+          "maxrss_mib": 4418.83984375,
+          "busy_ticks": 7847,
+          "exit": 0,
+          "others_busy_cpus": 0.03
+        },
+        {
+          "round": 2,
+          "build_ms": 23003.731796,
+          "bytes_per_key": 5.589669243774837,
+          "id_ns": 1721.738697,
+          "seconds": 75.9,
+          "cpu_seconds": 75.59,
+          "maxrss_mib": 4418.92578125,
+          "busy_ticks": 7812,
+          "exit": 0,
+          "others_busy_cpus": 0.03
+        },
+        {
+          "round": 3,
+          "build_ms": 22906.886555,
+          "bytes_per_key": 5.589669243774837,
+          "id_ns": 1737.479592,
+          "seconds": 76.3,
+          "cpu_seconds": 75.98,
+          "maxrss_mib": 4418.95703125,
+          "busy_ticks": 7858,
+          "exit": 0,
+          "others_busy_cpus": 0.03
+        }
+      ]
+    },
+    {
+      "corpus": "urls-full",
+      "keys": 19217771,
+      "raw_bytes_per_key": 52.363,
+      "structure": "MARISA ρ=2",
+      "bytes_per_key": 5.325556221235439,
+      "id_ns": 1810.277488,
+      "id_ns_spread": 0.03655575592066359,
+      "build_ms": 23135.18748,
+      "maxrss_mib": 4419.140625,
+      "runs": [
+        {
+          "round": 1,
+          "build_ms": 23275.529294,
+          "bytes_per_key": 5.325556221235439,
+          "id_ns": 1869.08092,
+          "seconds": 79.11,
+          "cpu_seconds": 78.78,
+          "maxrss_mib": 4418.78515625,
+          "busy_ticks": 8131,
+          "exit": 0,
+          "others_busy_cpus": 0.03
+        },
+        {
+          "round": 2,
+          "build_ms": 23116.045448,
+          "bytes_per_key": 5.325556221235439,
+          "id_ns": 1810.277488,
+          "seconds": 78.44,
+          "cpu_seconds": 78.11,
+          "maxrss_mib": 4419.140625,
+          "busy_ticks": 8060,
+          "exit": 0,
+          "others_busy_cpus": 0.03
+        },
+        {
+          "round": 3,
+          "build_ms": 23135.18748,
+          "bytes_per_key": 5.325556221235439,
+          "id_ns": 1802.904858,
+          "seconds": 77.71,
+          "cpu_seconds": 77.39,
+          "maxrss_mib": 4418.9921875,
+          "busy_ticks": 8005,
+          "exit": 0,
+          "others_busy_cpus": 0.03
+        }
+      ]
+    },
+    {
+      "corpus": "urls-full",
+      "keys": 19217771,
+      "raw_bytes_per_key": 52.363,
+      "structure": "PDT",
+      "bytes_per_key": 6.778011319440533,
+      "id_ns": 1414.347973,
+      "id_ns_spread": 0.002084045833323404,
+      "build_ms": 46854.635275,
+      "maxrss_mib": 3839.8515625,
+      "runs": [
+        {
+          "round": 1,
+          "build_ms": 46854.635275,
+          "bytes_per_key": 6.778011319440533,
+          "id_ns": 1414.347973,
+          "seconds": 94.53,
+          "cpu_seconds": 94.15,
+          "maxrss_mib": 3839.69921875,
+          "busy_ticks": 9713,
+          "exit": 0,
+          "others_busy_cpus": 0.03
+        },
+        {
+          "round": 2,
+          "build_ms": 46942.287068,
+          "bytes_per_key": 6.778011319440533,
+          "id_ns": 1412.561944,
+          "seconds": 94.64,
+          "cpu_seconds": 94.25,
+          "maxrss_mib": 3839.8515625,
+          "busy_ticks": 9744,
+          "exit": 0,
+          "others_busy_cpus": 0.03
+        },
+        {
+          "round": 3,
+          "build_ms": 46697.883986,
+          "bytes_per_key": 6.778011319440533,
+          "id_ns": 1415.50951,
+          "seconds": 94.41,
+          "cpu_seconds": 94.04,
+          "maxrss_mib": 3839.4921875,
+          "busy_ticks": 9704,
+          "exit": 0,
+          "others_busy_cpus": 0.03
+        }
+      ]
+    },
+    {
+      "corpus": "urls-full",
+      "keys": 19217771,
+      "raw_bytes_per_key": 52.363,
+      "structure": "ART",
+      "bytes_per_key": 36.20645787720709,
+      "id_ns": 1014.738392,
+      "id_ns_spread": 0.014375417462277258,
+      "build_ms": 7203.499429,
+      "maxrss_mib": 5419.046875,
+      "runs": [
+        {
+          "round": 1,
+          "build_ms": 7178.215976,
+          "bytes_per_key": 36.20645787720709,
+          "id_ns": 1007.889806,
+          "seconds": 47.13,
+          "cpu_seconds": 46.94,
+          "maxrss_mib": 5418.86328125,
+          "busy_ticks": 4837,
+          "exit": 0,
+          "others_busy_cpus": 0.03
+        },
+        {
+          "round": 2,
+          "build_ms": 7203.499429,
+          "bytes_per_key": 36.20645787720709,
+          "id_ns": 1022.477094,
+          "seconds": 47.47,
+          "cpu_seconds": 47.27,
+          "maxrss_mib": 5419.046875,
+          "busy_ticks": 4882,
+          "exit": 0,
+          "others_busy_cpus": 0.03
+        },
+        {
+          "round": 3,
+          "build_ms": 7247.210993,
+          "bytes_per_key": 36.20645787720709,
+          "id_ns": 1014.738392,
+          "seconds": 47.35,
+          "cpu_seconds": 47.15,
+          "maxrss_mib": 5418.796875,
+          "busy_ticks": 4864,
+          "exit": 0,
+          "others_busy_cpus": 0.03
+        }
+      ]
+    },
+    {
+      "corpus": "urls-full",
+      "keys": 19217771,
+      "raw_bytes_per_key": 52.363,
+      "structure": "C-ART",
+      "bytes_per_key": 17.182341858903822,
+      "id_ns": 1106.746616,
+      "id_ns_spread": 0.06467831657684506,
+      "build_ms": 8322.4505,
+      "maxrss_mib": 5202.38671875,
+      "runs": [
+        {
+          "round": 1,
+          "build_ms": 8296.071328,
+          "bytes_per_key": 17.182341858903822,
+          "id_ns": 1106.746616,
+          "seconds": 50.22,
+          "cpu_seconds": 50.01,
+          "maxrss_mib": 5202.12890625,
+          "busy_ticks": 5164,
+          "exit": 0,
+          "others_busy_cpus": 0.03
+        },
+        {
+          "round": 2,
+          "build_ms": 8322.4505,
+          "bytes_per_key": 17.182341858903822,
+          "id_ns": 1128.396154,
+          "seconds": 50.7,
+          "cpu_seconds": 50.49,
+          "maxrss_mib": 5202.38671875,
+          "busy_ticks": 5220,
+          "exit": 0,
+          "others_busy_cpus": 0.03
+        },
+        {
+          "round": 3,
+          "build_ms": 8369.927634,
+          "bytes_per_key": 17.182341858903822,
+          "id_ns": 1056.813646,
+          "seconds": 49.21,
+          "cpu_seconds": 49.0,
+          "maxrss_mib": 5202.21875,
+          "busy_ticks": 5045,
+          "exit": 0,
+          "others_busy_cpus": 0.03
+        }
+      ]
+    },
+    {
+      "corpus": "urls-full",
+      "keys": 19217771,
+      "raw_bytes_per_key": 52.363,
+      "structure": "XCDAT 7",
+      "bytes_per_key": 11.452366149180568,
+      "id_ns": 1010.569189,
+      "id_ns_spread": 0.04721774374223468,
+      "build_ms": 24517.619775,
+      "maxrss_mib": 3924.44140625,
+      "runs": [
+        {
+          "round": 1,
+          "build_ms": 24535.376821,
+          "bytes_per_key": 11.452366149180568,
+          "id_ns": 1002.9278,
+          "seconds": 64.18,
+          "cpu_seconds": 63.92,
+          "maxrss_mib": 3924.44140625,
+          "busy_ticks": 6606,
+          "exit": 0,
+          "others_busy_cpus": 0.03
+        },
+        {
+          "round": 2,
+          "build_ms": 24490.145655,
+          "bytes_per_key": 11.452366149180568,
+          "id_ns": 1050.644597,
+          "seconds": 65.11,
+          "cpu_seconds": 64.85,
+          "maxrss_mib": 3924.4296875,
+          "busy_ticks": 6698,
+          "exit": 0,
+          "others_busy_cpus": 0.03
+        },
+        {
+          "round": 3,
+          "build_ms": 24517.619775,
+          "bytes_per_key": 11.452366149180568,
+          "id_ns": 1010.569189,
+          "seconds": 64.23,
+          "cpu_seconds": 63.96,
+          "maxrss_mib": 3923.8984375,
+          "busy_ticks": 6596,
+          "exit": 0,
+          "others_busy_cpus": 0.03
+        }
+      ]
+    },
+    {
+      "corpus": "urls-full",
+      "keys": 19217771,
+      "raw_bytes_per_key": 52.363,
+      "structure": "XCDAT 8",
+      "bytes_per_key": 11.082455741888484,
+      "id_ns": 992.73605,
+      "id_ns_spread": 0.015248396590412982,
+      "build_ms": 23722.494158,
+      "maxrss_mib": 3917.546875,
+      "runs": [
+        {
+          "round": 1,
+          "build_ms": 23697.46129,
+          "bytes_per_key": 11.082455741888484,
+          "id_ns": 992.73605,
+          "seconds": 63.13,
+          "cpu_seconds": 62.87,
+          "maxrss_mib": 3917.546875,
+          "busy_ticks": 6497,
+          "exit": 0,
+          "others_busy_cpus": 0.03
+        },
+        {
+          "round": 2,
+          "build_ms": 23820.939502,
+          "bytes_per_key": 11.082455741888484,
+          "id_ns": 980.622085,
+          "seconds": 63.08,
+          "cpu_seconds": 62.82,
+          "maxrss_mib": 3917.12109375,
+          "busy_ticks": 6491,
+          "exit": 0,
+          "others_busy_cpus": 0.03
+        },
+        {
+          "round": 3,
+          "build_ms": 23722.494158,
+          "bytes_per_key": 11.082455741888484,
+          "id_ns": 995.759718,
+          "seconds": 63.16,
+          "cpu_seconds": 62.9,
+          "maxrss_mib": 3917.51953125,
+          "busy_ticks": 6493,
+          "exit": 0,
+          "others_busy_cpus": 0.03
+        }
+      ]
+    },
+    {
+      "corpus": "urls-full",
+      "keys": 19217771,
+      "raw_bytes_per_key": 52.363,
+      "structure": "XCDAT 15",
+      "bytes_per_key": 14.02469248042221,
+      "id_ns": 824.385265,
+      "id_ns_spread": 0.0391511291750222,
+      "build_ms": 24609.193469,
+      "maxrss_mib": 3971.40625,
+      "runs": [
+        {
+          "round": 1,
+          "build_ms": 24611.358911,
+          "bytes_per_key": 14.02469248042221,
+          "id_ns": 824.385265,
+          "seconds": 60.84,
+          "cpu_seconds": 60.59,
+          "maxrss_mib": 3971.30859375,
+          "busy_ticks": 6285,
+          "exit": 0,
+          "others_busy_cpus": 0.04
+        },
+        {
+          "round": 2,
+          "build_ms": 24609.193469,
+          "bytes_per_key": 14.02469248042221,
+          "id_ns": 800.183607,
+          "seconds": 60.41,
+          "cpu_seconds": 60.17,
+          "maxrss_mib": 3971.26171875,
+          "busy_ticks": 6225,
+          "exit": 0,
+          "others_busy_cpus": 0.03
+        },
+        {
+          "round": 3,
+          "build_ms": 24608.755407,
+          "bytes_per_key": 14.02469248042221,
+          "id_ns": 832.459221,
+          "seconds": 61.04,
+          "cpu_seconds": 60.79,
+          "maxrss_mib": 3971.40625,
+          "busy_ticks": 6268,
+          "exit": 0,
+          "others_busy_cpus": 0.03
+        }
+      ]
+    },
+    {
+      "corpus": "urls-full",
+      "keys": 19217771,
+      "raw_bytes_per_key": 52.363,
+      "structure": "XCDAT 16",
+      "bytes_per_key": 14.72659801993145,
+      "id_ns": 868.26035,
+      "id_ns_spread": 0.005984042689499853,
+      "build_ms": 23798.259687,
+      "maxrss_mib": 3984.515625,
+      "runs": [
+        {
+          "round": 1,
+          "build_ms": 23798.259687,
+          "bytes_per_key": 14.72659801993145,
+          "id_ns": 866.829537,
+          "seconds": 60.87,
+          "cpu_seconds": 60.62,
+          "maxrss_mib": 3984.515625,
+          "busy_ticks": 6265,
+          "exit": 0,
+          "others_busy_cpus": 0.03
+        },
+        {
+          "round": 2,
+          "build_ms": 23686.840566,
+          "bytes_per_key": 14.72659801993145,
+          "id_ns": 872.025244,
+          "seconds": 60.75,
+          "cpu_seconds": 60.5,
+          "maxrss_mib": 3984.0859375,
+          "busy_ticks": 6258,
+          "exit": 0,
+          "others_busy_cpus": 0.03
+        },
+        {
+          "round": 3,
+          "build_ms": 23870.111197,
+          "bytes_per_key": 14.72659801993145,
+          "id_ns": 868.26035,
+          "seconds": 60.96,
+          "cpu_seconds": 60.7,
+          "maxrss_mib": 3984.3046875,
+          "busy_ticks": 6274,
+          "exit": 0,
+          "others_busy_cpus": 0.03
+        }
+      ]
+    }
+  ]
+}
