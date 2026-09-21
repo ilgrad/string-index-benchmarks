@@ -197,13 +197,16 @@ def _identifiers() -> Iterator[str]:
             yield from IDENT.findall(source.read().decode("utf-8", "replace"))
 
 
-def _bulk(rng: random.Random, alphabet: bytes, length: int, count: int) -> Iterator[str]:
-    """`count` strings of `length` symbols. The alphabet divides 256, so no symbol is favoured."""
+def _bulk(rng: random.Random, alphabet: bytes, length: int) -> Iterator[str]:
+    """Strings of `length` symbols, without end. The alphabet divides 256, so no symbol is favoured.
+
+    Endless because a draw can repeat -- a hundred million DNA 24-mers hold 28 duplicates -- and
+    the pool stops at the number of distinct keys it owes, not at a number of draws."""
     assert 256 % len(alphabet) == 0, "a non-dividing alphabet would bias the low symbols"
     table = bytes(alphabet[b % len(alphabet)] for b in range(256))
     step = 1 << 16
-    for start in range(0, count, step):
-        block = rng.randbytes(min(step, count - start) * length).translate(table)
+    while True:
+        block = rng.randbytes(step * length).translate(table)
         for at in range(0, len(block), length):
             yield block[at : at + length].decode("ascii")
 
@@ -333,18 +336,17 @@ CORPORA: tuple[Corpus, ...] = (
     Corpus(
         "opaque",
         "opaque 16-symbol base64url ids, from a seeded generator",
-        lambda n: _bulk(
+        lambda _: _bulk(
             random.Random(SEED ^ 0x2222),
             b"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-_",
             16,
-            n,
         ),
         nested=False,
     ),
     Corpus(
         "dna",
         "DNA 24-mers over ACGT, from a seeded generator",
-        lambda n: _bulk(random.Random(SEED ^ 0x3333), b"ACGT", 24, n),
+        lambda _: _bulk(random.Random(SEED ^ 0x3333), b"ACGT", 24),
         nested=False,
         note="four symbols and a fixed length: the densest trie and the flattest hash in the set",
     ),
