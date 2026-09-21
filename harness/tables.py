@@ -1,8 +1,9 @@
-"""Parse frontier campaign logs from bench/frontier/run.sh into their JSON artifact and markdown.
+"""Parse frontier campaign logs from harness/run.sh into their JSON artifact and markdown.
 
-    uv run --no-sync python bench/frontier/tables.py bench/results/frontier-1m-<...>.log
-    uv run --no-sync python bench/frontier/tables.py --json bench/results/frontier-1m-<...>.log
-    uv run --no-sync python bench/frontier/tables.py --json <campaign>.log <re-measurement>.log
+    uv run --no-sync python harness/tables.py results/frontier-1m-<...>.log
+    uv run --no-sync python harness/tables.py --json results/frontier-1m-<...>.log
+    uv run --no-sync python harness/tables.py --json <campaign>.log <re-measurement>.log
+    uv run --no-sync python harness/tables.py results/frontier-1m-<...>.json
 
 The log is the evidence: every process's own output, under a header that names the machine, the
 toolchain and every competitor's commit. `--json` writes the first log's name with a `.json`
@@ -356,13 +357,20 @@ def main() -> None:
         type=Path,
         nargs="+",
         metavar="log",
-        help="a bench/results/frontier-*.log, then any re-measurement of its corpora",
+        help="a results/frontier-*.log, then any re-measurement of its corpora; or the campaign's "
+        ".json artifact alone",
     )
     parser.add_argument(
         "--json", action="store_true", help="write the JSON artifact beside the first log"
     )
     args = parser.parse_args()
-    data = artifact(args.logs)
+    if args.logs[0].suffix == ".json":
+        # The artifact is what `artifact()` built from the logs, so it renders as they would.
+        if len(args.logs) > 1 or args.json:
+            parser.error("an artifact is rendered alone; a re-measurement and --json take logs")
+        data = json.loads(args.logs[0].read_text(encoding="utf-8"))
+    else:
+        data = artifact(args.logs)
     if args.json:
         out = args.logs[0].with_suffix(".json")
         out.write_text(json.dumps(data, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
