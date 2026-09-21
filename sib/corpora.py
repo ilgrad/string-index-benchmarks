@@ -393,7 +393,9 @@ def _built(manifest: dict, name: str) -> bool:
     if entry is None:
         return False
     corpus, pool = BY_NAME[name], entry["pool_keys"]
-    want = {f"{name}-{size}.txt" for size in corpus.sizes if size <= pool}
+    # A fetched source runs out where it runs out; a generator does not, so every size it is asked
+    # for is one it owes.
+    want = {f"{name}-{size}.txt" for size in corpus.sizes if not corpus.nested or size <= pool}
     if corpus.full and pool not in corpus.sizes:
         want.add(f"{name}-full.txt")
     if want != {one["file"] for one in entry["files"]}:
