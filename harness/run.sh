@@ -209,6 +209,18 @@ header() {
   echo "memory: $(awk '/MemTotal/ { printf "%.1f GiB total", $2 / 1048576 }' /proc/meminfo), \
 $(awk '/MemAvailable/ { printf "%.1f available", $2 / 1048576 }' /proc/meminfo)"
   echo "swap in use: ${swap_mib} MiB"
+  # Unequal modules interleave only across twice the smaller one and differ in rank, and neither
+  # shows in any counter a benchmark can read. Recorded when the run has the rights to read it,
+  # and named as absent when it does not -- an unstated memory layout is a missing variable, not a
+  # neutral one.
+  if layout=$(dmidecode -t 17 2>/dev/null | awk '
+      /^\tBank Locator:/ { sub(/^\tBank Locator: */, ""); sub(/ *$/, ""); bank = $0; next }
+      /^\tSize:/ && $2 != "No" { size = $2 $3; next }
+      /^\tRank:/ { printf "%s %s rank %s; ", bank, size, $2 }') && [ -n "$layout" ]; then
+    echo "memory layout: ${layout%; }"
+  else
+    echo "memory layout: not read (needs root)"
+  fi
   echo "rounds: $rounds, even rounds in the reverse order"
   echo "quiet before each process: under $QUIET_CPUS busy CPUs for 1 s"
   echo "clock ticks: $ticks"
