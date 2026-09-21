@@ -121,9 +121,10 @@ if [ "$swap_mib" -gt "${SIB_SWAP_CEILING_MIB:-64}" ]; then
   exit 1
 fi
 
-# Two DIMMs of different size interleave only over twice the smaller one; the rest is single
-# channel, and which half a buffer lands in is the kernel's choice. Headroom is what keeps a
-# campaign out of the half it did not measure last time.
+# Headroom keeps reclaim out of the timed passes. It does not choose where a process's memory
+# lands: with DIMMs of unequal size only twice the smaller one interleaves, which part a buffer gets
+# is allocation history, and on the machine behind the committed artifacts the two parts serve a
+# random load 4-7 % apart on one thread. Rounds -- separate processes -- are what average it out.
 avail_gib=$(awk '/MemAvailable/ { printf "%.1f", $2 / 1048576 }' /proc/meminfo)
 if awk -v a="$avail_gib" -v n="${SIB_FREE_GIB:-12}" 'BEGIN { exit !(a < n) }'; then
   echo "refusing: ${avail_gib} GiB available, under ${SIB_FREE_GIB:-12} GiB -- a campaign this" >&2
@@ -204,8 +205,8 @@ header() {
   echo "compiler: $(c++ --version | head -1)"
   echo "rustc: $(rustc --version)"
   echo "load at start: $(cut -d' ' -f1-3 /proc/loadavg)"
-  # A machine with two unequal DIMMs interleaves only part of its memory, so how much was free
-  # says which half a campaign is likely to have run in. Swap in use says the answer is neither.
+  # How much was free says whether reclaim could have run under the campaign, not where its pages
+  # landed. Swap in use says some of them were not in memory at all.
   echo "memory: $(awk '/MemTotal/ { printf "%.1f GiB total", $2 / 1048576 }' /proc/meminfo), \
 $(awk '/MemAvailable/ { printf "%.1f available", $2 / 1048576 }' /proc/meminfo)"
   echo "swap in use: ${swap_mib} MiB"
