@@ -10,7 +10,7 @@ publish = false
 [workspace]
 
 [dependencies]
-lexindex = "4.0"
+lexindex = "4.4"
 
 [profile.release]
 lto = "thin"
