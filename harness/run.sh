@@ -184,7 +184,8 @@ if [ "$scale" = 100m ]; then
   processes=("lexindex dict256" "lexindex dict1024" "lexindex string" "xcdat 15")
   subset=1
 else
-  for kind in dict32 dict256 dict1024 string; do
+  for kind in dict32 dict256 dict1024 routed32 routed256 routed1024 string hashed0 hashed8 \
+    hashed16; do
     processes+=("lexindex $kind")
   done
   # C²'s fourth argument is the depth of the recursion its paper ablates; for the MARISA baseline it
