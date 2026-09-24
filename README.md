@@ -174,9 +174,14 @@ The rules a number here had to survive:
   learns it: on one structure the in-order walk and the shuffled walk *reversed the ranking of two
   layouts*. Shuffled with a fixed seed, always.
 - **Size is what a file costs.** Serialised bytes on disk divided by keys, not a resident-set
-  reading and not a sum of a structure's internal arrays.
+  reading and not a sum of a structure's internal arrays. One row holds more than its file and
+  counts it: a routed `DictIndex` is the blob and the restart words `route_microblocks()` derives
+  beside it at load.
 - **A lookup is a lookup.** `id(key) -> u64` for a key that is present, one at a time, from a
-  shuffled probe set — not a batch, not a prefix walk, not an iterator.
+  shuffled probe set — not a batch, not a prefix walk, not an iterator. Every probe is a member, so
+  a row that cannot turn a stranger away is timed like one that can: `HashedDictIndex` closed
+  answers through `id_unchecked`, which gives a stranger some id rather than none, where its
+  fingerprinted rows turn away all but one stranger in `2^bits` and the tries every one.
 - **Everything is pinned.** Competitors by commit in `harness/pins.sh`, lexindex by crates.io
   version in `harness/lex/Cargo.toml`, corpora by SHA-256 in `sib/corpora.json`, and every one of
   those lands in the artifact next to the numbers.
