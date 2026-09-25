@@ -182,6 +182,11 @@ The rules a number here had to survive:
   a row that cannot turn a stranger away is timed like one that can: `HashedDictIndex` closed
   answers through `id_unchecked`, which gives a stranger some id rather than none, where its
   fingerprinted rows turn away all but one stranger in `2^bits` and the tries every one.
+- **A refusal is a cell.** A structure that cannot hold a corpus says so, and its cell carries the
+  reason in place of numbers: lexindex's `DoubleArrayIndex` numbers its slots and its ids in 23
+  bits and refuses a corpus past 8 388 608 of either — seven of the thirteen at a million keys,
+  every corpus at ten million. CoCo-trie running out of the address space a process may map is
+  recorded the same way.
 - **Everything is pinned.** Competitors by commit in `harness/pins.sh`, lexindex by crates.io
   version in `harness/lex/Cargo.toml`, corpora by SHA-256 in `sib/corpora.json`, and every one of
   those lands in the artifact next to the numbers.
