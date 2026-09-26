@@ -1,7 +1,8 @@
 #!/usr/bin/env bash
 # Build the research-frontier harness: the C² benchmark (C²-FST, C²-CoCo and C²-MARISA beside FST,
 # CoCo-trie, MARISA, PDT, ART and C-ART), XCDAT under the same protocol, MARISA's size at every
-# configuration, and `frontier_lex` for lexindex, every competitor at the commit in harness/pins.sh.
+# configuration and what a loaded one holds, and `frontier_lex` and `resident` for lexindex, every
+# competitor at the commit in harness/pins.sh.
 #
 #   harness/build.sh    # into ./build, or $SIB_BUILD
 #
@@ -113,6 +114,13 @@ logged "$frontier/marisa-floor-build.log" c++ -O3 -march=native -DNDEBUG -std=c+
   -o "$frontier/marisa_floor"
 echo "marisa_floor"
 
+step "What a loaded MARISA holds, sizes only"
+# The library and flags marisa_floor links, so a configuration rebuilds to the floor's size here.
+logged "$frontier/marisa-resident-build.log" c++ -O3 -march=native -DNDEBUG -std=c++17 \
+  -I"$marisa/include" "$root/harness/marisa_resident.cpp" \
+  "$frontier/c2/baseline_marisa/libmarisa.a" -o "$frontier/marisa_resident"
+echo "marisa_resident"
+
 step "C² benchmark"
 # succinct and libdivsufsort declare `cmake_minimum_required` 2.6 and 2.4.4, which CMake 4 refuses
 # to configure without a policy floor.
@@ -131,3 +139,4 @@ echo "xcdat_frontier"
 step "lexindex under the same protocol"
 cargo build --release --locked --manifest-path "$root/harness/lex/Cargo.toml"
 echo "harness/lex/target/release/frontier_lex"
+echo "harness/lex/target/release/resident"

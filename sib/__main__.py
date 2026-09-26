@@ -10,13 +10,14 @@
     sib run --keys catalog.txt     # your own keys, every structure, one table
     sib marisa-floor               # MARISA's size at every num_tries and the tiny cache, at 1 M
     sib marisa-floor --scale 10m   # the same over the six ten-million-key files
+    sib resident                   # what a loaded index holds beside its file, lexindex and MARISA
     sib table results/<...>.json   # the markdown the README quotes
     sib chart results/<...>.json   # the figure
 
 Each subcommand is a thin wrapper over the script that does the work -- `harness/build.sh`,
-`sib/corpora.py`, `harness/run.sh`, `harness/marisa_floor.py`, `harness/tables.py`, `sib/chart.py`
--- so that reading any one of them tells you the whole truth about what it did. Nothing here hides
-a flag.
+`sib/corpora.py`, `harness/run.sh`, `harness/marisa_floor.py`, `harness/resident.py`,
+`harness/tables.py`, `sib/chart.py` -- so that reading any one of them tells you the whole truth
+about what it did. Nothing here hides a flag.
 
 `--keys` is the one subcommand that is not a wrapper, and the one most people want. It stages your
 file as a corpus and runs the same protocol over it, so the answer is about *your* keys: a
@@ -106,6 +107,15 @@ def cmd_marisa_floor(args: argparse.Namespace) -> int:
     return _run(argv)
 
 
+def cmd_resident(args: argparse.Namespace) -> int:
+    argv = [sys.executable, "harness/resident.py", "--scale", args.scale]
+    if args.jobs:
+        argv += ["--jobs", str(args.jobs)]
+    if args.allow_dirty:
+        argv.append("--allow-dirty")
+    return _run(argv)
+
+
 def cmd_table(args: argparse.Namespace) -> int:
     return _run([sys.executable, "harness/tables.py", args.artifact])
 
@@ -146,6 +156,14 @@ def main() -> int:
     )
     floor.add_argument("--allow-dirty", action="store_true")
     floor.set_defaults(func=cmd_marisa_floor)
+
+    resident = sub.add_parser("resident", help="what a loaded index holds beside its file")
+    resident.add_argument("--scale", choices=("1m", "10m", "full"), default="1m")
+    resident.add_argument(
+        "--jobs", type=int, default=0, help="corpora measured at once (default: as memory allows)"
+    )
+    resident.add_argument("--allow-dirty", action="store_true")
+    resident.set_defaults(func=cmd_resident)
 
     table = sub.add_parser("table", help="the markdown for a campaign artifact")
     table.add_argument("artifact")

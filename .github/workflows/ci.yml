@@ -47,10 +47,11 @@ jobs:
       - name: every artifact renders (sib table)
         run: |
           set -euo pipefail
+          shopt -s nullglob
           for json in results/frontier-*.json; do
             uv run --no-project --python 3.11 python harness/tables.py "$json" >/dev/null
           done
-          for json in results/marisa-floor-*.json; do
+          for json in results/marisa-floor-*.json results/resident-*.json; do
             uv run --no-project --python 3.11 python -m json.tool "$json" >/dev/null
           done
       # A citation of an artifact that was never committed is a 404 from the day it is pushed. The
