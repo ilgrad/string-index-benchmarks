@@ -159,7 +159,9 @@ def main() -> int:
 
     floors = sorted((ROOT / "results").glob(f"marisa-floor-{args.scale}-*.json"))
     if not floors:
-        raise SystemExit(f"refusing: no results/marisa-floor-{args.scale}-*.json; run it first")
+        raise SystemExit(
+            f"refusing: results/ has no marisa-floor-{args.scale} artifact; run it first"
+        )
     floor_artifact = floors[-1]
     floor = json.loads(floor_artifact.read_text(encoding="utf-8"))
 
@@ -190,7 +192,7 @@ def main() -> int:
         "rustc": version(["rustc", "--version"]),
         f"pin {MARISA}": marisa,
         "lexindex": lexindex[1] if lexindex else "unknown",
-        "marisa configurations from": f"results/{floor_artifact.name}",
+        "marisa configurations from": floor_artifact.relative_to(ROOT).as_posix(),
         "sizes": "blob and bytes_io are the file; from_bytes_heap, mmap_heap and load_heap are "
         "the bytes asked for by every allocation a load keeps, after a pass of lookups",
         "quiet-machine gates": "none: sizes are deterministic",
