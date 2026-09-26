@@ -8,12 +8,15 @@
     sib run --scale full           # English titles and URLs whole, 19.2 M keys each
     sib run --scale 100m           # the four generated corpora at 100 M, four structures
     sib run --keys catalog.txt     # your own keys, every structure, one table
+    sib marisa-floor               # MARISA's size at every num_tries and the tiny cache, at 1 M
+    sib marisa-floor --scale 10m   # the same over the six ten-million-key files
     sib table results/<...>.json   # the markdown the README quotes
     sib chart results/<...>.json   # the figure
 
 Each subcommand is a thin wrapper over the script that does the work -- `harness/build.sh`,
-`sib/corpora.py`, `harness/run.sh`, `harness/tables.py`, `sib/chart.py` -- so that reading any one
-of them tells you the whole truth about what it did. Nothing here hides a flag.
+`sib/corpora.py`, `harness/run.sh`, `harness/marisa_floor.py`, `harness/tables.py`, `sib/chart.py`
+-- so that reading any one of them tells you the whole truth about what it did. Nothing here hides
+a flag.
 
 `--keys` is the one subcommand that is not a wrapper, and the one most people want. It stages your
 file as a corpus and runs the same protocol over it, so the answer is about *your* keys: a
@@ -94,6 +97,15 @@ def cmd_run(args: argparse.Namespace) -> int:
     return _run(argv, env)
 
 
+def cmd_marisa_floor(args: argparse.Namespace) -> int:
+    argv = [sys.executable, "harness/marisa_floor.py", "--scale", args.scale]
+    if args.jobs:
+        argv += ["--jobs", str(args.jobs)]
+    if args.allow_dirty:
+        argv.append("--allow-dirty")
+    return _run(argv)
+
+
 def cmd_table(args: argparse.Namespace) -> int:
     return _run([sys.executable, "harness/tables.py", args.artifact])
 
@@ -126,6 +138,12 @@ def main() -> int:
     run.add_argument("--allow-dirty", action="store_true")
     run.add_argument("names", nargs="*", default=[], help="named corpus stems only")
     run.set_defaults(func=cmd_run)
+
+    floor = sub.add_parser("marisa-floor", help="MARISA's size at every num_tries and cache")
+    floor.add_argument("--scale", choices=("1m", "10m", "full"), default="1m")
+    floor.add_argument("--jobs", type=int, default=0, help="corpora built at once (default: CPUs)")
+    floor.add_argument("--allow-dirty", action="store_true")
+    floor.set_defaults(func=cmd_marisa_floor)
 
     table = sub.add_parser("table", help="the markdown for a campaign artifact")
     table.add_argument("artifact")

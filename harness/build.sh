@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # Build the research-frontier harness: the C² benchmark (C²-FST, C²-CoCo and C²-MARISA beside FST,
-# CoCo-trie, MARISA, PDT, ART and C-ART), XCDAT under the same protocol, and `frontier_lex` for
-# lexindex, every competitor at the commit in harness/pins.sh.
+# CoCo-trie, MARISA, PDT, ART and C-ART), XCDAT under the same protocol, MARISA's size at every
+# configuration, and `frontier_lex` for lexindex, every competitor at the commit in harness/pins.sh.
 #
 #   harness/build.sh    # into ./build, or $SIB_BUILD
 #
@@ -104,6 +104,14 @@ done < <(find "$marisa/lib/marisa" -name '*.cc' | sort)
 rm -f "$frontier/c2/baseline_marisa/libmarisa.a"
 ar rcs "$frontier/c2/baseline_marisa/libmarisa.a" "$marisa"/obj/*.o
 echo "c2/baseline_marisa/libmarisa.a"
+
+step "MARISA at every configuration, sizes only"
+# Linked against the library the C² benchmark links, so that the three configurations the campaign
+# builds come out the same size here, and compiled with the XCDAT driver's flags.
+logged "$frontier/marisa-floor-build.log" c++ -O3 -march=native -DNDEBUG -std=c++17 \
+  -I"$marisa/include" "$root/harness/marisa_floor.cpp" "$frontier/c2/baseline_marisa/libmarisa.a" \
+  -o "$frontier/marisa_floor"
+echo "marisa_floor"
 
 step "C² benchmark"
 # succinct and libdivsufsort declare `cmake_minimum_required` 2.6 and 2.4.4, which CMake 4 refuses
