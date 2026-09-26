@@ -45,6 +45,8 @@ BUILD = Path(os.environ.get("SIB_BUILD", ROOT / "build"))
 CORPORA = Path(os.environ.get("SIB_CORPORA", ROOT / "corpora"))
 MARISA = "c2/baseline_marisa/marisa"
 COUNTS = re.compile(r"^(?P<keys>\d+) keys, (?P<raw>\d+) raw bytes$")
+# A build over ten or 19.2 million keys peaks near 3 GB, so a job is given 4 GiB.
+JOB_GIB = 4
 
 
 def git(*argv: str, at: Path = ROOT) -> str:
@@ -137,6 +139,18 @@ def measure(binary: Path, stem: str) -> dict:
     }
 
 
+def default_jobs() -> int:
+    """A corpus a CPU, as many as the available memory holds: a size run that swaps takes the
+    afternoon, and one the OOM killer ends writes no artifact."""
+    meminfo = Path("/proc/meminfo")
+    available = meminfo.is_file() and re.search(
+        r"^MemAvailable:\s+(\d+) kB$", meminfo.read_text(encoding="utf-8"), re.MULTILINE
+    )
+    if not available:
+        return 1
+    return max(1, min(os.cpu_count() or 1, int(available[1]) // (JOB_GIB * 1024 * 1024)))
+
+
 def progress(corpus: dict, seconds: float) -> str:
     if "failure" in corpus:
         return f"{corpus['corpus']}: {corpus['failure']}"
@@ -152,7 +166,10 @@ def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__.splitlines()[0])
     parser.add_argument("--scale", choices=("1m", "10m", "full"), default="1m")
     parser.add_argument(
-        "--jobs", type=int, default=os.cpu_count() or 1, help="corpora built at once"
+        "--jobs",
+        type=int,
+        default=default_jobs(),
+        help=f"corpora built at once (default: a CPU each, {JOB_GIB} GiB of available memory each)",
     )
     parser.add_argument(
         "--allow-dirty", action="store_true", help="for development; tagged <sha>-dirty"

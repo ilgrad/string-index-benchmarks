@@ -11,14 +11,19 @@ writes an artifact naming the machine, the commits and the corpus hashes behind 
 It exists because a benchmark you cannot re-run is a claim, not a measurement.
 
 **What it measures.** MARISA, XCDAT, CoCo-trie, PDT, FST, ART, the C² framework's four compressed
-variants, and lexindex — each at its own best configuration, never at a default chosen to flatter
-someone. Serialised bytes per key, single-key lookup latency, build time and peak RSS.
+variants, and lexindex — each over a grid of its own configurations, never at a default chosen to
+flatter someone. Serialised bytes per key, single-key lookup latency, build time and peak RSS.
+MARISA's grid is the one to three tries the C² benchmark builds, at the default cache; its smallest
+configuration lies outside it, so its size has an artifact of its own: [MARISA at its
+smallest](#marisa-at-its-smallest).
 
 **Who wrote it.** The author of [lexindex](https://github.com/ilgrad/lexindex), which is one of the
 competitors here. That is a conflict of interest and the reason the protocol below is as explicit as
 it is: lexindex is fetched from crates.io at a pinned version like every other entrant, this
-repository has no dependency on a lexindex checkout, and the one corpus where a trie is smaller is
-in the headline table rather than a footnote. Re-run it and disagree; see the last section.
+repository has no dependency on a lexindex checkout, and the corpora where a trie comes within a few
+tenths of a per cent of it — MARISA at its smallest, on `paths` and on the ten-million-key titles
+and URLs — are in a table of their own rather than a footnote. Re-run it and disagree; see the last
+section.
 
 ## Quickstart
 
@@ -27,6 +32,7 @@ git clone https://github.com/ilgrad/string-index-benchmarks && cd string-index-b
 sib build                      # fetch and compile every competitor at its pinned commit
 sib corpora build              # fetch and derive the thirteen corpora (4.6 GB, once)
 sib run                        # the campaign at a million keys
+sib marisa-floor               # MARISA's smallest size on the same corpora -- sizes only, minutes
 sib table results/<latest>.json
 ```
 
@@ -100,16 +106,18 @@ keys those nodes point into.
 | `urls` | 1,000,000 | 52.4 | **7.27** (Dict 1024) | 8.39 (MARISA ρ=2) | **+13.4 %** | XCDAT 15 365 ns | **59 ns** | 381 ns (Dict 256 routed), 1.04× |
 | `uuid` | 1,000,000 | 36.0 | **17.89** (Dict 1024) | 21.44 (PDT) | **+16.5 %** | XCDAT 15 339 ns | **57 ns** | 356 ns (Dict 256 routed), 1.05× |
 
-Thirteen of thirteen on size — but read the size columns before the others. lexindex enters eleven
-rows: `DictIndex` at three block sizes, with and without the restart words that route a lookup,
-`StringIndex`, `HashedDictIndex` at three fingerprint widths, and `DoubleArrayIndex`. The fourth
-column is the smallest of them on each corpus, against the smallest of eight structures on the other
-side; holding one side to a single index while the other picks from eight would be a different
-measurement, not a modest one. On twelve corpora that index is the front-coded `DictIndex`. On
-`numeric` it is `StringIndex`, where an fst folds a dense decimal id space into **301 bytes whole**
-— a real win and a degenerate corpus at once, and the total is printed rather than a rounded 0.00 so
-that it reads as both. `lexindex plan` picks the index off the keys alone, which is what makes that
-column something a caller gets rather than something chosen here after the fact.
+Thirteen of thirteen on size — against MARISA as the campaign builds it; against MARISA at its
+smallest, twelve and a tie on `paths` ([below](#marisa-at-its-smallest)) — but read the size columns
+before the others. lexindex enters eleven rows: `DictIndex` at three block sizes, with and without
+the restart words that route a lookup, `StringIndex`, `HashedDictIndex` at three fingerprint widths,
+and `DoubleArrayIndex`. The fourth column is the smallest of them on each corpus, against the
+smallest of eight structures on the other side; holding one side to a single index while the other
+picks from eight would be a different measurement, not a modest one. On twelve corpora that index is
+the front-coded `DictIndex`. On `numeric` it is `StringIndex`, where an fst folds a dense decimal id
+space into **301 bytes whole** — a real win and a degenerate corpus at once, and the total is
+printed rather than a rounded 0.00 so that it reads as both. `lexindex plan` picks the index off the
+keys alone, which is what makes that column something a caller gets rather than something chosen
+here after the fact.
 
 **Two lookup columns, because there are two questions.** `HashedDictIndex` — a minimal perfect hash
 beside the dictionary it is built over — answers first on all thirteen, 14 to 61 ns against XCDAT
@@ -163,10 +171,12 @@ Six corpora on 2026-09-26, the same machine, toolchain and protocol; other work 
 | `uuid` | 10,000,000 | 36.0 | **17.42** (Dict 1024) | 20.59 (PDT) | **+15.4 %** | XCDAT 15 553 ns | **79 ns** | 534 ns (Dict 256 routed), 0.97× |
 
 `DictIndex` is the smallest structure on five and `StringIndex` on `numeric`, at 357 bytes for ten
-million keys. The exact search wins `dna` (0.77×), `numeric` (0.48×), `urls` (0.90×) and
-`titles-en` (0.95×), is level on `uuid` — 3 % ahead, inside what the placement of a process's memory
-moves a lookup on this machine — and loses `opaque` at 1.36×: random sixteen-symbol ids share only
-their first few symbols with a neighbour, so front coding saves little and the scan still decodes.
+million keys; against MARISA at its smallest, English titles are 0.11 % apart and URLs 0.30 %
+([below](#marisa-at-its-smallest)). The exact search wins `dna` (0.77×), `numeric` (0.48×), `urls`
+(0.90×) and `titles-en` (0.95×), is level on `uuid` — 3 % ahead, inside what the placement of a
+process's memory moves a lookup on this machine — and loses `opaque` at 1.36×: random sixteen-symbol
+ids share only their first few symbols with a neighbour, so front coding saves little and the scan
+still decodes.
 lexindex's quickest build leads ART's on `dna`, `numeric`, `opaque`, `urls` and `uuid` and is level
 on `titles-en` (1 930 against 1 968 ms); C-ART builds after it on all six, and every structure but
 the two ARTs 2.7× (`numeric`) to 12.1× (`dna`) slower.
@@ -185,7 +195,8 @@ rebooted machine and used no swap from start to end.
 Both exact searches are ahead of XCDAT 15's: `urls` by 10 %, `titles-en` by 7 %. `DictIndex` builds
 before every other structure on both, in 3.3 and 3.5 s against ART's 3.8 and 7.1. CoCo-trie runs out
 of the 28 GB of address space a process is allowed on both, as it does on five of six at ten
-million.
+million. Against MARISA at its smallest the two size margins are 1.0 % and 1.3 %
+([below](#marisa-at-its-smallest)).
 
 **The exact-search gap, by scale**: lexindex's fastest exact search over XCDAT 15's time.
 
@@ -224,6 +235,55 @@ not include.
 memory alone moves a lookup on this machine, whose two DIMMs are unequal. `DictIndex` built in
 8–14 s at a hundred million against XCDAT 15's 23–132.
 
+## MARISA at its smallest
+
+The campaign builds MARISA as the C² benchmark does, at one, two and three tries and the default
+cache, and that is not marisa's smallest trie. At the same number of tries the tiny cache is smaller
+on every corpus, and eleven of the thirteen at a million keys keep getting smaller past three tries,
+`urls` until twenty. `sib marisa-floor` builds the pinned marisa at 1 to 32 tries with
+`MARISA_TINY_CACHE` over the campaign's own corpus files and records sizes only — nothing is timed,
+so these configurations have no lookup column, and marisa's own documentation says a deeper
+recursion "degrades the search performance". Every floor in the table lies inside that grid, the
+deepest at 30 tries. Sizes are files, as the protocol below has it, so the campaign's-best column
+reads a few hundred bytes above the campaign's own MARISA rows, which count `total_size()`.
+Artifacts `results/marisa-floor-{1m,10m,full}-2026-09-26-arz-452704f.json`; the lexindex column is
+the campaign's.
+
+| corpus | keys | MARISA, the campaign's best | MARISA, smallest | lexindex, smallest | margin |
+|---|---:|---:|---|---|---:|
+| `words` | 479,823 | 2.978 (3 tries) | 2.955 (4 tries, tiny) | **2.513** (Dict 1024) | +14.95 % |
+| `dna` | 1,000,000 | 7.562 (3 tries) | 7.525 (3 tries, tiny) | **4.231** (Dict 1024) | +43.78 % |
+| `domains` | 1,000,000 | 4.874 (3 tries) | 4.796 (8 tries, tiny) | **4.363** (Dict 1024) | +9.03 % |
+| `idents` | 1,000,000 | 5.350 (3 tries) | 5.123 (12 tries, tiny) | **4.860** (Dict 1024) | +5.13 % |
+| `numeric` | 1,000,000 | 1.642 (1 try) | 1.624 (1 try, tiny) | **301 B total** (StringIndex) | +99.981 % |
+| `opaque` | 1,000,000 | 18.037 (1 try) | 15.548 (6 tries, tiny) | **10.291** (Dict 1024) | +33.81 % |
+| `paths` | 1,000,000 | 6.788 (3 tries) | 6.513 (19 tries, tiny) | **6.511** (Dict 1024) | +0.04 % |
+| `pypi` | 895,600 | 4.512 (3 tries) | 4.383 (9 tries, tiny) | **4.024** (Dict 1024) | +8.20 % |
+| `titles-en` | 1,000,000 | 8.187 (3 tries) | 7.494 (15 tries, tiny) | **7.212** (Dict 1024) | +3.77 % |
+| `titles-ru` | 1,000,000 | 8.609 (3 tries) | 7.610 (19 tries, tiny) | **6.698** (Dict 1024) | +11.99 % |
+| `titles-zh` | 1,000,000 | 6.537 (3 tries) | 6.215 (12 tries, tiny) | **5.687** (Dict 1024) | +8.51 % |
+| `urls` | 1,000,000 | 8.395 (3 tries) | 7.570 (20 tries, tiny) | **7.271** (Dict 1024) | +3.95 % |
+| `uuid` | 1,000,000 | 34.575 (3 tries) | 22.978 (10 tries, tiny) | **17.894** (Dict 1024) | +22.13 % |
+| `dna` | 10,000,000 | 6.750 (3 tries) | 6.691 (3 tries, tiny) | **3.813** (Dict 1024) | +43.02 % |
+| `numeric` | 10,000,000 | 1.657 (1 try) | 1.627 (1 try, tiny) | **357 B total** (StringIndex) | +99.998 % |
+| `opaque` | 10,000,000 | 18.076 (1 try) | 14.717 (5 tries, tiny) | **9.953** (Dict 1024) | +32.37 % |
+| `titles-en` | 10,000,000 | 5.715 (3 tries) | 5.484 (18 tries, tiny) | **5.478** (Dict 1024) | +0.11 % |
+| `urls` | 10,000,000 | 5.833 (3 tries) | 5.547 (27 tries, tiny) | **5.530** (Dict 1024) | +0.30 % |
+| `uuid` | 10,000,000 | 33.207 (3 tries) | 20.618 (9 tries, tiny) | **17.417** (Dict 1024) | +15.53 % |
+| `titles-en` | 19,217,770 | 5.233 (3 tries) | 5.070 (19 tries, tiny) | **5.019** (Dict 1024) | +1.02 % |
+| `urls` | 19,217,771 | 5.326 (3 tries) | 5.132 (30 tries, tiny) | **5.065** (Dict 1024) | +1.30 % |
+
+Against its smallest, MARISA draws level on `paths`: lexindex's file is 2 431 bytes smaller in
+6.5 MB, 0.04 %. That is a tie by any measure, and by the count the campaign takes for MARISA —
+`total_size()`, the trie's arrays without the file's framing, 220 to 270 bytes a trie less than what
+`save()` writes — MARISA is 2 206 bytes the smaller. At ten million keys English titles are 0.11 %
+apart (59 KB) and URLs 0.30 %; at 19.2 million, 1.0 % and 1.3 %. The other margins narrow and stand,
+from 3.8 % (`titles-en` at a million) to 15 % (`words`) on real keys. On `uuid`, `opaque`, `dna` and
+`numeric` the smallest other is still PDT or a CoCo variant, smaller there than MARISA's floor at
+both scales. How far the floor lies below the campaign's best is a property of the keys: at a
+million, 0.5 % on `dna`, 0.8 % on `words`, 5–12 % on the titles and URLs and a third on `uuid`;
+3–5 % on the larger titles and URLs files.
+
 ## The protocol
 
 The rules a number here had to survive:
@@ -239,9 +299,11 @@ The rules a number here had to survive:
   learns it: on one structure the in-order walk and the shuffled walk *reversed the ranking of two
   layouts*. Shuffled with a fixed seed, always.
 - **Size is what a file costs.** Serialised bytes on disk divided by keys, not a resident-set
-  reading and not a sum of a structure's internal arrays. One row holds more than its file and
-  counts it: a routed `DictIndex` is the blob and the restart words `route_microblocks()` derives
-  beside it at load.
+  reading and not a sum of a structure's internal arrays — except where a driver can only count
+  its arrays: the C² benchmark's `space_cost()` and XCDAT's `memory_in_bytes` leave out a file's
+  framing, which for MARISA is 220 to 270 bytes a trie, and the MARISA floor records both. One row
+  holds more than its file and counts it: a routed `DictIndex` is the blob and the restart words
+  `route_microblocks()` derives beside it at load.
 - **A lookup is a lookup.** `id(key) -> u64` for a key that is present, one at a time, from a
   shuffled probe set — not a batch, not a prefix walk, not an iterator. Every probe is a member, so
   a row that cannot turn a stranger away is timed like one that can: `HashedDictIndex` closed
@@ -271,6 +333,8 @@ ran at into the filename.
 | `harness/run.sh` | the campaign: quiet gate, rounds, ordering, artifact |
 | `harness/lex/` | the lexindex entrant, depending on the published crate |
 | `harness/xcdat_frontier.cpp` | the XCDAT entrant, since XCDAT ships no benchmark driver |
+| `harness/marisa_floor.cpp` | MARISA's size at every `num_tries` and the tiny cache, from the pinned marisa |
+| `harness/marisa_floor.py` | runs it over a scale's corpora into `results/marisa-floor-*.json` |
 | `harness/tables.py` | artifact → markdown |
 | `sib/corpora.py` | the corpus definitions, fetching and hashing |
 | `sib/chart.py` | artifact → figure |

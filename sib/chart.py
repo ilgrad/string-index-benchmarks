@@ -10,12 +10,14 @@ commit, so a figure anywhere can always be traced to the run behind it.
 Three choices the figure makes, each of which could be made dishonestly:
 
 * **Both sides at their best, which is the only symmetry available.** The other side is the best of
-  eight structures, each at the configuration that suits that corpus -- MARISA at its `num_tries`,
-  XCDAT at its best of four, CoCo and PDT as the C² benchmark builds them. Holding this side to one
-  index while the other picks from eight is not modesty, it is a different measurement. So the bar
-  is whichever index lexindex builds smallest, and the label says which one it is: `DictIndex` at
-  its block on twelve corpora, `StringIndex` on `numeric`, where an fst folds a dense decimal id
-  space into 301 bytes and the label prints that rather than a rounded 0.00.
+  eight structures, each at the configuration that suits that corpus -- MARISA at the best of the
+  one to three tries C² builds, XCDAT at its best of four, CoCo and PDT as the C² benchmark builds
+  them. MARISA's smallest lies outside that grid; `sib marisa-floor` measures it, and the README
+  sets it beside lexindex. Holding this side to one index while the other picks from eight is not
+  modesty, it is a different measurement. So the bar is whichever index lexindex builds smallest,
+  and the label says which one it is: `DictIndex` at its block on twelve corpora, `StringIndex` on
+  `numeric`, where an fst folds a dense decimal id space into 301 bytes and the label prints that
+  rather than a rounded 0.00.
 * **The pick is the planner's, not the author's.** `lexindex plan` chooses the index off the keys
   alone, and choosing after seeing the answer would be the mirage this repository exists to refuse.
   Scored against the built blob on 19 corpora, its ranking of the two candidates a memory
@@ -142,8 +144,8 @@ def draw(data: list[dict], env: dict, out: Path) -> None:
     ax.text(
         0,
         1.015,
-        "MARISA · XCDAT · CoCo-trie · PDT · C²-MARISA · C²-CoCo · C²-FST · FST, each at its own "
-        "best configuration.\n"
+        "MARISA · XCDAT · CoCo-trie · PDT · C²-MARISA · C²-CoCo · C²-FST · FST, each at the best "
+        "configuration this campaign builds.\n"
         f"One process a structure and corpus, median of {env.get('rounds', '3').split(',')[0]} "
         f"rounds, {env.get('cpu', 'unknown CPU')}. "
         f"Artifact {env.get('table', '?')} at {env.get('commit', '?')}, "

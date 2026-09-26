@@ -1,0 +1,3968 @@
+{
+  "table": "marisa-floor-1m",
+  "environment": {
+    "date": "2026-09-26T13:40:18+03:00",
+    "host": "arz",
+    "commit": "452704f",
+    "table": "marisa-floor-1m",
+    "kernel": "Linux 7.2.7-200.fc44.x86_64 x86_64",
+    "compiler": "c++ (GCC) 16.2.1 20260819 (Red Hat 16.2.1-2)",
+    "pin c2/baseline_marisa/marisa": "e54f296bb52d https://github.com/s-yata/marisa-trie",
+    "sizes": "bytes_io is io_size(), what save() writes, and bytes_per_key is it over keys; bytes_total is total_size(), what C²'s space_cost() counts and so the campaign's MARISA",
+    "quiet-machine gates": "none: sizes are deterministic"
+  },
+  "corpora": [
+    {
+      "corpus": "words-full",
+      "keys": 479823,
+      "raw_bytes": 4473734,
+      "raw_bytes_per_key": 9.324,
+      "configurations": [
+        {
+          "cache": "default",
+          "tries": 1,
+          "tries_built": 1,
+          "bytes_io": 1621952,
+          "bytes_total": 1621692,
+          "bytes_per_key": 3.3803
+        },
+        {
+          "cache": "default",
+          "tries": 2,
+          "tries_built": 2,
+          "bytes_io": 1438120,
+          "bytes_total": 1437633,
+          "bytes_per_key": 2.9972
+        },
+        {
+          "cache": "default",
+          "tries": 3,
+          "tries_built": 3,
+          "bytes_io": 1429144,
+          "bytes_total": 1428425,
+          "bytes_per_key": 2.9785
+        },
+        {
+          "cache": "tiny",
+          "tries": 1,
+          "tries_built": 1,
+          "bytes_io": 1612736,
+          "bytes_total": 1612476,
+          "bytes_per_key": 3.3611
+        },
+        {
+          "cache": "tiny",
+          "tries": 2,
+          "tries_built": 2,
+          "bytes_io": 1427752,
+          "bytes_total": 1427265,
+          "bytes_per_key": 2.9756
+        },
+        {
+          "cache": "tiny",
+          "tries": 3,
+          "tries_built": 3,
+          "bytes_io": 1418704,
+          "bytes_total": 1417985,
+          "bytes_per_key": 2.9567
+        },
+        {
+          "cache": "tiny",
+          "tries": 4,
+          "tries_built": 4,
+          "bytes_io": 1418040,
+          "bytes_total": 1417087,
+          "bytes_per_key": 2.9553
+        },
+        {
+          "cache": "tiny",
+          "tries": 5,
+          "tries_built": 5,
+          "bytes_io": 1418232,
+          "bytes_total": 1417055,
+          "bytes_per_key": 2.9557
+        },
+        {
+          "cache": "tiny",
+          "tries": 6,
+          "tries_built": 6,
+          "bytes_io": 1418552,
+          "bytes_total": 1417151,
+          "bytes_per_key": 2.9564
+        },
+        {
+          "cache": "tiny",
+          "tries": 7,
+          "tries_built": 7,
+          "bytes_io": 1418896,
+          "bytes_total": 1417273,
+          "bytes_per_key": 2.9571
+        },
+        {
+          "cache": "tiny",
+          "tries": 8,
+          "tries_built": 8,
+          "bytes_io": 1419248,
+          "bytes_total": 1417404,
+          "bytes_per_key": 2.9579
+        },
+        {
+          "cache": "tiny",
+          "tries": 9,
+          "tries_built": 9,
+          "bytes_io": 1419616,
+          "bytes_total": 1417541,
+          "bytes_per_key": 2.9586
+        },
+        {
+          "cache": "tiny",
+          "tries": 10,
+          "tries_built": 10,
+          "bytes_io": 1419968,
+          "bytes_total": 1417678,
+          "bytes_per_key": 2.9594
+        },
+        {
+          "cache": "tiny",
+          "tries": 11,
+          "tries_built": 11,
+          "bytes_io": 1420336,
+          "bytes_total": 1417816,
+          "bytes_per_key": 2.9601
+        },
+        {
+          "cache": "tiny",
+          "tries": 12,
+          "tries_built": 12,
+          "bytes_io": 1420696,
+          "bytes_total": 1417956,
+          "bytes_per_key": 2.9609
+        },
+        {
+          "cache": "tiny",
+          "tries": 13,
+          "tries_built": 13,
+          "bytes_io": 1421064,
+          "bytes_total": 1418094,
+          "bytes_per_key": 2.9616
+        },
+        {
+          "cache": "tiny",
+          "tries": 14,
+          "tries_built": 14,
+          "bytes_io": 1421424,
+          "bytes_total": 1418234,
+          "bytes_per_key": 2.9624
+        },
+        {
+          "cache": "tiny",
+          "tries": 15,
+          "tries_built": 15,
+          "bytes_io": 1421784,
+          "bytes_total": 1418374,
+          "bytes_per_key": 2.9631
+        },
+        {
+          "cache": "tiny",
+          "tries": 16,
+          "tries_built": 16,
+          "bytes_io": 1422144,
+          "bytes_total": 1418514,
+          "bytes_per_key": 2.9639
+        },
+        {
+          "cache": "tiny",
+          "tries": 17,
+          "tries_built": 17,
+          "bytes_io": 1422504,
+          "bytes_total": 1418654,
+          "bytes_per_key": 2.9646
+        },
+        {
+          "cache": "tiny",
+          "tries": 18,
+          "tries_built": 18,
+          "bytes_io": 1422864,
+          "bytes_total": 1418794,
+          "bytes_per_key": 2.9654
+        },
+        {
+          "cache": "tiny",
+          "tries": 19,
+          "tries_built": 19,
+          "bytes_io": 1423224,
+          "bytes_total": 1418934,
+          "bytes_per_key": 2.9661
+        },
+        {
+          "cache": "tiny",
+          "tries": 20,
+          "tries_built": 20,
+          "bytes_io": 1423584,
+          "bytes_total": 1419074,
+          "bytes_per_key": 2.9669
+        },
+        {
+          "cache": "tiny",
+          "tries": 21,
+          "tries_built": 21,
+          "bytes_io": 1423944,
+          "bytes_total": 1419214,
+          "bytes_per_key": 2.9676
+        },
+        {
+          "cache": "tiny",
+          "tries": 22,
+          "tries_built": 22,
+          "bytes_io": 1424304,
+          "bytes_total": 1419354,
+          "bytes_per_key": 2.9684
+        },
+        {
+          "cache": "tiny",
+          "tries": 23,
+          "tries_built": 23,
+          "bytes_io": 1424664,
+          "bytes_total": 1419494,
+          "bytes_per_key": 2.9691
+        },
+        {
+          "cache": "tiny",
+          "tries": 24,
+          "tries_built": 24,
+          "bytes_io": 1425024,
+          "bytes_total": 1419634,
+          "bytes_per_key": 2.9699
+        },
+        {
+          "cache": "tiny",
+          "tries": 25,
+          "tries_built": 25,
+          "bytes_io": 1425384,
+          "bytes_total": 1419774,
+          "bytes_per_key": 2.9706
+        },
+        {
+          "cache": "tiny",
+          "tries": 26,
+          "tries_built": 26,
+          "bytes_io": 1425744,
+          "bytes_total": 1419914,
+          "bytes_per_key": 2.9714
+        },
+        {
+          "cache": "tiny",
+          "tries": 27,
+          "tries_built": 27,
+          "bytes_io": 1426104,
+          "bytes_total": 1420054,
+          "bytes_per_key": 2.9721
+        },
+        {
+          "cache": "tiny",
+          "tries": 28,
+          "tries_built": 28,
+          "bytes_io": 1426464,
+          "bytes_total": 1420194,
+          "bytes_per_key": 2.9729
+        },
+        {
+          "cache": "tiny",
+          "tries": 29,
+          "tries_built": 29,
+          "bytes_io": 1426824,
+          "bytes_total": 1420334,
+          "bytes_per_key": 2.9736
+        },
+        {
+          "cache": "tiny",
+          "tries": 30,
+          "tries_built": 30,
+          "bytes_io": 1427184,
+          "bytes_total": 1420474,
+          "bytes_per_key": 2.9744
+        },
+        {
+          "cache": "tiny",
+          "tries": 31,
+          "tries_built": 31,
+          "bytes_io": 1427544,
+          "bytes_total": 1420614,
+          "bytes_per_key": 2.9751
+        },
+        {
+          "cache": "tiny",
+          "tries": 32,
+          "tries_built": 32,
+          "bytes_io": 1427904,
+          "bytes_total": 1420754,
+          "bytes_per_key": 2.9759
+        }
+      ],
+      "smallest_io": {
+        "cache": "tiny",
+        "tries": 4,
+        "tries_built": 4,
+        "bytes_io": 1418040,
+        "bytes_total": 1417087,
+        "bytes_per_key": 2.9553
+      },
+      "smallest_total": {
+        "cache": "tiny",
+        "tries": 5,
+        "tries_built": 5,
+        "bytes_io": 1418232,
+        "bytes_total": 1417055,
+        "bytes_per_key": 2.9557
+      }
+    },
+    {
+      "corpus": "dna-1000000",
+      "keys": 1000000,
+      "raw_bytes": 24000000,
+      "raw_bytes_per_key": 24.0,
+      "configurations": [
+        {
+          "cache": "default",
+          "tries": 1,
+          "tries_built": 1,
+          "bytes_io": 19784256,
+          "bytes_total": 19784015,
+          "bytes_per_key": 19.7843
+        },
+        {
+          "cache": "default",
+          "tries": 2,
+          "tries_built": 2,
+          "bytes_io": 8011632,
+          "bytes_total": 8011166,
+          "bytes_per_key": 8.0116
+        },
+        {
+          "cache": "default",
+          "tries": 3,
+          "tries_built": 3,
+          "bytes_io": 7561808,
+          "bytes_total": 7561121,
+          "bytes_per_key": 7.5618
+        },
+        {
+          "cache": "tiny",
+          "tries": 1,
+          "tries_built": 1,
+          "bytes_io": 19765824,
+          "bytes_total": 19765583,
+          "bytes_per_key": 19.7658
+        },
+        {
+          "cache": "tiny",
+          "tries": 2,
+          "tries_built": 2,
+          "bytes_io": 7974768,
+          "bytes_total": 7974302,
+          "bytes_per_key": 7.9748
+        },
+        {
+          "cache": "tiny",
+          "tries": 3,
+          "tries_built": 3,
+          "bytes_io": 7524656,
+          "bytes_total": 7523969,
+          "bytes_per_key": 7.5247
+        },
+        {
+          "cache": "tiny",
+          "tries": 4,
+          "tries_built": 4,
+          "bytes_io": 7524936,
+          "bytes_total": 7524026,
+          "bytes_per_key": 7.5249
+        },
+        {
+          "cache": "tiny",
+          "tries": 5,
+          "tries_built": 4,
+          "bytes_io": 7524936,
+          "bytes_total": 7524026,
+          "bytes_per_key": 7.5249
+        },
+        {
+          "cache": "tiny",
+          "tries": 6,
+          "tries_built": 4,
+          "bytes_io": 7524936,
+          "bytes_total": 7524026,
+          "bytes_per_key": 7.5249
+        },
+        {
+          "cache": "tiny",
+          "tries": 7,
+          "tries_built": 4,
+          "bytes_io": 7524936,
+          "bytes_total": 7524026,
+          "bytes_per_key": 7.5249
+        },
+        {
+          "cache": "tiny",
+          "tries": 8,
+          "tries_built": 4,
+          "bytes_io": 7524936,
+          "bytes_total": 7524026,
+          "bytes_per_key": 7.5249
+        },
+        {
+          "cache": "tiny",
+          "tries": 9,
+          "tries_built": 4,
+          "bytes_io": 7524936,
+          "bytes_total": 7524026,
+          "bytes_per_key": 7.5249
+        },
+        {
+          "cache": "tiny",
+          "tries": 10,
+          "tries_built": 4,
+          "bytes_io": 7524936,
+          "bytes_total": 7524026,
+          "bytes_per_key": 7.5249
+        },
+        {
+          "cache": "tiny",
+          "tries": 11,
+          "tries_built": 4,
+          "bytes_io": 7524936,
+          "bytes_total": 7524026,
+          "bytes_per_key": 7.5249
+        },
+        {
+          "cache": "tiny",
+          "tries": 12,
+          "tries_built": 4,
+          "bytes_io": 7524936,
+          "bytes_total": 7524026,
+          "bytes_per_key": 7.5249
+        },
+        {
+          "cache": "tiny",
+          "tries": 13,
+          "tries_built": 4,
+          "bytes_io": 7524936,
+          "bytes_total": 7524026,
+          "bytes_per_key": 7.5249
+        },
+        {
+          "cache": "tiny",
+          "tries": 14,
+          "tries_built": 4,
+          "bytes_io": 7524936,
+          "bytes_total": 7524026,
+          "bytes_per_key": 7.5249
+        },
+        {
+          "cache": "tiny",
+          "tries": 15,
+          "tries_built": 4,
+          "bytes_io": 7524936,
+          "bytes_total": 7524026,
+          "bytes_per_key": 7.5249
+        },
+        {
+          "cache": "tiny",
+          "tries": 16,
+          "tries_built": 4,
+          "bytes_io": 7524936,
+          "bytes_total": 7524026,
+          "bytes_per_key": 7.5249
+        },
+        {
+          "cache": "tiny",
+          "tries": 17,
+          "tries_built": 4,
+          "bytes_io": 7524936,
+          "bytes_total": 7524026,
+          "bytes_per_key": 7.5249
+        },
+        {
+          "cache": "tiny",
+          "tries": 18,
+          "tries_built": 4,
+          "bytes_io": 7524936,
+          "bytes_total": 7524026,
+          "bytes_per_key": 7.5249
+        },
+        {
+          "cache": "tiny",
+          "tries": 19,
+          "tries_built": 4,
+          "bytes_io": 7524936,
+          "bytes_total": 7524026,
+          "bytes_per_key": 7.5249
+        },
+        {
+          "cache": "tiny",
+          "tries": 20,
+          "tries_built": 4,
+          "bytes_io": 7524936,
+          "bytes_total": 7524026,
+          "bytes_per_key": 7.5249
+        },
+        {
+          "cache": "tiny",
+          "tries": 21,
+          "tries_built": 4,
+          "bytes_io": 7524936,
+          "bytes_total": 7524026,
+          "bytes_per_key": 7.5249
+        },
+        {
+          "cache": "tiny",
+          "tries": 22,
+          "tries_built": 4,
+          "bytes_io": 7524936,
+          "bytes_total": 7524026,
+          "bytes_per_key": 7.5249
+        },
+        {
+          "cache": "tiny",
+          "tries": 23,
+          "tries_built": 4,
+          "bytes_io": 7524936,
+          "bytes_total": 7524026,
+          "bytes_per_key": 7.5249
+        },
+        {
+          "cache": "tiny",
+          "tries": 24,
+          "tries_built": 4,
+          "bytes_io": 7524936,
+          "bytes_total": 7524026,
+          "bytes_per_key": 7.5249
+        },
+        {
+          "cache": "tiny",
+          "tries": 25,
+          "tries_built": 4,
+          "bytes_io": 7524936,
+          "bytes_total": 7524026,
+          "bytes_per_key": 7.5249
+        },
+        {
+          "cache": "tiny",
+          "tries": 26,
+          "tries_built": 4,
+          "bytes_io": 7524936,
+          "bytes_total": 7524026,
+          "bytes_per_key": 7.5249
+        },
+        {
+          "cache": "tiny",
+          "tries": 27,
+          "tries_built": 4,
+          "bytes_io": 7524936,
+          "bytes_total": 7524026,
+          "bytes_per_key": 7.5249
+        },
+        {
+          "cache": "tiny",
+          "tries": 28,
+          "tries_built": 4,
+          "bytes_io": 7524936,
+          "bytes_total": 7524026,
+          "bytes_per_key": 7.5249
+        },
+        {
+          "cache": "tiny",
+          "tries": 29,
+          "tries_built": 4,
+          "bytes_io": 7524936,
+          "bytes_total": 7524026,
+          "bytes_per_key": 7.5249
+        },
+        {
+          "cache": "tiny",
+          "tries": 30,
+          "tries_built": 4,
+          "bytes_io": 7524936,
+          "bytes_total": 7524026,
+          "bytes_per_key": 7.5249
+        },
+        {
+          "cache": "tiny",
+          "tries": 31,
+          "tries_built": 4,
+          "bytes_io": 7524936,
+          "bytes_total": 7524026,
+          "bytes_per_key": 7.5249
+        },
+        {
+          "cache": "tiny",
+          "tries": 32,
+          "tries_built": 4,
+          "bytes_io": 7524936,
+          "bytes_total": 7524026,
+          "bytes_per_key": 7.5249
+        }
+      ],
+      "smallest_io": {
+        "cache": "tiny",
+        "tries": 3,
+        "tries_built": 3,
+        "bytes_io": 7524656,
+        "bytes_total": 7523969,
+        "bytes_per_key": 7.5247
+      },
+      "smallest_total": {
+        "cache": "tiny",
+        "tries": 3,
+        "tries_built": 3,
+        "bytes_io": 7524656,
+        "bytes_total": 7523969,
+        "bytes_per_key": 7.5247
+      }
+    },
+    {
+      "corpus": "domains-1000000",
+      "keys": 1000000,
+      "raw_bytes": 13782044,
+      "raw_bytes_per_key": 13.782,
+      "configurations": [
+        {
+          "cache": "default",
+          "tries": 1,
+          "tries_built": 1,
+          "bytes_io": 7220560,
+          "bytes_total": 7220314,
+          "bytes_per_key": 7.2206
+        },
+        {
+          "cache": "default",
+          "tries": 2,
+          "tries_built": 2,
+          "bytes_io": 5061256,
+          "bytes_total": 5060790,
+          "bytes_per_key": 5.0613
+        },
+        {
+          "cache": "default",
+          "tries": 3,
+          "tries_built": 3,
+          "bytes_io": 4874416,
+          "bytes_total": 4873725,
+          "bytes_per_key": 4.8744
+        },
+        {
+          "cache": "tiny",
+          "tries": 1,
+          "tries_built": 1,
+          "bytes_io": 7202128,
+          "bytes_total": 7201882,
+          "bytes_per_key": 7.2021
+        },
+        {
+          "cache": "tiny",
+          "tries": 2,
+          "tries_built": 2,
+          "bytes_io": 5033608,
+          "bytes_total": 5033142,
+          "bytes_per_key": 5.0336
+        },
+        {
+          "cache": "tiny",
+          "tries": 3,
+          "tries_built": 3,
+          "bytes_io": 4844464,
+          "bytes_total": 4843773,
+          "bytes_per_key": 4.8445
+        },
+        {
+          "cache": "tiny",
+          "tries": 4,
+          "tries_built": 4,
+          "bytes_io": 4808656,
+          "bytes_total": 4807731,
+          "bytes_per_key": 4.8087
+        },
+        {
+          "cache": "tiny",
+          "tries": 5,
+          "tries_built": 5,
+          "bytes_io": 4798936,
+          "bytes_total": 4797780,
+          "bytes_per_key": 4.7989
+        },
+        {
+          "cache": "tiny",
+          "tries": 6,
+          "tries_built": 6,
+          "bytes_io": 4796176,
+          "bytes_total": 4794792,
+          "bytes_per_key": 4.7962
+        },
+        {
+          "cache": "tiny",
+          "tries": 7,
+          "tries_built": 7,
+          "bytes_io": 4795744,
+          "bytes_total": 4794133,
+          "bytes_per_key": 4.7957
+        },
+        {
+          "cache": "tiny",
+          "tries": 8,
+          "tries_built": 8,
+          "bytes_io": 4795712,
+          "bytes_total": 4793877,
+          "bytes_per_key": 4.7957
+        },
+        {
+          "cache": "tiny",
+          "tries": 9,
+          "tries_built": 9,
+          "bytes_io": 4795888,
+          "bytes_total": 4793819,
+          "bytes_per_key": 4.7959
+        },
+        {
+          "cache": "tiny",
+          "tries": 10,
+          "tries_built": 10,
+          "bytes_io": 4796192,
+          "bytes_total": 4793889,
+          "bytes_per_key": 4.7962
+        },
+        {
+          "cache": "tiny",
+          "tries": 11,
+          "tries_built": 11,
+          "bytes_io": 4796472,
+          "bytes_total": 4793945,
+          "bytes_per_key": 4.7965
+        },
+        {
+          "cache": "tiny",
+          "tries": 12,
+          "tries_built": 12,
+          "bytes_io": 4796800,
+          "bytes_total": 4794042,
+          "bytes_per_key": 4.7968
+        },
+        {
+          "cache": "tiny",
+          "tries": 13,
+          "tries_built": 13,
+          "bytes_io": 4797104,
+          "bytes_total": 4794126,
+          "bytes_per_key": 4.7971
+        },
+        {
+          "cache": "tiny",
+          "tries": 14,
+          "tries_built": 14,
+          "bytes_io": 4797448,
+          "bytes_total": 4794248,
+          "bytes_per_key": 4.7974
+        },
+        {
+          "cache": "tiny",
+          "tries": 15,
+          "tries_built": 15,
+          "bytes_io": 4797800,
+          "bytes_total": 4794370,
+          "bytes_per_key": 4.7978
+        },
+        {
+          "cache": "tiny",
+          "tries": 16,
+          "tries_built": 16,
+          "bytes_io": 4798152,
+          "bytes_total": 4794499,
+          "bytes_per_key": 4.7982
+        },
+        {
+          "cache": "tiny",
+          "tries": 17,
+          "tries_built": 17,
+          "bytes_io": 4798496,
+          "bytes_total": 4794628,
+          "bytes_per_key": 4.7985
+        },
+        {
+          "cache": "tiny",
+          "tries": 18,
+          "tries_built": 18,
+          "bytes_io": 4798848,
+          "bytes_total": 4794756,
+          "bytes_per_key": 4.7988
+        },
+        {
+          "cache": "tiny",
+          "tries": 19,
+          "tries_built": 19,
+          "bytes_io": 4799200,
+          "bytes_total": 4794888,
+          "bytes_per_key": 4.7992
+        },
+        {
+          "cache": "tiny",
+          "tries": 20,
+          "tries_built": 20,
+          "bytes_io": 4799576,
+          "bytes_total": 4795034,
+          "bytes_per_key": 4.7996
+        },
+        {
+          "cache": "tiny",
+          "tries": 21,
+          "tries_built": 21,
+          "bytes_io": 4799936,
+          "bytes_total": 4795171,
+          "bytes_per_key": 4.7999
+        },
+        {
+          "cache": "tiny",
+          "tries": 22,
+          "tries_built": 22,
+          "bytes_io": 4800280,
+          "bytes_total": 4795297,
+          "bytes_per_key": 4.8003
+        },
+        {
+          "cache": "tiny",
+          "tries": 23,
+          "tries_built": 23,
+          "bytes_io": 4800648,
+          "bytes_total": 4795443,
+          "bytes_per_key": 4.8006
+        },
+        {
+          "cache": "tiny",
+          "tries": 24,
+          "tries_built": 24,
+          "bytes_io": 4801008,
+          "bytes_total": 4795574,
+          "bytes_per_key": 4.801
+        },
+        {
+          "cache": "tiny",
+          "tries": 25,
+          "tries_built": 25,
+          "bytes_io": 4801336,
+          "bytes_total": 4795685,
+          "bytes_per_key": 4.8013
+        },
+        {
+          "cache": "tiny",
+          "tries": 26,
+          "tries_built": 26,
+          "bytes_io": 4801680,
+          "bytes_total": 4795804,
+          "bytes_per_key": 4.8017
+        },
+        {
+          "cache": "tiny",
+          "tries": 27,
+          "tries_built": 27,
+          "bytes_io": 4802024,
+          "bytes_total": 4795918,
+          "bytes_per_key": 4.802
+        },
+        {
+          "cache": "tiny",
+          "tries": 28,
+          "tries_built": 28,
+          "bytes_io": 4802368,
+          "bytes_total": 4796041,
+          "bytes_per_key": 4.8024
+        },
+        {
+          "cache": "tiny",
+          "tries": 29,
+          "tries_built": 29,
+          "bytes_io": 4802704,
+          "bytes_total": 4796160,
+          "bytes_per_key": 4.8027
+        },
+        {
+          "cache": "tiny",
+          "tries": 30,
+          "tries_built": 30,
+          "bytes_io": 4803048,
+          "bytes_total": 4796279,
+          "bytes_per_key": 4.803
+        },
+        {
+          "cache": "tiny",
+          "tries": 31,
+          "tries_built": 31,
+          "bytes_io": 4803384,
+          "bytes_total": 4796395,
+          "bytes_per_key": 4.8034
+        },
+        {
+          "cache": "tiny",
+          "tries": 32,
+          "tries_built": 32,
+          "bytes_io": 4803728,
+          "bytes_total": 4796511,
+          "bytes_per_key": 4.8037
+        }
+      ],
+      "smallest_io": {
+        "cache": "tiny",
+        "tries": 8,
+        "tries_built": 8,
+        "bytes_io": 4795712,
+        "bytes_total": 4793877,
+        "bytes_per_key": 4.7957
+      },
+      "smallest_total": {
+        "cache": "tiny",
+        "tries": 9,
+        "tries_built": 9,
+        "bytes_io": 4795888,
+        "bytes_total": 4793819,
+        "bytes_per_key": 4.7959
+      }
+    },
+    {
+      "corpus": "idents-1000000",
+      "keys": 1000000,
+      "raw_bytes": 16569522,
+      "raw_bytes_per_key": 16.57,
+      "configurations": [
+        {
+          "cache": "default",
+          "tries": 1,
+          "tries_built": 1,
+          "bytes_io": 7235616,
+          "bytes_total": 7235371,
+          "bytes_per_key": 7.2356
+        },
+        {
+          "cache": "default",
+          "tries": 2,
+          "tries_built": 2,
+          "bytes_io": 5638328,
+          "bytes_total": 5637846,
+          "bytes_per_key": 5.6383
+        },
+        {
+          "cache": "default",
+          "tries": 3,
+          "tries_built": 3,
+          "bytes_io": 5350104,
+          "bytes_total": 5349388,
+          "bytes_per_key": 5.3501
+        },
+        {
+          "cache": "tiny",
+          "tries": 1,
+          "tries_built": 1,
+          "bytes_io": 7217184,
+          "bytes_total": 7216939,
+          "bytes_per_key": 7.2172
+        },
+        {
+          "cache": "tiny",
+          "tries": 2,
+          "tries_built": 2,
+          "bytes_io": 5610680,
+          "bytes_total": 5610198,
+          "bytes_per_key": 5.6107
+        },
+        {
+          "cache": "tiny",
+          "tries": 3,
+          "tries_built": 3,
+          "bytes_io": 5320152,
+          "bytes_total": 5319436,
+          "bytes_per_key": 5.3202
+        },
+        {
+          "cache": "tiny",
+          "tries": 4,
+          "tries_built": 4,
+          "bytes_io": 5242400,
+          "bytes_total": 5241466,
+          "bytes_per_key": 5.2424
+        },
+        {
+          "cache": "tiny",
+          "tries": 5,
+          "tries_built": 5,
+          "bytes_io": 5207688,
+          "bytes_total": 5206526,
+          "bytes_per_key": 5.2077
+        },
+        {
+          "cache": "tiny",
+          "tries": 6,
+          "tries_built": 6,
+          "bytes_io": 5193872,
+          "bytes_total": 5192490,
+          "bytes_per_key": 5.1939
+        },
+        {
+          "cache": "tiny",
+          "tries": 7,
+          "tries_built": 7,
+          "bytes_io": 5178264,
+          "bytes_total": 5176645,
+          "bytes_per_key": 5.1783
+        },
+        {
+          "cache": "tiny",
+          "tries": 8,
+          "tries_built": 8,
+          "bytes_io": 5164664,
+          "bytes_total": 5162818,
+          "bytes_per_key": 5.1647
+        },
+        {
+          "cache": "tiny",
+          "tries": 9,
+          "tries_built": 9,
+          "bytes_io": 5139512,
+          "bytes_total": 5137442,
+          "bytes_per_key": 5.1395
+        },
+        {
+          "cache": "tiny",
+          "tries": 10,
+          "tries_built": 10,
+          "bytes_io": 5125856,
+          "bytes_total": 5123557,
+          "bytes_per_key": 5.1259
+        },
+        {
+          "cache": "tiny",
+          "tries": 11,
+          "tries_built": 11,
+          "bytes_io": 5122712,
+          "bytes_total": 5120188,
+          "bytes_per_key": 5.1227
+        },
+        {
+          "cache": "tiny",
+          "tries": 12,
+          "tries_built": 12,
+          "bytes_io": 5122544,
+          "bytes_total": 5119793,
+          "bytes_per_key": 5.1225
+        },
+        {
+          "cache": "tiny",
+          "tries": 13,
+          "tries_built": 13,
+          "bytes_io": 5124112,
+          "bytes_total": 5121130,
+          "bytes_per_key": 5.1241
+        },
+        {
+          "cache": "tiny",
+          "tries": 14,
+          "tries_built": 14,
+          "bytes_io": 5126184,
+          "bytes_total": 5122986,
+          "bytes_per_key": 5.1262
+        },
+        {
+          "cache": "tiny",
+          "tries": 15,
+          "tries_built": 15,
+          "bytes_io": 5128392,
+          "bytes_total": 5124963,
+          "bytes_per_key": 5.1284
+        },
+        {
+          "cache": "tiny",
+          "tries": 16,
+          "tries_built": 16,
+          "bytes_io": 5130552,
+          "bytes_total": 5126896,
+          "bytes_per_key": 5.1306
+        },
+        {
+          "cache": "tiny",
+          "tries": 17,
+          "tries_built": 17,
+          "bytes_io": 5132616,
+          "bytes_total": 5128744,
+          "bytes_per_key": 5.1326
+        },
+        {
+          "cache": "tiny",
+          "tries": 18,
+          "tries_built": 18,
+          "bytes_io": 5134224,
+          "bytes_total": 5130114,
+          "bytes_per_key": 5.1342
+        },
+        {
+          "cache": "tiny",
+          "tries": 19,
+          "tries_built": 19,
+          "bytes_io": 5135824,
+          "bytes_total": 5131482,
+          "bytes_per_key": 5.1358
+        },
+        {
+          "cache": "tiny",
+          "tries": 20,
+          "tries_built": 20,
+          "bytes_io": 5137312,
+          "bytes_total": 5132748,
+          "bytes_per_key": 5.1373
+        },
+        {
+          "cache": "tiny",
+          "tries": 21,
+          "tries_built": 21,
+          "bytes_io": 5138872,
+          "bytes_total": 5134075,
+          "bytes_per_key": 5.1389
+        },
+        {
+          "cache": "tiny",
+          "tries": 22,
+          "tries_built": 22,
+          "bytes_io": 5140008,
+          "bytes_total": 5134987,
+          "bytes_per_key": 5.14
+        },
+        {
+          "cache": "tiny",
+          "tries": 23,
+          "tries_built": 23,
+          "bytes_io": 5141448,
+          "bytes_total": 5136189,
+          "bytes_per_key": 5.1414
+        },
+        {
+          "cache": "tiny",
+          "tries": 24,
+          "tries_built": 24,
+          "bytes_io": 5142760,
+          "bytes_total": 5137269,
+          "bytes_per_key": 5.1428
+        },
+        {
+          "cache": "tiny",
+          "tries": 25,
+          "tries_built": 25,
+          "bytes_io": 5143992,
+          "bytes_total": 5138276,
+          "bytes_per_key": 5.144
+        },
+        {
+          "cache": "tiny",
+          "tries": 26,
+          "tries_built": 26,
+          "bytes_io": 5145248,
+          "bytes_total": 5139311,
+          "bytes_per_key": 5.1452
+        },
+        {
+          "cache": "tiny",
+          "tries": 27,
+          "tries_built": 27,
+          "bytes_io": 5146592,
+          "bytes_total": 5140430,
+          "bytes_per_key": 5.1466
+        },
+        {
+          "cache": "tiny",
+          "tries": 28,
+          "tries_built": 28,
+          "bytes_io": 5147672,
+          "bytes_total": 5141283,
+          "bytes_per_key": 5.1477
+        },
+        {
+          "cache": "tiny",
+          "tries": 29,
+          "tries_built": 29,
+          "bytes_io": 5148712,
+          "bytes_total": 5142087,
+          "bytes_per_key": 5.1487
+        },
+        {
+          "cache": "tiny",
+          "tries": 30,
+          "tries_built": 30,
+          "bytes_io": 5149744,
+          "bytes_total": 5142888,
+          "bytes_per_key": 5.1497
+        },
+        {
+          "cache": "tiny",
+          "tries": 31,
+          "tries_built": 31,
+          "bytes_io": 5150704,
+          "bytes_total": 5143610,
+          "bytes_per_key": 5.1507
+        },
+        {
+          "cache": "tiny",
+          "tries": 32,
+          "tries_built": 32,
+          "bytes_io": 5151624,
+          "bytes_total": 5144308,
+          "bytes_per_key": 5.1516
+        }
+      ],
+      "smallest_io": {
+        "cache": "tiny",
+        "tries": 12,
+        "tries_built": 12,
+        "bytes_io": 5122544,
+        "bytes_total": 5119793,
+        "bytes_per_key": 5.1225
+      },
+      "smallest_total": {
+        "cache": "tiny",
+        "tries": 12,
+        "tries_built": 12,
+        "bytes_io": 5122544,
+        "bytes_total": 5119793,
+        "bytes_per_key": 5.1225
+      }
+    },
+    {
+      "corpus": "numeric-1000000",
+      "keys": 1000000,
+      "raw_bytes": 5888890,
+      "raw_bytes_per_key": 5.889,
+      "configurations": [
+        {
+          "cache": "default",
+          "tries": 1,
+          "tries_built": 1,
+          "bytes_io": 1642136,
+          "bytes_total": 1641877,
+          "bytes_per_key": 1.6421
+        },
+        {
+          "cache": "default",
+          "tries": 2,
+          "tries_built": 1,
+          "bytes_io": 1642136,
+          "bytes_total": 1641877,
+          "bytes_per_key": 1.6421
+        },
+        {
+          "cache": "default",
+          "tries": 3,
+          "tries_built": 1,
+          "bytes_io": 1642136,
+          "bytes_total": 1641877,
+          "bytes_per_key": 1.6421
+        },
+        {
+          "cache": "tiny",
+          "tries": 1,
+          "tries_built": 1,
+          "bytes_io": 1623704,
+          "bytes_total": 1623445,
+          "bytes_per_key": 1.6237
+        },
+        {
+          "cache": "tiny",
+          "tries": 2,
+          "tries_built": 1,
+          "bytes_io": 1623704,
+          "bytes_total": 1623445,
+          "bytes_per_key": 1.6237
+        },
+        {
+          "cache": "tiny",
+          "tries": 3,
+          "tries_built": 1,
+          "bytes_io": 1623704,
+          "bytes_total": 1623445,
+          "bytes_per_key": 1.6237
+        },
+        {
+          "cache": "tiny",
+          "tries": 4,
+          "tries_built": 1,
+          "bytes_io": 1623704,
+          "bytes_total": 1623445,
+          "bytes_per_key": 1.6237
+        },
+        {
+          "cache": "tiny",
+          "tries": 5,
+          "tries_built": 1,
+          "bytes_io": 1623704,
+          "bytes_total": 1623445,
+          "bytes_per_key": 1.6237
+        },
+        {
+          "cache": "tiny",
+          "tries": 6,
+          "tries_built": 1,
+          "bytes_io": 1623704,
+          "bytes_total": 1623445,
+          "bytes_per_key": 1.6237
+        },
+        {
+          "cache": "tiny",
+          "tries": 7,
+          "tries_built": 1,
+          "bytes_io": 1623704,
+          "bytes_total": 1623445,
+          "bytes_per_key": 1.6237
+        },
+        {
+          "cache": "tiny",
+          "tries": 8,
+          "tries_built": 1,
+          "bytes_io": 1623704,
+          "bytes_total": 1623445,
+          "bytes_per_key": 1.6237
+        },
+        {
+          "cache": "tiny",
+          "tries": 9,
+          "tries_built": 1,
+          "bytes_io": 1623704,
+          "bytes_total": 1623445,
+          "bytes_per_key": 1.6237
+        },
+        {
+          "cache": "tiny",
+          "tries": 10,
+          "tries_built": 1,
+          "bytes_io": 1623704,
+          "bytes_total": 1623445,
+          "bytes_per_key": 1.6237
+        },
+        {
+          "cache": "tiny",
+          "tries": 11,
+          "tries_built": 1,
+          "bytes_io": 1623704,
+          "bytes_total": 1623445,
+          "bytes_per_key": 1.6237
+        },
+        {
+          "cache": "tiny",
+          "tries": 12,
+          "tries_built": 1,
+          "bytes_io": 1623704,
+          "bytes_total": 1623445,
+          "bytes_per_key": 1.6237
+        },
+        {
+          "cache": "tiny",
+          "tries": 13,
+          "tries_built": 1,
+          "bytes_io": 1623704,
+          "bytes_total": 1623445,
+          "bytes_per_key": 1.6237
+        },
+        {
+          "cache": "tiny",
+          "tries": 14,
+          "tries_built": 1,
+          "bytes_io": 1623704,
+          "bytes_total": 1623445,
+          "bytes_per_key": 1.6237
+        },
+        {
+          "cache": "tiny",
+          "tries": 15,
+          "tries_built": 1,
+          "bytes_io": 1623704,
+          "bytes_total": 1623445,
+          "bytes_per_key": 1.6237
+        },
+        {
+          "cache": "tiny",
+          "tries": 16,
+          "tries_built": 1,
+          "bytes_io": 1623704,
+          "bytes_total": 1623445,
+          "bytes_per_key": 1.6237
+        },
+        {
+          "cache": "tiny",
+          "tries": 17,
+          "tries_built": 1,
+          "bytes_io": 1623704,
+          "bytes_total": 1623445,
+          "bytes_per_key": 1.6237
+        },
+        {
+          "cache": "tiny",
+          "tries": 18,
+          "tries_built": 1,
+          "bytes_io": 1623704,
+          "bytes_total": 1623445,
+          "bytes_per_key": 1.6237
+        },
+        {
+          "cache": "tiny",
+          "tries": 19,
+          "tries_built": 1,
+          "bytes_io": 1623704,
+          "bytes_total": 1623445,
+          "bytes_per_key": 1.6237
+        },
+        {
+          "cache": "tiny",
+          "tries": 20,
+          "tries_built": 1,
+          "bytes_io": 1623704,
+          "bytes_total": 1623445,
+          "bytes_per_key": 1.6237
+        },
+        {
+          "cache": "tiny",
+          "tries": 21,
+          "tries_built": 1,
+          "bytes_io": 1623704,
+          "bytes_total": 1623445,
+          "bytes_per_key": 1.6237
+        },
+        {
+          "cache": "tiny",
+          "tries": 22,
+          "tries_built": 1,
+          "bytes_io": 1623704,
+          "bytes_total": 1623445,
+          "bytes_per_key": 1.6237
+        },
+        {
+          "cache": "tiny",
+          "tries": 23,
+          "tries_built": 1,
+          "bytes_io": 1623704,
+          "bytes_total": 1623445,
+          "bytes_per_key": 1.6237
+        },
+        {
+          "cache": "tiny",
+          "tries": 24,
+          "tries_built": 1,
+          "bytes_io": 1623704,
+          "bytes_total": 1623445,
+          "bytes_per_key": 1.6237
+        },
+        {
+          "cache": "tiny",
+          "tries": 25,
+          "tries_built": 1,
+          "bytes_io": 1623704,
+          "bytes_total": 1623445,
+          "bytes_per_key": 1.6237
+        },
+        {
+          "cache": "tiny",
+          "tries": 26,
+          "tries_built": 1,
+          "bytes_io": 1623704,
+          "bytes_total": 1623445,
+          "bytes_per_key": 1.6237
+        },
+        {
+          "cache": "tiny",
+          "tries": 27,
+          "tries_built": 1,
+          "bytes_io": 1623704,
+          "bytes_total": 1623445,
+          "bytes_per_key": 1.6237
+        },
+        {
+          "cache": "tiny",
+          "tries": 28,
+          "tries_built": 1,
+          "bytes_io": 1623704,
+          "bytes_total": 1623445,
+          "bytes_per_key": 1.6237
+        },
+        {
+          "cache": "tiny",
+          "tries": 29,
+          "tries_built": 1,
+          "bytes_io": 1623704,
+          "bytes_total": 1623445,
+          "bytes_per_key": 1.6237
+        },
+        {
+          "cache": "tiny",
+          "tries": 30,
+          "tries_built": 1,
+          "bytes_io": 1623704,
+          "bytes_total": 1623445,
+          "bytes_per_key": 1.6237
+        },
+        {
+          "cache": "tiny",
+          "tries": 31,
+          "tries_built": 1,
+          "bytes_io": 1623704,
+          "bytes_total": 1623445,
+          "bytes_per_key": 1.6237
+        },
+        {
+          "cache": "tiny",
+          "tries": 32,
+          "tries_built": 1,
+          "bytes_io": 1623704,
+          "bytes_total": 1623445,
+          "bytes_per_key": 1.6237
+        }
+      ],
+      "smallest_io": {
+        "cache": "tiny",
+        "tries": 1,
+        "tries_built": 1,
+        "bytes_io": 1623704,
+        "bytes_total": 1623445,
+        "bytes_per_key": 1.6237
+      },
+      "smallest_total": {
+        "cache": "tiny",
+        "tries": 1,
+        "tries_built": 1,
+        "bytes_io": 1623704,
+        "bytes_total": 1623445,
+        "bytes_per_key": 1.6237
+      }
+    },
+    {
+      "corpus": "opaque-1000000",
+      "keys": 1000000,
+      "raw_bytes": 16000000,
+      "raw_bytes_per_key": 16.0,
+      "configurations": [
+        {
+          "cache": "default",
+          "tries": 1,
+          "tries_built": 1,
+          "bytes_io": 18036568,
+          "bytes_total": 18036312,
+          "bytes_per_key": 18.0366
+        },
+        {
+          "cache": "default",
+          "tries": 2,
+          "tries_built": 2,
+          "bytes_io": 18491872,
+          "bytes_total": 18491384,
+          "bytes_per_key": 18.4919
+        },
+        {
+          "cache": "default",
+          "tries": 3,
+          "tries_built": 3,
+          "bytes_io": 18822056,
+          "bytes_total": 18821340,
+          "bytes_per_key": 18.8221
+        },
+        {
+          "cache": "tiny",
+          "tries": 1,
+          "tries_built": 1,
+          "bytes_io": 18018136,
+          "bytes_total": 18017880,
+          "bytes_per_key": 18.0181
+        },
+        {
+          "cache": "tiny",
+          "tries": 2,
+          "tries_built": 2,
+          "bytes_io": 18455008,
+          "bytes_total": 18454520,
+          "bytes_per_key": 18.455
+        },
+        {
+          "cache": "tiny",
+          "tries": 3,
+          "tries_built": 3,
+          "bytes_io": 18766760,
+          "bytes_total": 18766044,
+          "bytes_per_key": 18.7668
+        },
+        {
+          "cache": "tiny",
+          "tries": 4,
+          "tries_built": 4,
+          "bytes_io": 18234144,
+          "bytes_total": 18233190,
+          "bytes_per_key": 18.2341
+        },
+        {
+          "cache": "tiny",
+          "tries": 5,
+          "tries_built": 5,
+          "bytes_io": 15566928,
+          "bytes_total": 15565750,
+          "bytes_per_key": 15.5669
+        },
+        {
+          "cache": "tiny",
+          "tries": 6,
+          "tries_built": 6,
+          "bytes_io": 15547856,
+          "bytes_total": 15546455,
+          "bytes_per_key": 15.5479
+        },
+        {
+          "cache": "tiny",
+          "tries": 7,
+          "tries_built": 7,
+          "bytes_io": 15548144,
+          "bytes_total": 15546524,
+          "bytes_per_key": 15.5481
+        },
+        {
+          "cache": "tiny",
+          "tries": 8,
+          "tries_built": 8,
+          "bytes_io": 15548488,
+          "bytes_total": 15546642,
+          "bytes_per_key": 15.5485
+        },
+        {
+          "cache": "tiny",
+          "tries": 9,
+          "tries_built": 9,
+          "bytes_io": 15548832,
+          "bytes_total": 15546760,
+          "bytes_per_key": 15.5488
+        },
+        {
+          "cache": "tiny",
+          "tries": 10,
+          "tries_built": 10,
+          "bytes_io": 15549176,
+          "bytes_total": 15546878,
+          "bytes_per_key": 15.5492
+        },
+        {
+          "cache": "tiny",
+          "tries": 11,
+          "tries_built": 11,
+          "bytes_io": 15549520,
+          "bytes_total": 15546996,
+          "bytes_per_key": 15.5495
+        },
+        {
+          "cache": "tiny",
+          "tries": 12,
+          "tries_built": 12,
+          "bytes_io": 15549864,
+          "bytes_total": 15547114,
+          "bytes_per_key": 15.5499
+        },
+        {
+          "cache": "tiny",
+          "tries": 13,
+          "tries_built": 13,
+          "bytes_io": 15550208,
+          "bytes_total": 15547232,
+          "bytes_per_key": 15.5502
+        },
+        {
+          "cache": "tiny",
+          "tries": 14,
+          "tries_built": 14,
+          "bytes_io": 15550552,
+          "bytes_total": 15547350,
+          "bytes_per_key": 15.5506
+        },
+        {
+          "cache": "tiny",
+          "tries": 15,
+          "tries_built": 15,
+          "bytes_io": 15550896,
+          "bytes_total": 15547468,
+          "bytes_per_key": 15.5509
+        },
+        {
+          "cache": "tiny",
+          "tries": 16,
+          "tries_built": 16,
+          "bytes_io": 15551240,
+          "bytes_total": 15547586,
+          "bytes_per_key": 15.5512
+        },
+        {
+          "cache": "tiny",
+          "tries": 17,
+          "tries_built": 17,
+          "bytes_io": 15551584,
+          "bytes_total": 15547704,
+          "bytes_per_key": 15.5516
+        },
+        {
+          "cache": "tiny",
+          "tries": 18,
+          "tries_built": 18,
+          "bytes_io": 15551928,
+          "bytes_total": 15547822,
+          "bytes_per_key": 15.5519
+        },
+        {
+          "cache": "tiny",
+          "tries": 19,
+          "tries_built": 19,
+          "bytes_io": 15552272,
+          "bytes_total": 15547940,
+          "bytes_per_key": 15.5523
+        },
+        {
+          "cache": "tiny",
+          "tries": 20,
+          "tries_built": 20,
+          "bytes_io": 15552616,
+          "bytes_total": 15548058,
+          "bytes_per_key": 15.5526
+        },
+        {
+          "cache": "tiny",
+          "tries": 21,
+          "tries_built": 21,
+          "bytes_io": 15552960,
+          "bytes_total": 15548176,
+          "bytes_per_key": 15.553
+        },
+        {
+          "cache": "tiny",
+          "tries": 22,
+          "tries_built": 22,
+          "bytes_io": 15553304,
+          "bytes_total": 15548294,
+          "bytes_per_key": 15.5533
+        },
+        {
+          "cache": "tiny",
+          "tries": 23,
+          "tries_built": 23,
+          "bytes_io": 15553648,
+          "bytes_total": 15548412,
+          "bytes_per_key": 15.5536
+        },
+        {
+          "cache": "tiny",
+          "tries": 24,
+          "tries_built": 24,
+          "bytes_io": 15553992,
+          "bytes_total": 15548530,
+          "bytes_per_key": 15.554
+        },
+        {
+          "cache": "tiny",
+          "tries": 25,
+          "tries_built": 25,
+          "bytes_io": 15554336,
+          "bytes_total": 15548648,
+          "bytes_per_key": 15.5543
+        },
+        {
+          "cache": "tiny",
+          "tries": 26,
+          "tries_built": 26,
+          "bytes_io": 15554680,
+          "bytes_total": 15548766,
+          "bytes_per_key": 15.5547
+        },
+        {
+          "cache": "tiny",
+          "tries": 27,
+          "tries_built": 27,
+          "bytes_io": 15555024,
+          "bytes_total": 15548884,
+          "bytes_per_key": 15.555
+        },
+        {
+          "cache": "tiny",
+          "tries": 28,
+          "tries_built": 28,
+          "bytes_io": 15555368,
+          "bytes_total": 15549002,
+          "bytes_per_key": 15.5554
+        },
+        {
+          "cache": "tiny",
+          "tries": 29,
+          "tries_built": 29,
+          "bytes_io": 15555712,
+          "bytes_total": 15549120,
+          "bytes_per_key": 15.5557
+        },
+        {
+          "cache": "tiny",
+          "tries": 30,
+          "tries_built": 30,
+          "bytes_io": 15556056,
+          "bytes_total": 15549238,
+          "bytes_per_key": 15.5561
+        },
+        {
+          "cache": "tiny",
+          "tries": 31,
+          "tries_built": 31,
+          "bytes_io": 15556400,
+          "bytes_total": 15549356,
+          "bytes_per_key": 15.5564
+        },
+        {
+          "cache": "tiny",
+          "tries": 32,
+          "tries_built": 32,
+          "bytes_io": 15556744,
+          "bytes_total": 15549474,
+          "bytes_per_key": 15.5567
+        }
+      ],
+      "smallest_io": {
+        "cache": "tiny",
+        "tries": 6,
+        "tries_built": 6,
+        "bytes_io": 15547856,
+        "bytes_total": 15546455,
+        "bytes_per_key": 15.5479
+      },
+      "smallest_total": {
+        "cache": "tiny",
+        "tries": 6,
+        "tries_built": 6,
+        "bytes_io": 15547856,
+        "bytes_total": 15546455,
+        "bytes_per_key": 15.5479
+      }
+    },
+    {
+      "corpus": "paths-1000000",
+      "keys": 1000000,
+      "raw_bytes": 58358139,
+      "raw_bytes_per_key": 58.358,
+      "configurations": [
+        {
+          "cache": "default",
+          "tries": 1,
+          "tries_built": 1,
+          "bytes_io": 10240056,
+          "bytes_total": 10239798,
+          "bytes_per_key": 10.2401
+        },
+        {
+          "cache": "default",
+          "tries": 2,
+          "tries_built": 2,
+          "bytes_io": 7294736,
+          "bytes_total": 7294249,
+          "bytes_per_key": 7.2947
+        },
+        {
+          "cache": "default",
+          "tries": 3,
+          "tries_built": 3,
+          "bytes_io": 6787968,
+          "bytes_total": 6787256,
+          "bytes_per_key": 6.788
+        },
+        {
+          "cache": "tiny",
+          "tries": 1,
+          "tries_built": 1,
+          "bytes_io": 10221624,
+          "bytes_total": 10221366,
+          "bytes_per_key": 10.2216
+        },
+        {
+          "cache": "tiny",
+          "tries": 2,
+          "tries_built": 2,
+          "bytes_io": 7267088,
+          "bytes_total": 7266601,
+          "bytes_per_key": 7.2671
+        },
+        {
+          "cache": "tiny",
+          "tries": 3,
+          "tries_built": 3,
+          "bytes_io": 6755712,
+          "bytes_total": 6755000,
+          "bytes_per_key": 6.7557
+        },
+        {
+          "cache": "tiny",
+          "tries": 4,
+          "tries_built": 4,
+          "bytes_io": 6608880,
+          "bytes_total": 6607948,
+          "bytes_per_key": 6.6089
+        },
+        {
+          "cache": "tiny",
+          "tries": 5,
+          "tries_built": 5,
+          "bytes_io": 6560936,
+          "bytes_total": 6559770,
+          "bytes_per_key": 6.5609
+        },
+        {
+          "cache": "tiny",
+          "tries": 6,
+          "tries_built": 6,
+          "bytes_io": 6538680,
+          "bytes_total": 6537297,
+          "bytes_per_key": 6.5387
+        },
+        {
+          "cache": "tiny",
+          "tries": 7,
+          "tries_built": 7,
+          "bytes_io": 6531880,
+          "bytes_total": 6530270,
+          "bytes_per_key": 6.5319
+        },
+        {
+          "cache": "tiny",
+          "tries": 8,
+          "tries_built": 8,
+          "bytes_io": 6528608,
+          "bytes_total": 6526768,
+          "bytes_per_key": 6.5286
+        },
+        {
+          "cache": "tiny",
+          "tries": 9,
+          "tries_built": 9,
+          "bytes_io": 6526072,
+          "bytes_total": 6524001,
+          "bytes_per_key": 6.5261
+        },
+        {
+          "cache": "tiny",
+          "tries": 10,
+          "tries_built": 10,
+          "bytes_io": 6525368,
+          "bytes_total": 6523065,
+          "bytes_per_key": 6.5254
+        },
+        {
+          "cache": "tiny",
+          "tries": 11,
+          "tries_built": 11,
+          "bytes_io": 6521744,
+          "bytes_total": 6519211,
+          "bytes_per_key": 6.5217
+        },
+        {
+          "cache": "tiny",
+          "tries": 12,
+          "tries_built": 12,
+          "bytes_io": 6517328,
+          "bytes_total": 6514579,
+          "bytes_per_key": 6.5173
+        },
+        {
+          "cache": "tiny",
+          "tries": 13,
+          "tries_built": 13,
+          "bytes_io": 6516320,
+          "bytes_total": 6513350,
+          "bytes_per_key": 6.5163
+        },
+        {
+          "cache": "tiny",
+          "tries": 14,
+          "tries_built": 14,
+          "bytes_io": 6516296,
+          "bytes_total": 6513108,
+          "bytes_per_key": 6.5163
+        },
+        {
+          "cache": "tiny",
+          "tries": 15,
+          "tries_built": 15,
+          "bytes_io": 6515080,
+          "bytes_total": 6511660,
+          "bytes_per_key": 6.5151
+        },
+        {
+          "cache": "tiny",
+          "tries": 16,
+          "tries_built": 16,
+          "bytes_io": 6514408,
+          "bytes_total": 6510747,
+          "bytes_per_key": 6.5144
+        },
+        {
+          "cache": "tiny",
+          "tries": 17,
+          "tries_built": 17,
+          "bytes_io": 6514032,
+          "bytes_total": 6510142,
+          "bytes_per_key": 6.514
+        },
+        {
+          "cache": "tiny",
+          "tries": 18,
+          "tries_built": 18,
+          "bytes_io": 6513344,
+          "bytes_total": 6509217,
+          "bytes_per_key": 6.5133
+        },
+        {
+          "cache": "tiny",
+          "tries": 19,
+          "tries_built": 19,
+          "bytes_io": 6513224,
+          "bytes_total": 6508869,
+          "bytes_per_key": 6.5132
+        },
+        {
+          "cache": "tiny",
+          "tries": 20,
+          "tries_built": 20,
+          "bytes_io": 6513256,
+          "bytes_total": 6508670,
+          "bytes_per_key": 6.5133
+        },
+        {
+          "cache": "tiny",
+          "tries": 21,
+          "tries_built": 21,
+          "bytes_io": 6513408,
+          "bytes_total": 6508597,
+          "bytes_per_key": 6.5134
+        },
+        {
+          "cache": "tiny",
+          "tries": 22,
+          "tries_built": 22,
+          "bytes_io": 6513640,
+          "bytes_total": 6508587,
+          "bytes_per_key": 6.5136
+        },
+        {
+          "cache": "tiny",
+          "tries": 23,
+          "tries_built": 23,
+          "bytes_io": 6513944,
+          "bytes_total": 6508664,
+          "bytes_per_key": 6.5139
+        },
+        {
+          "cache": "tiny",
+          "tries": 24,
+          "tries_built": 24,
+          "bytes_io": 6514232,
+          "bytes_total": 6508722,
+          "bytes_per_key": 6.5142
+        },
+        {
+          "cache": "tiny",
+          "tries": 25,
+          "tries_built": 25,
+          "bytes_io": 6514568,
+          "bytes_total": 6508835,
+          "bytes_per_key": 6.5146
+        },
+        {
+          "cache": "tiny",
+          "tries": 26,
+          "tries_built": 26,
+          "bytes_io": 6514968,
+          "bytes_total": 6508999,
+          "bytes_per_key": 6.515
+        },
+        {
+          "cache": "tiny",
+          "tries": 27,
+          "tries_built": 27,
+          "bytes_io": 6515312,
+          "bytes_total": 6509126,
+          "bytes_per_key": 6.5153
+        },
+        {
+          "cache": "tiny",
+          "tries": 28,
+          "tries_built": 28,
+          "bytes_io": 6515688,
+          "bytes_total": 6509273,
+          "bytes_per_key": 6.5157
+        },
+        {
+          "cache": "tiny",
+          "tries": 29,
+          "tries_built": 29,
+          "bytes_io": 6516040,
+          "bytes_total": 6509404,
+          "bytes_per_key": 6.516
+        },
+        {
+          "cache": "tiny",
+          "tries": 30,
+          "tries_built": 30,
+          "bytes_io": 6516432,
+          "bytes_total": 6509572,
+          "bytes_per_key": 6.5164
+        },
+        {
+          "cache": "tiny",
+          "tries": 31,
+          "tries_built": 31,
+          "bytes_io": 6516832,
+          "bytes_total": 6509744,
+          "bytes_per_key": 6.5168
+        },
+        {
+          "cache": "tiny",
+          "tries": 32,
+          "tries_built": 32,
+          "bytes_io": 6517224,
+          "bytes_total": 6509911,
+          "bytes_per_key": 6.5172
+        }
+      ],
+      "smallest_io": {
+        "cache": "tiny",
+        "tries": 19,
+        "tries_built": 19,
+        "bytes_io": 6513224,
+        "bytes_total": 6508869,
+        "bytes_per_key": 6.5132
+      },
+      "smallest_total": {
+        "cache": "tiny",
+        "tries": 22,
+        "tries_built": 22,
+        "bytes_io": 6513640,
+        "bytes_total": 6508587,
+        "bytes_per_key": 6.5136
+      }
+    },
+    {
+      "corpus": "pypi-full",
+      "keys": 895600,
+      "raw_bytes": 11941344,
+      "raw_bytes_per_key": 13.333,
+      "configurations": [
+        {
+          "cache": "default",
+          "tries": 1,
+          "tries_built": 1,
+          "bytes_io": 5606800,
+          "bytes_total": 5606536,
+          "bytes_per_key": 6.2604
+        },
+        {
+          "cache": "default",
+          "tries": 2,
+          "tries_built": 2,
+          "bytes_io": 4259712,
+          "bytes_total": 4259226,
+          "bytes_per_key": 4.7563
+        },
+        {
+          "cache": "default",
+          "tries": 3,
+          "tries_built": 3,
+          "bytes_io": 4040656,
+          "bytes_total": 4039951,
+          "bytes_per_key": 4.5117
+        },
+        {
+          "cache": "tiny",
+          "tries": 1,
+          "tries_built": 1,
+          "bytes_io": 5588368,
+          "bytes_total": 5588104,
+          "bytes_per_key": 6.2398
+        },
+        {
+          "cache": "tiny",
+          "tries": 2,
+          "tries_built": 2,
+          "bytes_io": 4232064,
+          "bytes_total": 4231578,
+          "bytes_per_key": 4.7254
+        },
+        {
+          "cache": "tiny",
+          "tries": 3,
+          "tries_built": 3,
+          "bytes_io": 4010704,
+          "bytes_total": 4009999,
+          "bytes_per_key": 4.4782
+        },
+        {
+          "cache": "tiny",
+          "tries": 4,
+          "tries_built": 4,
+          "bytes_io": 3954384,
+          "bytes_total": 3953444,
+          "bytes_per_key": 4.4153
+        },
+        {
+          "cache": "tiny",
+          "tries": 5,
+          "tries_built": 5,
+          "bytes_io": 3936144,
+          "bytes_total": 3934975,
+          "bytes_per_key": 4.395
+        },
+        {
+          "cache": "tiny",
+          "tries": 6,
+          "tries_built": 6,
+          "bytes_io": 3929080,
+          "bytes_total": 3927681,
+          "bytes_per_key": 4.3871
+        },
+        {
+          "cache": "tiny",
+          "tries": 7,
+          "tries_built": 7,
+          "bytes_io": 3926648,
+          "bytes_total": 3925011,
+          "bytes_per_key": 4.3844
+        },
+        {
+          "cache": "tiny",
+          "tries": 8,
+          "tries_built": 8,
+          "bytes_io": 3925640,
+          "bytes_total": 3923776,
+          "bytes_per_key": 4.3833
+        },
+        {
+          "cache": "tiny",
+          "tries": 9,
+          "tries_built": 9,
+          "bytes_io": 3925536,
+          "bytes_total": 3923445,
+          "bytes_per_key": 4.3831
+        },
+        {
+          "cache": "tiny",
+          "tries": 10,
+          "tries_built": 10,
+          "bytes_io": 3925848,
+          "bytes_total": 3923530,
+          "bytes_per_key": 4.3835
+        },
+        {
+          "cache": "tiny",
+          "tries": 11,
+          "tries_built": 11,
+          "bytes_io": 3926056,
+          "bytes_total": 3923498,
+          "bytes_per_key": 4.3837
+        },
+        {
+          "cache": "tiny",
+          "tries": 12,
+          "tries_built": 12,
+          "bytes_io": 3926504,
+          "bytes_total": 3923714,
+          "bytes_per_key": 4.3842
+        },
+        {
+          "cache": "tiny",
+          "tries": 13,
+          "tries_built": 13,
+          "bytes_io": 3926960,
+          "bytes_total": 3923937,
+          "bytes_per_key": 4.3847
+        },
+        {
+          "cache": "tiny",
+          "tries": 14,
+          "tries_built": 14,
+          "bytes_io": 3927376,
+          "bytes_total": 3924119,
+          "bytes_per_key": 4.3852
+        },
+        {
+          "cache": "tiny",
+          "tries": 15,
+          "tries_built": 15,
+          "bytes_io": 3927688,
+          "bytes_total": 3924197,
+          "bytes_per_key": 4.3855
+        },
+        {
+          "cache": "tiny",
+          "tries": 16,
+          "tries_built": 16,
+          "bytes_io": 3927976,
+          "bytes_total": 3924265,
+          "bytes_per_key": 4.3859
+        },
+        {
+          "cache": "tiny",
+          "tries": 17,
+          "tries_built": 17,
+          "bytes_io": 3928304,
+          "bytes_total": 3924368,
+          "bytes_per_key": 4.3862
+        },
+        {
+          "cache": "tiny",
+          "tries": 18,
+          "tries_built": 18,
+          "bytes_io": 3928608,
+          "bytes_total": 3924441,
+          "bytes_per_key": 4.3866
+        },
+        {
+          "cache": "tiny",
+          "tries": 19,
+          "tries_built": 19,
+          "bytes_io": 3928960,
+          "bytes_total": 3924571,
+          "bytes_per_key": 4.387
+        },
+        {
+          "cache": "tiny",
+          "tries": 20,
+          "tries_built": 20,
+          "bytes_io": 3929344,
+          "bytes_total": 3924731,
+          "bytes_per_key": 4.3874
+        },
+        {
+          "cache": "tiny",
+          "tries": 21,
+          "tries_built": 21,
+          "bytes_io": 3929728,
+          "bytes_total": 3924889,
+          "bytes_per_key": 4.3878
+        },
+        {
+          "cache": "tiny",
+          "tries": 22,
+          "tries_built": 22,
+          "bytes_io": 3930104,
+          "bytes_total": 3925041,
+          "bytes_per_key": 4.3882
+        },
+        {
+          "cache": "tiny",
+          "tries": 23,
+          "tries_built": 23,
+          "bytes_io": 3930480,
+          "bytes_total": 3925196,
+          "bytes_per_key": 4.3887
+        },
+        {
+          "cache": "tiny",
+          "tries": 24,
+          "tries_built": 24,
+          "bytes_io": 3930856,
+          "bytes_total": 3925353,
+          "bytes_per_key": 4.3891
+        },
+        {
+          "cache": "tiny",
+          "tries": 25,
+          "tries_built": 25,
+          "bytes_io": 3931224,
+          "bytes_total": 3925500,
+          "bytes_per_key": 4.3895
+        },
+        {
+          "cache": "tiny",
+          "tries": 26,
+          "tries_built": 26,
+          "bytes_io": 3931600,
+          "bytes_total": 3925653,
+          "bytes_per_key": 4.3899
+        },
+        {
+          "cache": "tiny",
+          "tries": 27,
+          "tries_built": 27,
+          "bytes_io": 3931976,
+          "bytes_total": 3925797,
+          "bytes_per_key": 4.3903
+        },
+        {
+          "cache": "tiny",
+          "tries": 28,
+          "tries_built": 28,
+          "bytes_io": 3932344,
+          "bytes_total": 3925949,
+          "bytes_per_key": 4.3907
+        },
+        {
+          "cache": "tiny",
+          "tries": 29,
+          "tries_built": 29,
+          "bytes_io": 3932720,
+          "bytes_total": 3926097,
+          "bytes_per_key": 4.3912
+        },
+        {
+          "cache": "tiny",
+          "tries": 30,
+          "tries_built": 30,
+          "bytes_io": 3933104,
+          "bytes_total": 3926258,
+          "bytes_per_key": 4.3916
+        },
+        {
+          "cache": "tiny",
+          "tries": 31,
+          "tries_built": 31,
+          "bytes_io": 3933488,
+          "bytes_total": 3926414,
+          "bytes_per_key": 4.392
+        },
+        {
+          "cache": "tiny",
+          "tries": 32,
+          "tries_built": 32,
+          "bytes_io": 3933872,
+          "bytes_total": 3926579,
+          "bytes_per_key": 4.3924
+        }
+      ],
+      "smallest_io": {
+        "cache": "tiny",
+        "tries": 9,
+        "tries_built": 9,
+        "bytes_io": 3925536,
+        "bytes_total": 3923445,
+        "bytes_per_key": 4.3831
+      },
+      "smallest_total": {
+        "cache": "tiny",
+        "tries": 9,
+        "tries_built": 9,
+        "bytes_io": 3925536,
+        "bytes_total": 3923445,
+        "bytes_per_key": 4.3831
+      }
+    },
+    {
+      "corpus": "titles-en-1000000",
+      "keys": 1000000,
+      "raw_bytes": 20984647,
+      "raw_bytes_per_key": 20.985,
+      "configurations": [
+        {
+          "cache": "default",
+          "tries": 1,
+          "tries_built": 1,
+          "bytes_io": 13146328,
+          "bytes_total": 13146067,
+          "bytes_per_key": 13.1463
+        },
+        {
+          "cache": "default",
+          "tries": 2,
+          "tries_built": 2,
+          "bytes_io": 9102832,
+          "bytes_total": 9102349,
+          "bytes_per_key": 9.1028
+        },
+        {
+          "cache": "default",
+          "tries": 3,
+          "tries_built": 3,
+          "bytes_io": 8186624,
+          "bytes_total": 8185903,
+          "bytes_per_key": 8.1866
+        },
+        {
+          "cache": "tiny",
+          "tries": 1,
+          "tries_built": 1,
+          "bytes_io": 13127896,
+          "bytes_total": 13127635,
+          "bytes_per_key": 13.1279
+        },
+        {
+          "cache": "tiny",
+          "tries": 2,
+          "tries_built": 2,
+          "bytes_io": 9065968,
+          "bytes_total": 9065485,
+          "bytes_per_key": 9.066
+        },
+        {
+          "cache": "tiny",
+          "tries": 3,
+          "tries_built": 3,
+          "bytes_io": 8140544,
+          "bytes_total": 8139823,
+          "bytes_per_key": 8.1405
+        },
+        {
+          "cache": "tiny",
+          "tries": 4,
+          "tries_built": 4,
+          "bytes_io": 7787704,
+          "bytes_total": 7786753,
+          "bytes_per_key": 7.7877
+        },
+        {
+          "cache": "tiny",
+          "tries": 5,
+          "tries_built": 5,
+          "bytes_io": 7638760,
+          "bytes_total": 7637595,
+          "bytes_per_key": 7.6388
+        },
+        {
+          "cache": "tiny",
+          "tries": 6,
+          "tries_built": 6,
+          "bytes_io": 7572984,
+          "bytes_total": 7571597,
+          "bytes_per_key": 7.573
+        },
+        {
+          "cache": "tiny",
+          "tries": 7,
+          "tries_built": 7,
+          "bytes_io": 7535704,
+          "bytes_total": 7534081,
+          "bytes_per_key": 7.5357
+        },
+        {
+          "cache": "tiny",
+          "tries": 8,
+          "tries_built": 8,
+          "bytes_io": 7517904,
+          "bytes_total": 7516059,
+          "bytes_per_key": 7.5179
+        },
+        {
+          "cache": "tiny",
+          "tries": 9,
+          "tries_built": 9,
+          "bytes_io": 7506624,
+          "bytes_total": 7504549,
+          "bytes_per_key": 7.5066
+        },
+        {
+          "cache": "tiny",
+          "tries": 10,
+          "tries_built": 10,
+          "bytes_io": 7501600,
+          "bytes_total": 7499306,
+          "bytes_per_key": 7.5016
+        },
+        {
+          "cache": "tiny",
+          "tries": 11,
+          "tries_built": 11,
+          "bytes_io": 7497728,
+          "bytes_total": 7495202,
+          "bytes_per_key": 7.4977
+        },
+        {
+          "cache": "tiny",
+          "tries": 12,
+          "tries_built": 12,
+          "bytes_io": 7495840,
+          "bytes_total": 7493089,
+          "bytes_per_key": 7.4958
+        },
+        {
+          "cache": "tiny",
+          "tries": 13,
+          "tries_built": 13,
+          "bytes_io": 7495008,
+          "bytes_total": 7492041,
+          "bytes_per_key": 7.495
+        },
+        {
+          "cache": "tiny",
+          "tries": 14,
+          "tries_built": 14,
+          "bytes_io": 7494504,
+          "bytes_total": 7491308,
+          "bytes_per_key": 7.4945
+        },
+        {
+          "cache": "tiny",
+          "tries": 15,
+          "tries_built": 15,
+          "bytes_io": 7494136,
+          "bytes_total": 7490700,
+          "bytes_per_key": 7.4941
+        },
+        {
+          "cache": "tiny",
+          "tries": 16,
+          "tries_built": 16,
+          "bytes_io": 7494360,
+          "bytes_total": 7490700,
+          "bytes_per_key": 7.4944
+        },
+        {
+          "cache": "tiny",
+          "tries": 17,
+          "tries_built": 17,
+          "bytes_io": 7494656,
+          "bytes_total": 7490756,
+          "bytes_per_key": 7.4947
+        },
+        {
+          "cache": "tiny",
+          "tries": 18,
+          "tries_built": 18,
+          "bytes_io": 7495032,
+          "bytes_total": 7490902,
+          "bytes_per_key": 7.495
+        },
+        {
+          "cache": "tiny",
+          "tries": 19,
+          "tries_built": 19,
+          "bytes_io": 7495512,
+          "bytes_total": 7491150,
+          "bytes_per_key": 7.4955
+        },
+        {
+          "cache": "tiny",
+          "tries": 20,
+          "tries_built": 20,
+          "bytes_io": 7495944,
+          "bytes_total": 7491347,
+          "bytes_per_key": 7.4959
+        },
+        {
+          "cache": "tiny",
+          "tries": 21,
+          "tries_built": 21,
+          "bytes_io": 7496552,
+          "bytes_total": 7491729,
+          "bytes_per_key": 7.4966
+        },
+        {
+          "cache": "tiny",
+          "tries": 22,
+          "tries_built": 22,
+          "bytes_io": 7497080,
+          "bytes_total": 7492024,
+          "bytes_per_key": 7.4971
+        },
+        {
+          "cache": "tiny",
+          "tries": 23,
+          "tries_built": 23,
+          "bytes_io": 7497648,
+          "bytes_total": 7492360,
+          "bytes_per_key": 7.4976
+        },
+        {
+          "cache": "tiny",
+          "tries": 24,
+          "tries_built": 24,
+          "bytes_io": 7498264,
+          "bytes_total": 7492739,
+          "bytes_per_key": 7.4983
+        },
+        {
+          "cache": "tiny",
+          "tries": 25,
+          "tries_built": 25,
+          "bytes_io": 7498824,
+          "bytes_total": 7493078,
+          "bytes_per_key": 7.4988
+        },
+        {
+          "cache": "tiny",
+          "tries": 26,
+          "tries_built": 26,
+          "bytes_io": 7499448,
+          "bytes_total": 7493470,
+          "bytes_per_key": 7.4994
+        },
+        {
+          "cache": "tiny",
+          "tries": 27,
+          "tries_built": 27,
+          "bytes_io": 7500056,
+          "bytes_total": 7493848,
+          "bytes_per_key": 7.5001
+        },
+        {
+          "cache": "tiny",
+          "tries": 28,
+          "tries_built": 28,
+          "bytes_io": 7500680,
+          "bytes_total": 7494239,
+          "bytes_per_key": 7.5007
+        },
+        {
+          "cache": "tiny",
+          "tries": 29,
+          "tries_built": 29,
+          "bytes_io": 7501160,
+          "bytes_total": 7494488,
+          "bytes_per_key": 7.5012
+        },
+        {
+          "cache": "tiny",
+          "tries": 30,
+          "tries_built": 30,
+          "bytes_io": 7501704,
+          "bytes_total": 7494810,
+          "bytes_per_key": 7.5017
+        },
+        {
+          "cache": "tiny",
+          "tries": 31,
+          "tries_built": 31,
+          "bytes_io": 7502264,
+          "bytes_total": 7495136,
+          "bytes_per_key": 7.5023
+        },
+        {
+          "cache": "tiny",
+          "tries": 32,
+          "tries_built": 32,
+          "bytes_io": 7502800,
+          "bytes_total": 7495445,
+          "bytes_per_key": 7.5028
+        }
+      ],
+      "smallest_io": {
+        "cache": "tiny",
+        "tries": 15,
+        "tries_built": 15,
+        "bytes_io": 7494136,
+        "bytes_total": 7490700,
+        "bytes_per_key": 7.4941
+      },
+      "smallest_total": {
+        "cache": "tiny",
+        "tries": 15,
+        "tries_built": 15,
+        "bytes_io": 7494136,
+        "bytes_total": 7490700,
+        "bytes_per_key": 7.4941
+      }
+    },
+    {
+      "corpus": "titles-ru-1000000",
+      "keys": 1000000,
+      "raw_bytes": 35819661,
+      "raw_bytes_per_key": 35.82,
+      "configurations": [
+        {
+          "cache": "default",
+          "tries": 1,
+          "tries_built": 1,
+          "bytes_io": 15650384,
+          "bytes_total": 15650116,
+          "bytes_per_key": 15.6504
+        },
+        {
+          "cache": "default",
+          "tries": 2,
+          "tries_built": 2,
+          "bytes_io": 9904848,
+          "bytes_total": 9904357,
+          "bytes_per_key": 9.9048
+        },
+        {
+          "cache": "default",
+          "tries": 3,
+          "tries_built": 3,
+          "bytes_io": 8608704,
+          "bytes_total": 8607997,
+          "bytes_per_key": 8.6087
+        },
+        {
+          "cache": "tiny",
+          "tries": 1,
+          "tries_built": 1,
+          "bytes_io": 15631952,
+          "bytes_total": 15631684,
+          "bytes_per_key": 15.632
+        },
+        {
+          "cache": "tiny",
+          "tries": 2,
+          "tries_built": 2,
+          "bytes_io": 9867984,
+          "bytes_total": 9867493,
+          "bytes_per_key": 9.868
+        },
+        {
+          "cache": "tiny",
+          "tries": 3,
+          "tries_built": 3,
+          "bytes_io": 8567232,
+          "bytes_total": 8566525,
+          "bytes_per_key": 8.5672
+        },
+        {
+          "cache": "tiny",
+          "tries": 4,
+          "tries_built": 4,
+          "bytes_io": 8074288,
+          "bytes_total": 8073362,
+          "bytes_per_key": 8.0743
+        },
+        {
+          "cache": "tiny",
+          "tries": 5,
+          "tries_built": 5,
+          "bytes_io": 7858072,
+          "bytes_total": 7856915,
+          "bytes_per_key": 7.8581
+        },
+        {
+          "cache": "tiny",
+          "tries": 6,
+          "tries_built": 6,
+          "bytes_io": 7756304,
+          "bytes_total": 7754918,
+          "bytes_per_key": 7.7563
+        },
+        {
+          "cache": "tiny",
+          "tries": 7,
+          "tries_built": 7,
+          "bytes_io": 7698776,
+          "bytes_total": 7697170,
+          "bytes_per_key": 7.6988
+        },
+        {
+          "cache": "tiny",
+          "tries": 8,
+          "tries_built": 8,
+          "bytes_io": 7667680,
+          "bytes_total": 7665836,
+          "bytes_per_key": 7.6677
+        },
+        {
+          "cache": "tiny",
+          "tries": 9,
+          "tries_built": 9,
+          "bytes_io": 7646720,
+          "bytes_total": 7644645,
+          "bytes_per_key": 7.6467
+        },
+        {
+          "cache": "tiny",
+          "tries": 10,
+          "tries_built": 10,
+          "bytes_io": 7635016,
+          "bytes_total": 7632719,
+          "bytes_per_key": 7.635
+        },
+        {
+          "cache": "tiny",
+          "tries": 11,
+          "tries_built": 11,
+          "bytes_io": 7627048,
+          "bytes_total": 7624524,
+          "bytes_per_key": 7.627
+        },
+        {
+          "cache": "tiny",
+          "tries": 12,
+          "tries_built": 12,
+          "bytes_io": 7621448,
+          "bytes_total": 7618695,
+          "bytes_per_key": 7.6214
+        },
+        {
+          "cache": "tiny",
+          "tries": 13,
+          "tries_built": 13,
+          "bytes_io": 7617600,
+          "bytes_total": 7614614,
+          "bytes_per_key": 7.6176
+        },
+        {
+          "cache": "tiny",
+          "tries": 14,
+          "tries_built": 14,
+          "bytes_io": 7614920,
+          "bytes_total": 7611713,
+          "bytes_per_key": 7.6149
+        },
+        {
+          "cache": "tiny",
+          "tries": 15,
+          "tries_built": 15,
+          "bytes_io": 7613176,
+          "bytes_total": 7609735,
+          "bytes_per_key": 7.6132
+        },
+        {
+          "cache": "tiny",
+          "tries": 16,
+          "tries_built": 16,
+          "bytes_io": 7611808,
+          "bytes_total": 7608137,
+          "bytes_per_key": 7.6118
+        },
+        {
+          "cache": "tiny",
+          "tries": 17,
+          "tries_built": 17,
+          "bytes_io": 7611136,
+          "bytes_total": 7607225,
+          "bytes_per_key": 7.6111
+        },
+        {
+          "cache": "tiny",
+          "tries": 18,
+          "tries_built": 18,
+          "bytes_io": 7610560,
+          "bytes_total": 7606414,
+          "bytes_per_key": 7.6106
+        },
+        {
+          "cache": "tiny",
+          "tries": 19,
+          "tries_built": 19,
+          "bytes_io": 7610368,
+          "bytes_total": 7605994,
+          "bytes_per_key": 7.6104
+        },
+        {
+          "cache": "tiny",
+          "tries": 20,
+          "tries_built": 20,
+          "bytes_io": 7610384,
+          "bytes_total": 7605790,
+          "bytes_per_key": 7.6104
+        },
+        {
+          "cache": "tiny",
+          "tries": 21,
+          "tries_built": 21,
+          "bytes_io": 7610464,
+          "bytes_total": 7605645,
+          "bytes_per_key": 7.6105
+        },
+        {
+          "cache": "tiny",
+          "tries": 22,
+          "tries_built": 22,
+          "bytes_io": 7610672,
+          "bytes_total": 7605619,
+          "bytes_per_key": 7.6107
+        },
+        {
+          "cache": "tiny",
+          "tries": 23,
+          "tries_built": 23,
+          "bytes_io": 7610864,
+          "bytes_total": 7605570,
+          "bytes_per_key": 7.6109
+        },
+        {
+          "cache": "tiny",
+          "tries": 24,
+          "tries_built": 24,
+          "bytes_io": 7611152,
+          "bytes_total": 7605621,
+          "bytes_per_key": 7.6112
+        },
+        {
+          "cache": "tiny",
+          "tries": 25,
+          "tries_built": 25,
+          "bytes_io": 7611528,
+          "bytes_total": 7605765,
+          "bytes_per_key": 7.6115
+        },
+        {
+          "cache": "tiny",
+          "tries": 26,
+          "tries_built": 26,
+          "bytes_io": 7611920,
+          "bytes_total": 7605931,
+          "bytes_per_key": 7.6119
+        },
+        {
+          "cache": "tiny",
+          "tries": 27,
+          "tries_built": 27,
+          "bytes_io": 7612280,
+          "bytes_total": 7606058,
+          "bytes_per_key": 7.6123
+        },
+        {
+          "cache": "tiny",
+          "tries": 28,
+          "tries_built": 28,
+          "bytes_io": 7612784,
+          "bytes_total": 7606332,
+          "bytes_per_key": 7.6128
+        },
+        {
+          "cache": "tiny",
+          "tries": 29,
+          "tries_built": 29,
+          "bytes_io": 7613264,
+          "bytes_total": 7606580,
+          "bytes_per_key": 7.6133
+        },
+        {
+          "cache": "tiny",
+          "tries": 30,
+          "tries_built": 30,
+          "bytes_io": 7613688,
+          "bytes_total": 7606780,
+          "bytes_per_key": 7.6137
+        },
+        {
+          "cache": "tiny",
+          "tries": 31,
+          "tries_built": 31,
+          "bytes_io": 7614120,
+          "bytes_total": 7606985,
+          "bytes_per_key": 7.6141
+        },
+        {
+          "cache": "tiny",
+          "tries": 32,
+          "tries_built": 32,
+          "bytes_io": 7614584,
+          "bytes_total": 7607223,
+          "bytes_per_key": 7.6146
+        }
+      ],
+      "smallest_io": {
+        "cache": "tiny",
+        "tries": 19,
+        "tries_built": 19,
+        "bytes_io": 7610368,
+        "bytes_total": 7605994,
+        "bytes_per_key": 7.6104
+      },
+      "smallest_total": {
+        "cache": "tiny",
+        "tries": 23,
+        "tries_built": 23,
+        "bytes_io": 7610864,
+        "bytes_total": 7605570,
+        "bytes_per_key": 7.6109
+      }
+    },
+    {
+      "corpus": "titles-zh-1000000",
+      "keys": 1000000,
+      "raw_bytes": 16871822,
+      "raw_bytes_per_key": 16.872,
+      "configurations": [
+        {
+          "cache": "default",
+          "tries": 1,
+          "tries_built": 1,
+          "bytes_io": 9504736,
+          "bytes_total": 9504481,
+          "bytes_per_key": 9.5047
+        },
+        {
+          "cache": "default",
+          "tries": 2,
+          "tries_built": 2,
+          "bytes_io": 7029192,
+          "bytes_total": 7028712,
+          "bytes_per_key": 7.0292
+        },
+        {
+          "cache": "default",
+          "tries": 3,
+          "tries_built": 3,
+          "bytes_io": 6537312,
+          "bytes_total": 6536615,
+          "bytes_per_key": 6.5373
+        },
+        {
+          "cache": "tiny",
+          "tries": 1,
+          "tries_built": 1,
+          "bytes_io": 9486304,
+          "bytes_total": 9486049,
+          "bytes_per_key": 9.4863
+        },
+        {
+          "cache": "tiny",
+          "tries": 2,
+          "tries_built": 2,
+          "bytes_io": 6992328,
+          "bytes_total": 6991848,
+          "bytes_per_key": 6.9923
+        },
+        {
+          "cache": "tiny",
+          "tries": 3,
+          "tries_built": 3,
+          "bytes_io": 6495840,
+          "bytes_total": 6495143,
+          "bytes_per_key": 6.4958
+        },
+        {
+          "cache": "tiny",
+          "tries": 4,
+          "tries_built": 4,
+          "bytes_io": 6334600,
+          "bytes_total": 6333665,
+          "bytes_per_key": 6.3346
+        },
+        {
+          "cache": "tiny",
+          "tries": 5,
+          "tries_built": 5,
+          "bytes_io": 6269640,
+          "bytes_total": 6268476,
+          "bytes_per_key": 6.2696
+        },
+        {
+          "cache": "tiny",
+          "tries": 6,
+          "tries_built": 6,
+          "bytes_io": 6241256,
+          "bytes_total": 6239871,
+          "bytes_per_key": 6.2413
+        },
+        {
+          "cache": "tiny",
+          "tries": 7,
+          "tries_built": 7,
+          "bytes_io": 6227240,
+          "bytes_total": 6225620,
+          "bytes_per_key": 6.2272
+        },
+        {
+          "cache": "tiny",
+          "tries": 8,
+          "tries_built": 8,
+          "bytes_io": 6221056,
+          "bytes_total": 6219213,
+          "bytes_per_key": 6.2211
+        },
+        {
+          "cache": "tiny",
+          "tries": 9,
+          "tries_built": 9,
+          "bytes_io": 6217040,
+          "bytes_total": 6214967,
+          "bytes_per_key": 6.217
+        },
+        {
+          "cache": "tiny",
+          "tries": 10,
+          "tries_built": 10,
+          "bytes_io": 6215992,
+          "bytes_total": 6213688,
+          "bytes_per_key": 6.216
+        },
+        {
+          "cache": "tiny",
+          "tries": 11,
+          "tries_built": 11,
+          "bytes_io": 6215752,
+          "bytes_total": 6213229,
+          "bytes_per_key": 6.2158
+        },
+        {
+          "cache": "tiny",
+          "tries": 12,
+          "tries_built": 12,
+          "bytes_io": 6215480,
+          "bytes_total": 6212723,
+          "bytes_per_key": 6.2155
+        },
+        {
+          "cache": "tiny",
+          "tries": 13,
+          "tries_built": 13,
+          "bytes_io": 6215928,
+          "bytes_total": 6212937,
+          "bytes_per_key": 6.2159
+        },
+        {
+          "cache": "tiny",
+          "tries": 14,
+          "tries_built": 14,
+          "bytes_io": 6216712,
+          "bytes_total": 6213497,
+          "bytes_per_key": 6.2167
+        },
+        {
+          "cache": "tiny",
+          "tries": 15,
+          "tries_built": 15,
+          "bytes_io": 6217320,
+          "bytes_total": 6213873,
+          "bytes_per_key": 6.2173
+        },
+        {
+          "cache": "tiny",
+          "tries": 16,
+          "tries_built": 16,
+          "bytes_io": 6217912,
+          "bytes_total": 6214231,
+          "bytes_per_key": 6.2179
+        },
+        {
+          "cache": "tiny",
+          "tries": 17,
+          "tries_built": 17,
+          "bytes_io": 6218496,
+          "bytes_total": 6214590,
+          "bytes_per_key": 6.2185
+        },
+        {
+          "cache": "tiny",
+          "tries": 18,
+          "tries_built": 18,
+          "bytes_io": 6219224,
+          "bytes_total": 6215094,
+          "bytes_per_key": 6.2192
+        },
+        {
+          "cache": "tiny",
+          "tries": 19,
+          "tries_built": 19,
+          "bytes_io": 6220000,
+          "bytes_total": 6215640,
+          "bytes_per_key": 6.22
+        },
+        {
+          "cache": "tiny",
+          "tries": 20,
+          "tries_built": 20,
+          "bytes_io": 6220680,
+          "bytes_total": 6216093,
+          "bytes_per_key": 6.2207
+        },
+        {
+          "cache": "tiny",
+          "tries": 21,
+          "tries_built": 21,
+          "bytes_io": 6221336,
+          "bytes_total": 6216508,
+          "bytes_per_key": 6.2213
+        },
+        {
+          "cache": "tiny",
+          "tries": 22,
+          "tries_built": 22,
+          "bytes_io": 6222032,
+          "bytes_total": 6216972,
+          "bytes_per_key": 6.222
+        },
+        {
+          "cache": "tiny",
+          "tries": 23,
+          "tries_built": 23,
+          "bytes_io": 6222688,
+          "bytes_total": 6217396,
+          "bytes_per_key": 6.2227
+        },
+        {
+          "cache": "tiny",
+          "tries": 24,
+          "tries_built": 24,
+          "bytes_io": 6223288,
+          "bytes_total": 6217762,
+          "bytes_per_key": 6.2233
+        },
+        {
+          "cache": "tiny",
+          "tries": 25,
+          "tries_built": 25,
+          "bytes_io": 6223944,
+          "bytes_total": 6218183,
+          "bytes_per_key": 6.2239
+        },
+        {
+          "cache": "tiny",
+          "tries": 26,
+          "tries_built": 26,
+          "bytes_io": 6224608,
+          "bytes_total": 6218619,
+          "bytes_per_key": 6.2246
+        },
+        {
+          "cache": "tiny",
+          "tries": 27,
+          "tries_built": 27,
+          "bytes_io": 6225136,
+          "bytes_total": 6218914,
+          "bytes_per_key": 6.2251
+        },
+        {
+          "cache": "tiny",
+          "tries": 28,
+          "tries_built": 28,
+          "bytes_io": 6225696,
+          "bytes_total": 6219247,
+          "bytes_per_key": 6.2257
+        },
+        {
+          "cache": "tiny",
+          "tries": 29,
+          "tries_built": 29,
+          "bytes_io": 6226264,
+          "bytes_total": 6219589,
+          "bytes_per_key": 6.2263
+        },
+        {
+          "cache": "tiny",
+          "tries": 30,
+          "tries_built": 30,
+          "bytes_io": 6226840,
+          "bytes_total": 6219933,
+          "bytes_per_key": 6.2268
+        },
+        {
+          "cache": "tiny",
+          "tries": 31,
+          "tries_built": 31,
+          "bytes_io": 6227400,
+          "bytes_total": 6220265,
+          "bytes_per_key": 6.2274
+        },
+        {
+          "cache": "tiny",
+          "tries": 32,
+          "tries_built": 32,
+          "bytes_io": 6227960,
+          "bytes_total": 6220604,
+          "bytes_per_key": 6.228
+        }
+      ],
+      "smallest_io": {
+        "cache": "tiny",
+        "tries": 12,
+        "tries_built": 12,
+        "bytes_io": 6215480,
+        "bytes_total": 6212723,
+        "bytes_per_key": 6.2155
+      },
+      "smallest_total": {
+        "cache": "tiny",
+        "tries": 12,
+        "tries_built": 12,
+        "bytes_io": 6215480,
+        "bytes_total": 6212723,
+        "bytes_per_key": 6.2155
+      }
+    },
+    {
+      "corpus": "urls-1000000",
+      "keys": 1000000,
+      "raw_bytes": 52361181,
+      "raw_bytes_per_key": 52.361,
+      "configurations": [
+        {
+          "cache": "default",
+          "tries": 1,
+          "tries_built": 1,
+          "bytes_io": 13877848,
+          "bytes_total": 13877587,
+          "bytes_per_key": 13.8778
+        },
+        {
+          "cache": "default",
+          "tries": 2,
+          "tries_built": 2,
+          "bytes_io": 9410008,
+          "bytes_total": 9409521,
+          "bytes_per_key": 9.41
+        },
+        {
+          "cache": "default",
+          "tries": 3,
+          "tries_built": 3,
+          "bytes_io": 8394920,
+          "bytes_total": 8394203,
+          "bytes_per_key": 8.3949
+        },
+        {
+          "cache": "tiny",
+          "tries": 1,
+          "tries_built": 1,
+          "bytes_io": 13859416,
+          "bytes_total": 13859155,
+          "bytes_per_key": 13.8594
+        },
+        {
+          "cache": "tiny",
+          "tries": 2,
+          "tries_built": 2,
+          "bytes_io": 9373144,
+          "bytes_total": 9372657,
+          "bytes_per_key": 9.3731
+        },
+        {
+          "cache": "tiny",
+          "tries": 3,
+          "tries_built": 3,
+          "bytes_io": 8348840,
+          "bytes_total": 8348123,
+          "bytes_per_key": 8.3488
+        },
+        {
+          "cache": "tiny",
+          "tries": 4,
+          "tries_built": 4,
+          "bytes_io": 7946520,
+          "bytes_total": 7945580,
+          "bytes_per_key": 7.9465
+        },
+        {
+          "cache": "tiny",
+          "tries": 5,
+          "tries_built": 5,
+          "bytes_io": 7769432,
+          "bytes_total": 7768262,
+          "bytes_per_key": 7.7694
+        },
+        {
+          "cache": "tiny",
+          "tries": 6,
+          "tries_built": 6,
+          "bytes_io": 7687224,
+          "bytes_total": 7685823,
+          "bytes_per_key": 7.6872
+        },
+        {
+          "cache": "tiny",
+          "tries": 7,
+          "tries_built": 7,
+          "bytes_io": 7638736,
+          "bytes_total": 7637117,
+          "bytes_per_key": 7.6387
+        },
+        {
+          "cache": "tiny",
+          "tries": 8,
+          "tries_built": 8,
+          "bytes_io": 7614880,
+          "bytes_total": 7613026,
+          "bytes_per_key": 7.6149
+        },
+        {
+          "cache": "tiny",
+          "tries": 9,
+          "tries_built": 9,
+          "bytes_io": 7598480,
+          "bytes_total": 7596393,
+          "bytes_per_key": 7.5985
+        },
+        {
+          "cache": "tiny",
+          "tries": 10,
+          "tries_built": 10,
+          "bytes_io": 7589520,
+          "bytes_total": 7587208,
+          "bytes_per_key": 7.5895
+        },
+        {
+          "cache": "tiny",
+          "tries": 11,
+          "tries_built": 11,
+          "bytes_io": 7582896,
+          "bytes_total": 7580367,
+          "bytes_per_key": 7.5829
+        },
+        {
+          "cache": "tiny",
+          "tries": 12,
+          "tries_built": 12,
+          "bytes_io": 7578784,
+          "bytes_total": 7576023,
+          "bytes_per_key": 7.5788
+        },
+        {
+          "cache": "tiny",
+          "tries": 13,
+          "tries_built": 13,
+          "bytes_io": 7575752,
+          "bytes_total": 7572760,
+          "bytes_per_key": 7.5758
+        },
+        {
+          "cache": "tiny",
+          "tries": 14,
+          "tries_built": 14,
+          "bytes_io": 7573616,
+          "bytes_total": 7570391,
+          "bytes_per_key": 7.5736
+        },
+        {
+          "cache": "tiny",
+          "tries": 15,
+          "tries_built": 15,
+          "bytes_io": 7572312,
+          "bytes_total": 7568848,
+          "bytes_per_key": 7.5723
+        },
+        {
+          "cache": "tiny",
+          "tries": 16,
+          "tries_built": 16,
+          "bytes_io": 7571520,
+          "bytes_total": 7567830,
+          "bytes_per_key": 7.5715
+        },
+        {
+          "cache": "tiny",
+          "tries": 17,
+          "tries_built": 17,
+          "bytes_io": 7570968,
+          "bytes_total": 7567052,
+          "bytes_per_key": 7.571
+        },
+        {
+          "cache": "tiny",
+          "tries": 18,
+          "tries_built": 18,
+          "bytes_io": 7570296,
+          "bytes_total": 7566154,
+          "bytes_per_key": 7.5703
+        },
+        {
+          "cache": "tiny",
+          "tries": 19,
+          "tries_built": 19,
+          "bytes_io": 7569984,
+          "bytes_total": 7565616,
+          "bytes_per_key": 7.57
+        },
+        {
+          "cache": "tiny",
+          "tries": 20,
+          "tries_built": 20,
+          "bytes_io": 7569896,
+          "bytes_total": 7565296,
+          "bytes_per_key": 7.5699
+        },
+        {
+          "cache": "tiny",
+          "tries": 21,
+          "tries_built": 21,
+          "bytes_io": 7569960,
+          "bytes_total": 7565137,
+          "bytes_per_key": 7.57
+        },
+        {
+          "cache": "tiny",
+          "tries": 22,
+          "tries_built": 22,
+          "bytes_io": 7569944,
+          "bytes_total": 7564890,
+          "bytes_per_key": 7.5699
+        },
+        {
+          "cache": "tiny",
+          "tries": 23,
+          "tries_built": 23,
+          "bytes_io": 7569992,
+          "bytes_total": 7564697,
+          "bytes_per_key": 7.57
+        },
+        {
+          "cache": "tiny",
+          "tries": 24,
+          "tries_built": 24,
+          "bytes_io": 7570064,
+          "bytes_total": 7564532,
+          "bytes_per_key": 7.5701
+        },
+        {
+          "cache": "tiny",
+          "tries": 25,
+          "tries_built": 25,
+          "bytes_io": 7570320,
+          "bytes_total": 7564555,
+          "bytes_per_key": 7.5703
+        },
+        {
+          "cache": "tiny",
+          "tries": 26,
+          "tries_built": 26,
+          "bytes_io": 7570640,
+          "bytes_total": 7564637,
+          "bytes_per_key": 7.5706
+        },
+        {
+          "cache": "tiny",
+          "tries": 27,
+          "tries_built": 27,
+          "bytes_io": 7570984,
+          "bytes_total": 7564754,
+          "bytes_per_key": 7.571
+        },
+        {
+          "cache": "tiny",
+          "tries": 28,
+          "tries_built": 28,
+          "bytes_io": 7571288,
+          "bytes_total": 7564826,
+          "bytes_per_key": 7.5713
+        },
+        {
+          "cache": "tiny",
+          "tries": 29,
+          "tries_built": 29,
+          "bytes_io": 7571576,
+          "bytes_total": 7564885,
+          "bytes_per_key": 7.5716
+        },
+        {
+          "cache": "tiny",
+          "tries": 30,
+          "tries_built": 30,
+          "bytes_io": 7571872,
+          "bytes_total": 7564956,
+          "bytes_per_key": 7.5719
+        },
+        {
+          "cache": "tiny",
+          "tries": 31,
+          "tries_built": 31,
+          "bytes_io": 7572144,
+          "bytes_total": 7564997,
+          "bytes_per_key": 7.5721
+        },
+        {
+          "cache": "tiny",
+          "tries": 32,
+          "tries_built": 32,
+          "bytes_io": 7572520,
+          "bytes_total": 7565143,
+          "bytes_per_key": 7.5725
+        }
+      ],
+      "smallest_io": {
+        "cache": "tiny",
+        "tries": 20,
+        "tries_built": 20,
+        "bytes_io": 7569896,
+        "bytes_total": 7565296,
+        "bytes_per_key": 7.5699
+      },
+      "smallest_total": {
+        "cache": "tiny",
+        "tries": 24,
+        "tries_built": 24,
+        "bytes_io": 7570064,
+        "bytes_total": 7564532,
+        "bytes_per_key": 7.5701
+      }
+    },
+    {
+      "corpus": "uuid-1000000",
+      "keys": 1000000,
+      "raw_bytes": 36000000,
+      "raw_bytes_per_key": 36.0,
+      "configurations": [
+        {
+          "cache": "default",
+          "tries": 1,
+          "tries_built": 1,
+          "bytes_io": 36675192,
+          "bytes_total": 36674931,
+          "bytes_per_key": 36.6752
+        },
+        {
+          "cache": "default",
+          "tries": 2,
+          "tries_built": 2,
+          "bytes_io": 35625352,
+          "bytes_total": 35624871,
+          "bytes_per_key": 35.6254
+        },
+        {
+          "cache": "default",
+          "tries": 3,
+          "tries_built": 3,
+          "bytes_io": 34575072,
+          "bytes_total": 34574364,
+          "bytes_per_key": 34.5751
+        },
+        {
+          "cache": "tiny",
+          "tries": 1,
+          "tries_built": 1,
+          "bytes_io": 36656760,
+          "bytes_total": 36656499,
+          "bytes_per_key": 36.6568
+        },
+        {
+          "cache": "tiny",
+          "tries": 2,
+          "tries_built": 2,
+          "bytes_io": 35588488,
+          "bytes_total": 35588007,
+          "bytes_per_key": 35.5885
+        },
+        {
+          "cache": "tiny",
+          "tries": 3,
+          "tries_built": 3,
+          "bytes_io": 34519776,
+          "bytes_total": 34519068,
+          "bytes_per_key": 34.5198
+        },
+        {
+          "cache": "tiny",
+          "tries": 4,
+          "tries_built": 4,
+          "bytes_io": 32932560,
+          "bytes_total": 32931626,
+          "bytes_per_key": 32.9326
+        },
+        {
+          "cache": "tiny",
+          "tries": 5,
+          "tries_built": 5,
+          "bytes_io": 30098160,
+          "bytes_total": 30097006,
+          "bytes_per_key": 30.0982
+        },
+        {
+          "cache": "tiny",
+          "tries": 6,
+          "tries_built": 6,
+          "bytes_io": 24979816,
+          "bytes_total": 24978430,
+          "bytes_per_key": 24.9798
+        },
+        {
+          "cache": "tiny",
+          "tries": 7,
+          "tries_built": 7,
+          "bytes_io": 23121008,
+          "bytes_total": 23119389,
+          "bytes_per_key": 23.121
+        },
+        {
+          "cache": "tiny",
+          "tries": 8,
+          "tries_built": 8,
+          "bytes_io": 22994296,
+          "bytes_total": 22992440,
+          "bytes_per_key": 22.9943
+        },
+        {
+          "cache": "tiny",
+          "tries": 9,
+          "tries_built": 9,
+          "bytes_io": 22978192,
+          "bytes_total": 22976109,
+          "bytes_per_key": 22.9782
+        },
+        {
+          "cache": "tiny",
+          "tries": 10,
+          "tries_built": 10,
+          "bytes_io": 22977776,
+          "bytes_total": 22975465,
+          "bytes_per_key": 22.9778
+        },
+        {
+          "cache": "tiny",
+          "tries": 11,
+          "tries_built": 11,
+          "bytes_io": 22978064,
+          "bytes_total": 22975531,
+          "bytes_per_key": 22.9781
+        },
+        {
+          "cache": "tiny",
+          "tries": 12,
+          "tries_built": 12,
+          "bytes_io": 22978376,
+          "bytes_total": 22975619,
+          "bytes_per_key": 22.9784
+        },
+        {
+          "cache": "tiny",
+          "tries": 13,
+          "tries_built": 13,
+          "bytes_io": 22978704,
+          "bytes_total": 22975720,
+          "bytes_per_key": 22.9787
+        },
+        {
+          "cache": "tiny",
+          "tries": 14,
+          "tries_built": 14,
+          "bytes_io": 22979032,
+          "bytes_total": 22975821,
+          "bytes_per_key": 22.979
+        },
+        {
+          "cache": "tiny",
+          "tries": 15,
+          "tries_built": 15,
+          "bytes_io": 22979360,
+          "bytes_total": 22975922,
+          "bytes_per_key": 22.9794
+        },
+        {
+          "cache": "tiny",
+          "tries": 16,
+          "tries_built": 16,
+          "bytes_io": 22979688,
+          "bytes_total": 22976023,
+          "bytes_per_key": 22.9797
+        },
+        {
+          "cache": "tiny",
+          "tries": 17,
+          "tries_built": 17,
+          "bytes_io": 22980016,
+          "bytes_total": 22976124,
+          "bytes_per_key": 22.98
+        },
+        {
+          "cache": "tiny",
+          "tries": 18,
+          "tries_built": 18,
+          "bytes_io": 22980344,
+          "bytes_total": 22976225,
+          "bytes_per_key": 22.9803
+        },
+        {
+          "cache": "tiny",
+          "tries": 19,
+          "tries_built": 19,
+          "bytes_io": 22980672,
+          "bytes_total": 22976326,
+          "bytes_per_key": 22.9807
+        },
+        {
+          "cache": "tiny",
+          "tries": 20,
+          "tries_built": 20,
+          "bytes_io": 22981000,
+          "bytes_total": 22976427,
+          "bytes_per_key": 22.981
+        },
+        {
+          "cache": "tiny",
+          "tries": 21,
+          "tries_built": 21,
+          "bytes_io": 22981328,
+          "bytes_total": 22976528,
+          "bytes_per_key": 22.9813
+        },
+        {
+          "cache": "tiny",
+          "tries": 22,
+          "tries_built": 22,
+          "bytes_io": 22981656,
+          "bytes_total": 22976629,
+          "bytes_per_key": 22.9817
+        },
+        {
+          "cache": "tiny",
+          "tries": 23,
+          "tries_built": 23,
+          "bytes_io": 22981984,
+          "bytes_total": 22976730,
+          "bytes_per_key": 22.982
+        },
+        {
+          "cache": "tiny",
+          "tries": 24,
+          "tries_built": 24,
+          "bytes_io": 22982312,
+          "bytes_total": 22976831,
+          "bytes_per_key": 22.9823
+        },
+        {
+          "cache": "tiny",
+          "tries": 25,
+          "tries_built": 25,
+          "bytes_io": 22982640,
+          "bytes_total": 22976932,
+          "bytes_per_key": 22.9826
+        },
+        {
+          "cache": "tiny",
+          "tries": 26,
+          "tries_built": 26,
+          "bytes_io": 22982968,
+          "bytes_total": 22977033,
+          "bytes_per_key": 22.983
+        },
+        {
+          "cache": "tiny",
+          "tries": 27,
+          "tries_built": 27,
+          "bytes_io": 22983296,
+          "bytes_total": 22977134,
+          "bytes_per_key": 22.9833
+        },
+        {
+          "cache": "tiny",
+          "tries": 28,
+          "tries_built": 28,
+          "bytes_io": 22983624,
+          "bytes_total": 22977235,
+          "bytes_per_key": 22.9836
+        },
+        {
+          "cache": "tiny",
+          "tries": 29,
+          "tries_built": 29,
+          "bytes_io": 22983952,
+          "bytes_total": 22977336,
+          "bytes_per_key": 22.984
+        },
+        {
+          "cache": "tiny",
+          "tries": 30,
+          "tries_built": 30,
+          "bytes_io": 22984280,
+          "bytes_total": 22977437,
+          "bytes_per_key": 22.9843
+        },
+        {
+          "cache": "tiny",
+          "tries": 31,
+          "tries_built": 31,
+          "bytes_io": 22984608,
+          "bytes_total": 22977538,
+          "bytes_per_key": 22.9846
+        },
+        {
+          "cache": "tiny",
+          "tries": 32,
+          "tries_built": 32,
+          "bytes_io": 22984936,
+          "bytes_total": 22977639,
+          "bytes_per_key": 22.9849
+        }
+      ],
+      "smallest_io": {
+        "cache": "tiny",
+        "tries": 10,
+        "tries_built": 10,
+        "bytes_io": 22977776,
+        "bytes_total": 22975465,
+        "bytes_per_key": 22.9778
+      },
+      "smallest_total": {
+        "cache": "tiny",
+        "tries": 10,
+        "tries_built": 10,
+        "bytes_io": 22977776,
+        "bytes_total": 22975465,
+        "bytes_per_key": 22.9778
+      }
+    }
+  ]
+}

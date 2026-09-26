@@ -141,7 +141,9 @@ def main() -> int:
 
     floor = sub.add_parser("marisa-floor", help="MARISA's size at every num_tries and cache")
     floor.add_argument("--scale", choices=("1m", "10m", "full"), default="1m")
-    floor.add_argument("--jobs", type=int, default=0, help="corpora built at once (default: CPUs)")
+    floor.add_argument(
+        "--jobs", type=int, default=0, help="corpora built at once (default: as memory allows)"
+    )
     floor.add_argument("--allow-dirty", action="store_true")
     floor.set_defaults(func=cmd_marisa_floor)
 
