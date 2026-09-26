@@ -14,7 +14,7 @@
 // Two sizes a configuration. `io_size()` is what `save()` writes, the size a
 // file costs; `total_size()` is what C²'s `space_cost()` counts, and so what
 // the campaign's MARISA rows are. It leaves out a 16-byte header and every
-// vector's length, padding and counts, some 230 bytes a trie, and on some
+// vector's length, padding and counts, 220 to 270 bytes a trie, and on some
 // corpora that moves the smallest configuration by several tries.
 #include <algorithm>
 #include <cstddef>

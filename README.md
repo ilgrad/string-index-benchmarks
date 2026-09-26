@@ -243,11 +243,14 @@ on every corpus, and eleven of the thirteen at a million keys keep getting small
 `urls` until twenty. `sib marisa-floor` builds the pinned marisa at 1 to 32 tries with
 `MARISA_TINY_CACHE` over the campaign's own corpus files and records sizes only — nothing is timed,
 so these configurations have no lookup column, and marisa's own documentation says a deeper
-recursion "degrades the search performance". Every floor in the table lies inside that grid, the
-deepest at 30 tries. Sizes are files, as the protocol below has it, so the campaign's-best column
-reads a few hundred bytes above the campaign's own MARISA rows, which count `total_size()`.
-Artifacts `results/marisa-floor-{1m,10m,full}-2026-09-26-arz-452704f.json`; the lexindex column is
-the campaign's.
+recursion "degrades the search performance". Node order and tail mode stay at marisa's defaults:
+over the same grid at a million keys, label order builds the same bytes on every corpus, and binary
+tails save at most 160 bytes where they save any (`domains`), too little to move a margin below.
+Every floor in the table lies inside that grid, the deepest at 30 tries. Sizes are files, as the
+protocol below has it, so the campaign's-best column reads a few hundred bytes above the campaign's
+own MARISA rows, which count `total_size()`. Artifacts
+`results/marisa-floor-{1m,10m,full}-2026-09-26-arz-452704f.json`; the lexindex column is the
+campaign's.
 
 | corpus | keys | MARISA, the campaign's best | MARISA, smallest | lexindex, smallest | margin |
 |---|---:|---:|---|---|---:|
