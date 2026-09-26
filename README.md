@@ -73,28 +73,32 @@ the one order an ordered index must not be handed by accident.
 
 ## Results: a million keys
 
-Measured 2026-09-25 on an AMD Ryzen 7 5800HS (8 cores / 16 threads, Fedora 44, GCC 16.2.1, rustc
-1.98.1), lexindex 4.5.0 from crates.io, three processes per structure and corpus, even rounds in the
-reverse order; other work took a median of 0.03 CPUs while the 1 208 processes ran. Artifact
-`results/frontier-1m-2026-09-25-arz-cc97350.json`, which names every pin and every corpus hash.
+Measured 2026-09-26 on an AMD Ryzen 7 5800HS (8 cores / 16 threads, Fedora 44, GCC 16.2.1, rustc
+1.98.1), lexindex 4.5.2 from crates.io, three processes per structure and corpus, even rounds in the
+reverse order; other work took a median of 0.04 CPUs while the 1 208 processes ran. Artifact
+`results/frontier-1m-2026-09-26-arz-be75a38.json`, which names every pin and every corpus hash.
+Swap grew from 2 to 46 MiB over this run and to 269 MiB over the ten-million one: CoCo-trie reaches
+26–27 GB before it runs out of address space, and that pushes other programs' idle pages out. The
+other structures' lookups read a median 1.5 % slower than in the 4.5.0 campaign, run on a freshly
+booted machine (`results/frontier-1m-2026-09-25-arz-cc97350.json`), 0.94–1.05 a cell.
 `ART` and `C-ART` are left out of the size and lookup columns: they count their nodes and not the
 keys those nodes point into.
 
 | corpus | keys | raw B/key | lexindex, smallest | smallest other | margin | fastest other | `HashedDict` closed | lexindex's fastest exact search |
 |---|---:|---:|---|---|---:|---|---:|---|
-| `words` | 479,823 | 9.3 | **2.51** (Dict 1024) | 2.98 (MARISA ρ=2) | **+15.6 %** | XCDAT 15 77 ns | **14 ns** | 86 ns (DoubleArray), 1.12× |
-| `dna` | 1,000,000 | 24.0 | **4.23** (Dict 1024) | 6.14 (CoCo) | **+31.1 %** | XCDAT 15 277 ns | **44 ns** | 255 ns (Dict 256 routed), **0.92×** |
-| `domains` | 1,000,000 | 13.8 | **4.36** (Dict 1024) | 4.87 (MARISA ρ=2) | **+10.5 %** | XCDAT 15 148 ns | **28 ns** | 209 ns (StringIndex), 1.41× |
-| `idents` | 1,000,000 | 16.6 | **4.86** (Dict 1024) | 5.35 (MARISA ρ=2) | **+9.2 %** | XCDAT 15 184 ns | **35 ns** | 249 ns (StringIndex), 1.35× |
-| `numeric` | 1,000,000 | 5.9 | **301 B total** (StringIndex) | 0.52 (CoCo) | **+99.9 %** | XCDAT 15 53 ns | **14 ns** | 30 ns (DoubleArray), **0.58×** |
-| `opaque` | 1,000,000 | 16.0 | **10.29** (Dict 1024) | 11.11 (CoCo) | **+7.4 %** | XCDAT 15 202 ns | **45 ns** | 279 ns (Dict 256 routed), 1.38× |
-| `paths` | 1,000,000 | 58.4 | **6.51** (Dict 1024) | 6.79 (MARISA ρ=2) | **+4.1 %** | XCDAT 15 438 ns | **59 ns** | 486 ns (StringIndex), 1.11× |
-| `pypi` | 895,600 | 13.3 | **4.02** (Dict 1024) | 4.51 (MARISA ρ=2) | **+10.8 %** | XCDAT 15 134 ns | **27 ns** | 213 ns (StringIndex), 1.58× |
-| `titles-en` | 1,000,000 | 21.0 | **7.21** (Dict 1024) | 8.19 (MARISA ρ=2) | **+11.9 %** | XCDAT 15 238 ns | **42 ns** | 318 ns (Dict 256 routed), 1.34× |
-| `titles-ru` | 1,000,000 | 35.8 | **6.70** (Dict 1024) | 8.61 (MARISA ρ=2) | **+22.2 %** | XCDAT 15 361 ns | **53 ns** | 409 ns (Dict 256 routed), 1.13× |
-| `titles-zh` | 1,000,000 | 16.9 | **5.69** (Dict 1024) | 6.54 (MARISA ρ=2) | **+13.0 %** | XCDAT 15 190 ns | **34 ns** | 237 ns (DoubleArray), 1.24× |
-| `urls` | 1,000,000 | 52.4 | **7.27** (Dict 1024) | 8.39 (MARISA ρ=2) | **+13.4 %** | XCDAT 15 354 ns | **58 ns** | 383 ns (Dict 256 routed), 1.08× |
-| `uuid` | 1,000,000 | 36.0 | **17.89** (Dict 1024) | 21.44 (PDT) | **+16.5 %** | XCDAT 15 331 ns | **56 ns** | 351 ns (Dict 256 routed), 1.06× |
+| `words` | 479,823 | 9.3 | **2.51** (Dict 1024) | 2.98 (MARISA ρ=2) | **+15.6 %** | XCDAT 15 78 ns | **14 ns** | 74 ns (DoubleArray), 0.95× |
+| `dna` | 1,000,000 | 24.0 | **4.23** (Dict 1024) | 6.14 (CoCo) | **+31.1 %** | XCDAT 15 277 ns | **43 ns** | 263 ns (Dict 256 routed), **0.95×** |
+| `domains` | 1,000,000 | 13.8 | **4.36** (Dict 1024) | 4.87 (MARISA ρ=2) | **+10.5 %** | XCDAT 15 147 ns | **28 ns** | 211 ns (StringIndex), 1.44× |
+| `idents` | 1,000,000 | 16.6 | **4.86** (Dict 1024) | 5.35 (MARISA ρ=2) | **+9.2 %** | XCDAT 15 193 ns | **36 ns** | 251 ns (StringIndex), 1.30× |
+| `numeric` | 1,000,000 | 5.9 | **301 B total** (StringIndex) | 0.52 (CoCo) | **+99.9 %** | XCDAT 15 54 ns | **14 ns** | 29 ns (DoubleArray), **0.55×** |
+| `opaque` | 1,000,000 | 16.0 | **10.29** (Dict 1024) | 11.11 (CoCo) | **+7.4 %** | XCDAT 15 207 ns | **46 ns** | 288 ns (StringIndex), 1.39× |
+| `paths` | 1,000,000 | 58.4 | **6.51** (Dict 1024) | 6.79 (MARISA ρ=2) | **+4.1 %** | XCDAT 15 449 ns | **61 ns** | 495 ns (StringIndex), 1.10× |
+| `pypi` | 895,600 | 13.3 | **4.02** (Dict 1024) | 4.51 (MARISA ρ=2) | **+10.8 %** | XCDAT 15 136 ns | **28 ns** | 214 ns (StringIndex), 1.57× |
+| `titles-en` | 1,000,000 | 21.0 | **7.21** (Dict 1024) | 8.19 (MARISA ρ=2) | **+11.9 %** | XCDAT 15 243 ns | **42 ns** | 324 ns (Dict 256 routed), 1.34× |
+| `titles-ru` | 1,000,000 | 35.8 | **6.70** (Dict 1024) | 8.61 (MARISA ρ=2) | **+22.2 %** | XCDAT 15 361 ns | **53 ns** | 410 ns (Dict 256 routed), 1.14× |
+| `titles-zh` | 1,000,000 | 16.9 | **5.69** (Dict 1024) | 6.54 (MARISA ρ=2) | **+13.0 %** | XCDAT 15 195 ns | **35 ns** | 235 ns (DoubleArray), 1.21× |
+| `urls` | 1,000,000 | 52.4 | **7.27** (Dict 1024) | 8.39 (MARISA ρ=2) | **+13.4 %** | XCDAT 15 365 ns | **59 ns** | 381 ns (Dict 256 routed), 1.04× |
+| `uuid` | 1,000,000 | 36.0 | **17.89** (Dict 1024) | 21.44 (PDT) | **+16.5 %** | XCDAT 15 339 ns | **57 ns** | 356 ns (Dict 256 routed), 1.05× |
 
 Thirteen of thirteen on size — but read the size columns before the others. lexindex enters eleven
 rows: `DictIndex` at three block sizes, with and without the restart words that route a lookup,
@@ -108,86 +112,91 @@ that it reads as both. `lexindex plan` picks the index off the keys alone, which
 column something a caller gets rather than something chosen here after the fact.
 
 **Two lookup columns, because there are two questions.** `HashedDictIndex` — a minimal perfect hash
-beside the dictionary it is built over — answers first on all thirteen, 14 to 59 ns against XCDAT
-15's 53 to 438. Its closed row gives a key it was not built from some id rather than none; its
+beside the dictionary it is built over — answers first on all thirteen, 14 to 61 ns against XCDAT
+15's 54 to 449. Its closed row gives a key it was not built from some id rather than none; its
 fingerprinted rows, also first on every corpus, turn away all but one stranger in 2^8 or 2^16 (see
 the protocol below). The last column asks the stricter question: lexindex's fastest structure that
 turns *every* stranger away, as the tries do, over XCDAT 15's time. **That column is where lexindex
-still loses at a million keys.** It wins `dna` (a routed `DictIndex`, 0.92×) and `numeric`
-(`DoubleArrayIndex`, 30 ns against 53) and trails on the other eleven, by 6 % on `uuid` to 58 % on
-`pypi`.
+still loses at a million keys.** It wins `dna` (a routed `DictIndex`, 0.95×) and `numeric`
+(`DoubleArrayIndex`, 29 ns against 54), is level on `words` and `urls` — 4 % ahead and 4 % behind,
+inside what the placement of a process's memory moves a lookup on this machine — and trails on the
+other nine, by 5 % on `uuid` to 57 % on `pypi`.
 
 **`DoubleArrayIndex` is a lexicon structure, not a general one.** A double array over characters
 with a whole node in one eight-byte slot, it is lexindex's fastest exact search on `words`,
-`numeric` and `titles-zh` — on `words` its three rounds read 76 to 90 ns against XCDAT 15's 77 to
-78, level to 17 % behind — and pays for it in size: 8 to 65 B/key where it holds a corpus. On the
-longer keys it does hold, `domains`, `idents` and `pypi`, it is the slowest lexindex row, 467 to
-700 ns, because a slot a character is more memory than any cache here keeps. It refuses the other
+`numeric` and `titles-zh` — on `words` its three rounds read 72 to 75 ns against XCDAT 15's 77 to
+78, 4 to 7 % ahead in each — and pays for it in size: 8 to 65 B/key where it holds a corpus. On the
+longer keys it does hold, `domains`, `idents` and `pypi`, it is the slowest lexindex row, 450 to
+693 ns, because a slot a character is more memory than any cache here keeps. It refuses the other
 seven corpora, whose tries need more than 2^23 slots, and every corpus past 2^23 keys.
 
 **The dial.** `DictIndex` at block 1024 is the smallest structure in the table and among the slowest
 to look up, because a bigger block is more front-coded keys to scan. That is the trade-off it is
-*for*, and it is a dial: on `words`, block 32 measures 2.85 B/key at 202 ns against MARISA ρ=2's
-2.98 at 343 — smaller **and** faster than the trie — while XCDAT 15 answers in 77 ns at 7.30 B/key,
+*for*, and it is a dial: on `words`, block 32 measures 2.85 B/key at 208 ns against MARISA ρ=2's
+2.98 at 346 — smaller **and** faster than the trie — while XCDAT 15 answers in 78 ns at 7.30 B/key,
 2.6 times block 32's size. Pick the corner you need and read the full table, which `sib table` prints with
 every structure and every configuration in it.
 
 **Builds.** ART is the quickest build from elsewhere on all thirteen, and it is kept in this
 comparison, where it can only flatter the other side: it builds nodes over keys it never copies.
-lexindex's quickest build leads it on `dna` and `opaque` and trails it on the other eleven, by 8 % on
-`paths` to 2.5× on `titles-en`. Every other structure builds after lexindex on all thirteen, 1.35×
-(`words`) to 6.5× (`dna`) slower than its quickest build. Peak memory is in the artifact and not
+lexindex's quickest build leads it on six — `words`, `dna`, `numeric`, `opaque`, `paths` and
+`uuid` — and trails it on the other seven, by 12 % on `urls` to 2.1× on `titles-en`; C-ART builds
+before it on four of those, `domains`, `pypi`, `titles-en` and `titles-zh`. Every structure but the
+two ARTs builds after lexindex on all thirteen, 1.7× (`words`) to 8.3× (`dna`) slower than its
+quickest build. Peak memory is in the artifact and not
 tabled: it counts each driver's own copies of the keys and the queries,
 which frontier_lex and the C++ drivers hold differently.
 
 ## Results: ten million keys
 
-Six corpora on 2026-09-25, the same machine, toolchain and protocol; other work took a median of
-0.02 CPUs over 530 processes. Artifact `results/frontier-10m-2026-09-25-arz-cc97350.json`.
+Six corpora on 2026-09-26, the same machine, toolchain and protocol; other work took a median of
+0.03 CPUs over 530 processes, and the other structures' lookups read a median 1.7 % slower than at
+4.5.0, 0.91–1.06 a cell. Artifact `results/frontier-10m-2026-09-26-arz-be75a38.json`.
 
 | corpus | keys | raw B/key | lexindex, smallest | smallest other | margin | fastest other | `HashedDict` closed | lexindex's fastest exact search |
 |---|---:|---:|---|---|---:|---|---:|---|
-| `dna` | 10,000,000 | 24.0 | **3.81** (Dict 1024) | 5.98 (C²-CoCo ρ=1) | **+36.3 %** | XCDAT 15 553 ns | **60 ns** | 429 ns (Dict 1024 routed), **0.78×** |
-| `numeric` | 10,000,000 | 6.9 | **357 B total** (StringIndex) | 0.51 (CoCo) | **+99.99 %** | XCDAT 15 199 ns | **36 ns** | 97 ns (StringIndex), **0.49×** |
-| `opaque` | 10,000,000 | 16.0 | **9.95** (Dict 1024) | 13.73 (PDT) | **+27.5 %** | XCDAT 15 323 ns | **72 ns** | 448 ns (Dict 1024 routed), 1.39× |
-| `titles-en` | 10,000,000 | 21.0 | **5.48** (Dict 1024) | 5.71 (MARISA ρ=2) | **+4.1 %** | XCDAT 15 567 ns | **66 ns** | 545 ns (Dict 256 routed), 0.96× |
-| `urls` | 10,000,000 | 52.4 | **5.53** (Dict 1024) | 5.83 (MARISA ρ=2) | **+5.2 %** | XCDAT 15 692 ns | **78 ns** | 628 ns (Dict 256 routed), **0.91×** |
-| `uuid` | 10,000,000 | 36.0 | **17.42** (Dict 1024) | 20.59 (PDT) | **+15.4 %** | XCDAT 15 542 ns | **78 ns** | 528 ns (Dict 256 routed), 0.97× |
+| `dna` | 10,000,000 | 24.0 | **3.81** (Dict 1024) | 5.98 (C²-CoCo ρ=1) | **+36.3 %** | XCDAT 15 561 ns | **60 ns** | 434 ns (Dict 1024 routed), **0.77×** |
+| `numeric` | 10,000,000 | 6.9 | **357 B total** (StringIndex) | 0.51 (CoCo) | **+99.99 %** | XCDAT 15 204 ns | **37 ns** | 97 ns (StringIndex), **0.48×** |
+| `opaque` | 10,000,000 | 16.0 | **9.95** (Dict 1024) | 13.73 (PDT) | **+27.5 %** | XCDAT 15 330 ns | **72 ns** | 449 ns (Dict 1024 routed), 1.36× |
+| `titles-en` | 10,000,000 | 21.0 | **5.48** (Dict 1024) | 5.71 (MARISA ρ=2) | **+4.1 %** | XCDAT 15 580 ns | **67 ns** | 548 ns (Dict 256 routed), **0.95×** |
+| `urls` | 10,000,000 | 52.4 | **5.53** (Dict 1024) | 5.83 (MARISA ρ=2) | **+5.2 %** | XCDAT 15 700 ns | **80 ns** | 631 ns (Dict 256 routed), **0.90×** |
+| `uuid` | 10,000,000 | 36.0 | **17.42** (Dict 1024) | 20.59 (PDT) | **+15.4 %** | XCDAT 15 553 ns | **79 ns** | 534 ns (Dict 256 routed), 0.97× |
 
 `DictIndex` is the smallest structure on five and `StringIndex` on `numeric`, at 357 bytes for ten
-million keys. The exact search wins `dna` (0.78×), `numeric` (0.49×) and `urls` (0.91×), is level
-on `titles-en` and `uuid` — 4 % and 3 % ahead, inside what the placement of a process's memory
-moves a lookup on this machine — and loses `opaque` at 1.39×: random sixteen-symbol ids share only
+million keys. The exact search wins `dna` (0.77×), `numeric` (0.48×), `urls` (0.90×) and
+`titles-en` (0.95×), is level on `uuid` — 3 % ahead, inside what the placement of a process's memory
+moves a lookup on this machine — and loses `opaque` at 1.36×: random sixteen-symbol ids share only
 their first few symbols with a neighbour, so front coding saves little and the scan still decodes.
-lexindex's quickest build leads ART's on `dna`, `opaque`, `urls` and `uuid`, ties it on `numeric`
-(643 against 641 ms) and trails it on `titles-en` by 12 %; every other structure builds 1.85×
-(`numeric`) to 9.2× (`dna`) slower.
+lexindex's quickest build leads ART's on `dna`, `numeric`, `opaque`, `urls` and `uuid` and is level
+on `titles-en` (1 930 against 1 968 ms); C-ART builds after it on all six, and every structure but
+the two ARTs 2.7× (`numeric`) to 12.1× (`dna`) slower.
 
 ## Results: past ten million keys
 
-`results/frontier-full-2026-09-25-arz-cc97350.json` runs every structure over English Wikipedia's
-titles and URLs whole, 19.2 million keys each; no fetched corpus here is larger.
+`results/frontier-full-2026-09-26-arz-be75a38.json` runs every structure over English Wikipedia's
+titles and URLs whole, 19.2 million keys each; no fetched corpus here is larger. It ran on a
+rebooted machine and used no swap from start to end.
 
 | corpus | keys | raw B/key | lexindex, smallest | smallest other | margin | fastest other | `HashedDict` closed | lexindex's fastest exact search |
 |---|---:|---:|---|---|---:|---|---:|---|
-| `titles-en` | 19,217,770 | 21.0 | **5.02** (Dict 1024) | 5.23 (MARISA ρ=2) | **+4.1 %** | XCDAT 15 660 ns | **71 ns** | 631 ns (Dict 1024 routed), 0.96× |
-| `urls` | 19,217,771 | 52.4 | **5.06** (Dict 1024) | 5.33 (MARISA ρ=2) | **+4.9 %** | XCDAT 15 807 ns | **85 ns** | 734 ns (Dict 1024 routed), **0.91×** |
+| `titles-en` | 19,217,770 | 21.0 | **5.02** (Dict 1024) | 5.23 (MARISA ρ=2) | **+4.1 %** | XCDAT 15 672 ns | **69 ns** | 628 ns (Dict 1024 routed), **0.93×** |
+| `urls` | 19,217,771 | 52.4 | **5.06** (Dict 1024) | 5.33 (MARISA ρ=2) | **+4.9 %** | XCDAT 15 800 ns | **84 ns** | 723 ns (Dict 1024 routed), **0.90×** |
 
-Both exact searches are ahead of XCDAT 15's: `urls` by 9 %, `titles-en` by 4 %, which is level.
-`DictIndex` builds before every other structure on both, in 3.7 and 3.9 s against ART's 3.8 and
-7.3. CoCo-trie runs out of the 28 GB of address space a process is allowed on both, as it does on
-five of six at ten million.
+Both exact searches are ahead of XCDAT 15's: `urls` by 10 %, `titles-en` by 7 %. `DictIndex` builds
+before every other structure on both, in 3.3 and 3.5 s against ART's 3.8 and 7.1. CoCo-trie runs out
+of the 28 GB of address space a process is allowed on both, as it does on five of six at ten
+million.
 
 **The exact-search gap, by scale**: lexindex's fastest exact search over XCDAT 15's time.
 
 | corpus | 1 M | 10 M | 19.2 M |
 |---|---:|---:|---:|
-| `titles-en` | 1.34 | 0.96 | 0.96 |
-| `urls` | 1.08 | **0.91** | **0.91** |
-| `uuid` | 1.06 | 0.97 | |
-| `opaque` | 1.38 | 1.39 | |
-| `dna` | **0.92** | **0.78** | |
-| `numeric` | **0.58** | **0.49** | |
+| `titles-en` | 1.34 | **0.95** | **0.93** |
+| `urls` | 1.04 | **0.90** | **0.90** |
+| `uuid` | 1.05 | 0.97 | |
+| `opaque` | 1.39 | 1.36 | |
+| `dna` | **0.95** | **0.77** | |
+| `numeric` | **0.55** | **0.48** | |
 
 On lexindex 4.0.0 the same cells read 1.69, 1.18 and 1.17 on `titles-en` and 1.26, 1.07 and 1.08
 on `urls`: the restart words `DictIndex` gained in 4.4 are what took the ten-million cells under
