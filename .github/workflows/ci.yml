@@ -1,0 +1,132 @@
+name: CI
+
+# What a push can break without a campaign: the parsers that turn a log into an artifact, the
+# artifacts the README cites, and the code that runs a campaign. Nothing here builds a competitor
+# or times anything -- a hosted runner is not a quiet machine, and the numbers come from one.
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  artifacts:
+    name: artifacts (each JSON is its log's parse)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: astral-sh/setup-uv@c18668ad3cf93ea998bef934396af7bb5c839dc7 # v10.2.0
+      # The README promises Python 3.11 and nothing else, so the parsers run on 3.11 and the
+      # standard library alone.
+      - name: install Python 3.11
+        run: uv python install 3.11
+      # An artifact is `tables.py --json` over its log and nothing more. A cell edited by hand, or
+      # a parser change that reads an old log differently, leaves the tree dirty here.
+      - name: every frontier JSON is re-derived from its log, byte for byte
+        run: |
+          set -euo pipefail
+          for log in results/frontier-*.log; do
+            uv run --no-project --python 3.11 python harness/tables.py --json "$log" >/dev/null
+          done
+          git status --porcelain -- results/ | tee dirty.txt
+          test ! -s dirty.txt
+      - name: every frontier JSON has a log
+        run: |
+          set -euo pipefail
+          missing=0
+          for json in results/frontier-*.json; do
+            [ -f "${json%.json}.log" ] || { echo "::error::no log for $json"; missing=1; }
+          done
+          exit "$missing"
+      - name: every artifact renders (sib table)
+        run: |
+          set -euo pipefail
+          for json in results/frontier-*.json; do
+            uv run --no-project --python 3.11 python harness/tables.py "$json" >/dev/null
+          done
+          for json in results/marisa-floor-*.json; do
+            uv run --no-project --python 3.11 python -m json.tool "$json" >/dev/null
+          done
+      # A citation of an artifact that was never committed is a 404 from the day it is pushed. The
+      # README cites the MARISA floor as `marisa-floor-{1m,10m,full}-...`, so braces are expanded.
+      - name: every cited results/ artifact is committed
+        shell: python3 {0}
+        run: |
+          import itertools
+          import re
+          import subprocess
+          import sys
+
+          def git(*args):
+              return subprocess.run(["git", *args], capture_output=True, text=True).stdout
+
+          tracked = set(git("ls-files").splitlines())
+          pattern = r"results/[A-Za-z0-9._{},-]+\.[a-z]+"
+          cited = set(git("grep", "-IohE", pattern, "--", ":!results").splitlines())
+          missing = 0
+          for citation in sorted(cited):
+              parts = re.split(r"\{([^{}]*)\}", citation)
+              choices = [p.split(",") if i % 2 else [p] for i, p in enumerate(parts)]
+              for path in map("".join, itertools.product(*choices)):
+                  if path not in tracked:
+                      print(f"::error::cited but not committed: {path} (as {citation})")
+                      missing = 1
+          sys.exit(missing)
+      - name: sib installs and answers (uv.lock current)
+        run: uv run --locked --python 3.11 sib --help >/dev/null
+
+  lint:
+    name: lint (ruff · shellcheck · actionlint)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: astral-sh/setup-uv@c18668ad3cf93ea998bef934396af7bb5c839dc7 # v10.2.0
+      - name: ruff check
+        run: uvx ruff check sib harness
+      - name: ruff format --check
+        run: uvx ruff format --check sib harness
+      # run.sh and build.sh are the campaign; `source=` directives in them name pins.sh.
+      - name: shellcheck
+        run: shellcheck -x harness/*.sh
+      # actionlint is a Go binary; fetched from its release, pinned by version and sha256 -- the
+      # same posture as the action pins above.
+      - name: install actionlint
+        env:
+          ACTIONLINT_VERSION: 1.7.12
+          ACTIONLINT_SHA256: 8aca8db96f1b94770f1b0d72b6dddcb1ebb8123cb3712530b08cc387b349a3d8
+        run: |
+          set -euo pipefail
+          curl -fsSL -o actionlint.tgz \
+            "https://github.com/rhysd/actionlint/releases/download/v${ACTIONLINT_VERSION}/actionlint_${ACTIONLINT_VERSION}_linux_amd64.tar.gz"
+          echo "${ACTIONLINT_SHA256}  actionlint.tgz" | sha256sum -c -
+          tar xzf actionlint.tgz actionlint
+      - name: actionlint
+        run: ./actionlint -color
+
+  harness:
+    name: harness (frontier_lex builds against the pinned lexindex)
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: harness/lex
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: dtolnay/rust-toolchain@d1031067263f94b142dd6c0ce24c5eb9d02d52a0 # master
+        with:
+          toolchain: stable
+          components: rustfmt, clippy
+      - uses: Swatinem/rust-cache@6323deb102c322ba6fcbdcafc7e3dddab59af2b6 # v2.9.2
+        with:
+          workspaces: harness/lex
+      - name: fmt
+        run: cargo fmt --all --check
+      # `--locked`: the lexindex version a campaign measures is the one in Cargo.lock, and a
+      # manifest that no longer agrees with it fails here rather than in the next `sib build`.
+      - name: clippy
+        run: cargo clippy --locked --all-targets -- -D warnings
