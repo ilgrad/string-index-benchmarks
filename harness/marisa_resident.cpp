@@ -7,12 +7,13 @@
 //
 // marisa allocates through operator new alone (`new (std::nothrow)` and its own
 // vectors' `new[]`), so replacing the global operators sees all of it. The
-// count is `malloc_usable_size` of every live allocation, as resident.rs counts
-// lexindex's: the allocator's rounding on both sides, its chunk headers on
-// neither.
+// count is the bytes each live allocation asked for, as resident.rs counts
+// lexindex's: what the library holds, without the allocator's rounding, which
+// is the allocator's and depends on what the process freed before.
 //
 //   marisa_resident <keys.txt> <tiny|default>:<tries>...
 #include <algorithm>
+#include <cstddef>
 #include <cstdio>
 #include <cstdlib>
 #include <cstring>
@@ -21,7 +22,6 @@
 #include <string>
 #include <vector>
 
-#include <malloc.h>
 #include <unistd.h>
 
 #include <marisa.h>
@@ -30,18 +30,27 @@ namespace {
 
 long long live = 0;
 
+// The size asked for sits in front of the block: an unsized delete does not
+// say it, and this keeps the block as aligned as malloc's.
+constexpr std::size_t header = alignof(std::max_align_t);
+
 void *counted(std::size_t size) noexcept {
-  void *ptr = std::malloc(size ? size : 1);
-  if (ptr != nullptr) {
-    live += static_cast<long long>(malloc_usable_size(ptr));
+  auto *block = static_cast<unsigned char *>(std::malloc(header + size));
+  if (block == nullptr) {
+    return nullptr;
   }
-  return ptr;
+  std::memcpy(block, &size, sizeof size);
+  live += static_cast<long long>(size);
+  return block + header;
 }
 
 void release(void *ptr) noexcept {
   if (ptr != nullptr) {
-    live -= static_cast<long long>(malloc_usable_size(ptr));
-    std::free(ptr);
+    auto *block = static_cast<unsigned char *>(ptr) - header;
+    std::size_t size = 0;
+    std::memcpy(&size, block, sizeof size);
+    live -= static_cast<long long>(size);
+    std::free(block);
   }
 }
 

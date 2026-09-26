@@ -12,7 +12,7 @@ MARISA with almost nothing. So this counts, for each corpus, the heap each load 
 `build/marisa_resident` for MARISA's configurations -- the smallest by either size in the scale's
 `results/marisa-floor-*` artifact, and three tries at the default cache as the control -- and
 `harness/lex`'s `resident` for lexindex's `DictIndex` at blocks 32, 256 and 1024 and `StringIndex`.
-Both count `malloc_usable_size` of every allocation still live after the load and a pass of
+Both count the bytes asked for by every allocation still live after the load and a pass of
 lookups. The result goes to `results/resident-<scale>-<date>-<host>-<commit>.json`, and the table
 it prints is the one the README quotes.
 
@@ -188,7 +188,7 @@ def main() -> int:
         "lexindex": lexindex[1] if lexindex else "unknown",
         "marisa configurations from": f"results/{floor_artifact.name}",
         "sizes": "blob and bytes_io are the file; from_bytes_heap, mmap_heap and load_heap are "
-        "malloc_usable_size of every allocation a load keeps, after a pass of lookups",
+        "the bytes asked for by every allocation a load keeps, after a pass of lookups",
         "quiet-machine gates": "none: sizes are deterministic",
     }
 

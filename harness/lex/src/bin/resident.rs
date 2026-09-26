@@ -4,51 +4,46 @@
 //! cache and allocates only what it derives beside it -- each measured after a pass of lookups, so
 //! nothing derived lazily is missed. Prints `kind,keys,blob,from_bytes_heap,mmap_heap` a kind.
 //!
-//! The count is `malloc_usable_size` of every live allocation, as `harness/marisa_resident.cpp`
-//! counts marisa's, so both sides include the allocator's rounding and neither its chunk headers.
-//! Its own binary, so that `frontier_lex`'s timings never pay for a counting allocator. Nothing
-//! is timed; a size is deterministic.
+//! The count is the bytes each live allocation asked for, as `harness/marisa_resident.cpp` counts
+//! marisa's. Not `malloc_usable_size`: glibc does not trim the tail of an over-aligned block it
+//! maps, so one of lexindex's 2 MiB-aligned tables can report up to 2 MiB it never touches, and
+//! whether the block is mapped depends on what the process freed before. Its own binary, so that
+//! `frontier_lex`'s timings never pay for a counting allocator. Nothing is timed; a size is
+//! deterministic.
 use std::alloc::{GlobalAlloc, Layout, System};
 use std::io::BufRead;
-use std::os::raw::c_void;
 use std::sync::atomic::{AtomicUsize, Ordering::Relaxed};
 
 use lexindex::{DictIndex, StringIndex};
 
-unsafe extern "C" {
-    fn malloc_usable_size(ptr: *mut c_void) -> usize;
-}
-
 struct Counting;
 static LIVE: AtomicUsize = AtomicUsize::new(0);
 
-// SAFETY: every call is forwarded to `System` unchanged; the counter only reads the pointers it
-// returns, and `System` allocates through glibc's malloc family, which `malloc_usable_size` reads.
+// SAFETY: every call is forwarded to `System` unchanged; the counter reads only the layouts.
 unsafe impl GlobalAlloc for Counting {
     unsafe fn alloc(&self, layout: Layout) -> *mut u8 {
         let ptr = unsafe { System.alloc(layout) };
         if !ptr.is_null() {
-            LIVE.fetch_add(unsafe { malloc_usable_size(ptr.cast()) }, Relaxed);
+            LIVE.fetch_add(layout.size(), Relaxed);
         }
         ptr
     }
     unsafe fn alloc_zeroed(&self, layout: Layout) -> *mut u8 {
         let ptr = unsafe { System.alloc_zeroed(layout) };
         if !ptr.is_null() {
-            LIVE.fetch_add(unsafe { malloc_usable_size(ptr.cast()) }, Relaxed);
+            LIVE.fetch_add(layout.size(), Relaxed);
         }
         ptr
     }
     unsafe fn dealloc(&self, ptr: *mut u8, layout: Layout) {
-        LIVE.fetch_sub(unsafe { malloc_usable_size(ptr.cast()) }, Relaxed);
+        LIVE.fetch_sub(layout.size(), Relaxed);
         unsafe { System.dealloc(ptr, layout) }
     }
     unsafe fn realloc(&self, ptr: *mut u8, layout: Layout, new_size: usize) -> *mut u8 {
-        let old = unsafe { malloc_usable_size(ptr.cast()) };
         let moved = unsafe { System.realloc(ptr, layout, new_size) };
         if !moved.is_null() {
-            LIVE.fetch_sub(old, Relaxed);
-            LIVE.fetch_add(unsafe { malloc_usable_size(moved.cast()) }, Relaxed);
+            LIVE.fetch_sub(layout.size(), Relaxed);
+            LIVE.fetch_add(new_size, Relaxed);
         }
         moved
     }
