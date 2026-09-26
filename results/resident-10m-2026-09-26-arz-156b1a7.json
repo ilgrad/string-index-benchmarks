@@ -1,0 +1,394 @@
+{
+  "table": "resident-10m",
+  "environment": {
+    "date": "2026-09-26T19:32:51+03:00",
+    "host": "arz",
+    "commit": "156b1a7",
+    "table": "resident-10m",
+    "kernel": "Linux 7.2.7-200.fc44.x86_64 x86_64",
+    "compiler": "c++ (GCC) 16.2.1 20260819 (Red Hat 16.2.1-2)",
+    "rustc": "rustc 1.98.1 (48a229cea 2026-09-01)",
+    "pin c2/baseline_marisa/marisa": "e54f296bb52d https://github.com/s-yata/marisa-trie",
+    "lexindex": "4.5.2",
+    "marisa configurations from": "results/marisa-floor-10m-2026-09-26-arz-452704f.json",
+    "sizes": "blob and bytes_io are the file; from_bytes_heap, mmap_heap and load_heap are the bytes asked for by every allocation a load keeps, after a pass of lookups",
+    "quiet-machine gates": "none: sizes are deterministic"
+  },
+  "corpora": [
+    {
+      "corpus": "dna-10000000",
+      "keys": 10000000,
+      "lexindex": [
+        {
+          "structure": "Dict 32",
+          "blob": 45803851,
+          "from_bytes_heap": 48412851,
+          "mmap_heap": 2609000
+        },
+        {
+          "structure": "Dict 256",
+          "blob": 39479110,
+          "from_bytes_heap": 39900614,
+          "mmap_heap": 421504
+        },
+        {
+          "structure": "Dict 1024",
+          "blob": 38127206,
+          "from_bytes_heap": 38314334,
+          "mmap_heap": 187128
+        },
+        {
+          "structure": "StringIndex",
+          "blob": 159825875,
+          "from_bytes_heap": 159825907,
+          "mmap_heap": 32
+        }
+      ],
+      "marisa": [
+        {
+          "roles": [
+            "smallest_io",
+            "smallest_total"
+          ],
+          "cache": "tiny",
+          "tries": 3,
+          "tries_built": 3,
+          "bytes_io": 66911944,
+          "bytes_total": 66911229,
+          "mmap_heap": 3408,
+          "load_heap": 66914637
+        },
+        {
+          "roles": [
+            "default"
+          ],
+          "cache": "default",
+          "tries": 3,
+          "tries_built": 3,
+          "bytes_io": 67501768,
+          "bytes_total": 67501053,
+          "mmap_heap": 3408,
+          "load_heap": 67504461
+        }
+      ]
+    },
+    {
+      "corpus": "numeric-10000000",
+      "keys": 10000000,
+      "lexindex": [
+        {
+          "structure": "Dict 32",
+          "blob": 12553126,
+          "from_bytes_heap": 15163044,
+          "mmap_heap": 2609918
+        },
+        {
+          "structure": "Dict 256",
+          "blob": 10155500,
+          "from_bytes_heap": 10577922,
+          "mmap_heap": 422422
+        },
+        {
+          "structure": "Dict 1024",
+          "blob": 9187955,
+          "from_bytes_heap": 9376001,
+          "mmap_heap": 188046
+        },
+        {
+          "structure": "StringIndex",
+          "blob": 356,
+          "from_bytes_heap": 388,
+          "mmap_heap": 32
+        }
+      ],
+      "marisa": [
+        {
+          "roles": [
+            "smallest_io",
+            "smallest_total"
+          ],
+          "cache": "tiny",
+          "tries": 1,
+          "tries_built": 1,
+          "bytes_io": 16270544,
+          "bytes_total": 16270285,
+          "mmap_heap": 1136,
+          "load_heap": 16271421
+        },
+        {
+          "roles": [
+            "default"
+          ],
+          "cache": "default",
+          "tries": 3,
+          "tries_built": 1,
+          "bytes_io": 16565456,
+          "bytes_total": 16565197,
+          "mmap_heap": 1136,
+          "load_heap": 16566333
+        }
+      ]
+    },
+    {
+      "corpus": "opaque-10000000",
+      "keys": 10000000,
+      "lexindex": [
+        {
+          "structure": "Dict 32",
+          "blob": 102934550,
+          "from_bytes_heap": 105551506,
+          "mmap_heap": 2616956
+        },
+        {
+          "structure": "Dict 256",
+          "blob": 100462617,
+          "from_bytes_heap": 100892077,
+          "mmap_heap": 429460
+        },
+        {
+          "structure": "Dict 1024",
+          "blob": 99534713,
+          "from_bytes_heap": 99729797,
+          "mmap_heap": 195084
+        },
+        {
+          "structure": "StringIndex",
+          "blob": 214688183,
+          "from_bytes_heap": 214688215,
+          "mmap_heap": 32
+        }
+      ],
+      "marisa": [
+        {
+          "roles": [
+            "smallest_io",
+            "smallest_total"
+          ],
+          "cache": "tiny",
+          "tries": 5,
+          "tries_built": 5,
+          "bytes_io": 147165592,
+          "bytes_total": 147164445,
+          "mmap_heap": 5680,
+          "load_heap": 147170125
+        },
+        {
+          "roles": [
+            "default"
+          ],
+          "cache": "default",
+          "tries": 3,
+          "tries_built": 3,
+          "bytes_io": 183272048,
+          "bytes_total": 183271354,
+          "mmap_heap": 3408,
+          "load_heap": 183274762
+        }
+      ]
+    },
+    {
+      "corpus": "titles-en-10000000",
+      "keys": 10000000,
+      "lexindex": [
+        {
+          "structure": "Dict 32",
+          "blob": 61231811,
+          "from_bytes_heap": 65842090,
+          "mmap_heap": 4610279
+        },
+        {
+          "structure": "Dict 256",
+          "blob": 56509028,
+          "from_bytes_heap": 57848893,
+          "mmap_heap": 1339865
+        },
+        {
+          "structure": "Dict 1024",
+          "blob": 54776214,
+          "from_bytes_heap": 55824644,
+          "mmap_heap": 1048430
+        },
+        {
+          "structure": "StringIndex",
+          "blob": 132492128,
+          "from_bytes_heap": 132492160,
+          "mmap_heap": 32
+        }
+      ],
+      "marisa": [
+        {
+          "roles": [
+            "smallest_io"
+          ],
+          "cache": "tiny",
+          "tries": 18,
+          "tries_built": 18,
+          "bytes_io": 54835296,
+          "bytes_total": 54831194,
+          "mmap_heap": 20448,
+          "load_heap": 54851642
+        },
+        {
+          "roles": [
+            "smallest_total"
+          ],
+          "cache": "tiny",
+          "tries": 19,
+          "tries_built": 19,
+          "bytes_io": 54835440,
+          "bytes_total": 54831106,
+          "mmap_heap": 21584,
+          "load_heap": 54852690
+        },
+        {
+          "roles": [
+            "default"
+          ],
+          "cache": "default",
+          "tries": 3,
+          "tries_built": 3,
+          "bytes_io": 57147800,
+          "bytes_total": 57147100,
+          "mmap_heap": 3408,
+          "load_heap": 57150508
+        }
+      ]
+    },
+    {
+      "corpus": "urls-10000000",
+      "keys": 10000000,
+      "lexindex": [
+        {
+          "structure": "Dict 32",
+          "blob": 71324240,
+          "from_bytes_heap": 75990524,
+          "mmap_heap": 4666284
+        },
+        {
+          "structure": "Dict 256",
+          "blob": 57841241,
+          "from_bytes_heap": 59196911,
+          "mmap_heap": 1355670
+        },
+        {
+          "structure": "Dict 1024",
+          "blob": 55301331,
+          "from_bytes_heap": 56358304,
+          "mmap_heap": 1056973
+        },
+        {
+          "structure": "StringIndex",
+          "blob": 130989955,
+          "from_bytes_heap": 130989987,
+          "mmap_heap": 32
+        }
+      ],
+      "marisa": [
+        {
+          "roles": [
+            "smallest_io"
+          ],
+          "cache": "tiny",
+          "tries": 27,
+          "tries_built": 27,
+          "bytes_io": 55470184,
+          "bytes_total": 55463976,
+          "mmap_heap": 30672,
+          "load_heap": 55494648
+        },
+        {
+          "roles": [
+            "smallest_total"
+          ],
+          "cache": "tiny",
+          "tries": 32,
+          "tries_built": 32,
+          "bytes_io": 55470632,
+          "bytes_total": 55463290,
+          "mmap_heap": 36352,
+          "load_heap": 55499642
+        },
+        {
+          "roles": [
+            "default"
+          ],
+          "cache": "default",
+          "tries": 3,
+          "tries_built": 3,
+          "bytes_io": 58326128,
+          "bytes_total": 58325420,
+          "mmap_heap": 3408,
+          "load_heap": 58328828
+        }
+      ]
+    },
+    {
+      "corpus": "uuid-10000000",
+      "keys": 10000000,
+      "lexindex": [
+        {
+          "structure": "Dict 32",
+          "blob": 181438350,
+          "from_bytes_heap": 184323209,
+          "mmap_heap": 2884859
+        },
+        {
+          "structure": "Dict 256",
+          "blob": 175595917,
+          "from_bytes_heap": 176293280,
+          "mmap_heap": 697363
+        },
+        {
+          "structure": "Dict 1024",
+          "blob": 174170565,
+          "from_bytes_heap": 174633552,
+          "mmap_heap": 462987
+        },
+        {
+          "structure": "StringIndex",
+          "blob": 360672008,
+          "from_bytes_heap": 360672040,
+          "mmap_heap": 32
+        }
+      ],
+      "marisa": [
+        {
+          "roles": [
+            "smallest_io"
+          ],
+          "cache": "tiny",
+          "tries": 9,
+          "tries_built": 9,
+          "bytes_io": 206181120,
+          "bytes_total": 206179052,
+          "mmap_heap": 10224,
+          "load_heap": 206189276
+        },
+        {
+          "roles": [
+            "smallest_total"
+          ],
+          "cache": "tiny",
+          "tries": 10,
+          "tries_built": 10,
+          "bytes_io": 206181248,
+          "bytes_total": 206178958,
+          "mmap_heap": 11360,
+          "load_heap": 206190318
+        },
+        {
+          "roles": [
+            "default"
+          ],
+          "cache": "default",
+          "tries": 3,
+          "tries_built": 3,
+          "bytes_io": 332067744,
+          "bytes_total": 332067040,
+          "mmap_heap": 3408,
+          "load_heap": 332070448
+        }
+      ]
+    }
+  ]
+}

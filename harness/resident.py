@@ -117,7 +117,10 @@ def version(argv: list[str]) -> str:
 
 
 def margin(ours: int, theirs: int) -> str:
-    return f"{100 * (theirs - ours) / theirs:+.2f} %"
+    value = 100 * (theirs - ours) / theirs
+    # Two decimals round `StringIndex`'s few hundred bytes on `numeric` to +100.00 %, which reads as
+    # no bytes at all; that margin gets a third.
+    return f"{value:+.{3 if value >= 99.995 else 2}f} %"
 
 
 def table(corpora: list[dict]) -> str:
@@ -134,7 +137,8 @@ def table(corpora: list[dict]) -> str:
         mapped_theirs = theirs["bytes_io"] + theirs["mmap_heap"]
         lines.append(
             f"| `{corpus['corpus']}` | {ours['structure']} | {ours['blob']:,} "
-            f"| {ours['mmap_heap']:,} | {theirs['tries']} tries, {theirs['cache']} "
+            f"| {ours['mmap_heap']:,} "
+            f"| {theirs['tries']} {'try' if theirs['tries'] == 1 else 'tries'}, {theirs['cache']} "
             f"| {theirs['bytes_io']:,} | {theirs['mmap_heap']:,} "
             f"| {margin(ours['blob'], theirs['bytes_io'])} "
             f"| {margin(mapped_ours, mapped_theirs)} |"

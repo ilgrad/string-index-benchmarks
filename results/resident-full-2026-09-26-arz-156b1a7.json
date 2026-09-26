@@ -1,0 +1,144 @@
+{
+  "table": "resident-full",
+  "environment": {
+    "date": "2026-09-26T19:48:46+03:00",
+    "host": "arz",
+    "commit": "156b1a7",
+    "table": "resident-full",
+    "kernel": "Linux 7.2.7-200.fc44.x86_64 x86_64",
+    "compiler": "c++ (GCC) 16.2.1 20260819 (Red Hat 16.2.1-2)",
+    "rustc": "rustc 1.98.1 (48a229cea 2026-09-01)",
+    "pin c2/baseline_marisa/marisa": "e54f296bb52d https://github.com/s-yata/marisa-trie",
+    "lexindex": "4.5.2",
+    "marisa configurations from": "results/marisa-floor-full-2026-09-26-arz-452704f.json",
+    "sizes": "blob and bytes_io are the file; from_bytes_heap, mmap_heap and load_heap are the bytes asked for by every allocation a load keeps, after a pass of lookups",
+    "quiet-machine gates": "none: sizes are deterministic"
+  },
+  "corpora": [
+    {
+      "corpus": "titles-en-full",
+      "keys": 19217770,
+      "lexindex": [
+        {
+          "structure": "Dict 32",
+          "blob": 108829576,
+          "from_bytes_heap": 117964294,
+          "mmap_heap": 9134718
+        },
+        {
+          "structure": "Dict 256",
+          "blob": 99740463,
+          "from_bytes_heap": 102024098,
+          "mmap_heap": 2283635
+        },
+        {
+          "structure": "Dict 1024",
+          "blob": 96451922,
+          "from_bytes_heap": 98156390,
+          "mmap_heap": 1704468
+        },
+        {
+          "structure": "StringIndex",
+          "blob": 223347170,
+          "from_bytes_heap": 223347202,
+          "mmap_heap": 32
+        }
+      ],
+      "marisa": [
+        {
+          "roles": [
+            "smallest_io",
+            "smallest_total"
+          ],
+          "cache": "tiny",
+          "tries": 19,
+          "tries_built": 19,
+          "bytes_io": 97442352,
+          "bytes_total": 97438062,
+          "mmap_heap": 21584,
+          "load_heap": 97459646
+        },
+        {
+          "roles": [
+            "default"
+          ],
+          "cache": "default",
+          "tries": 3,
+          "tries_built": 3,
+          "bytes_io": 100560568,
+          "bytes_total": 100559890,
+          "mmap_heap": 3408,
+          "load_heap": 100563298
+        }
+      ]
+    },
+    {
+      "corpus": "urls-full",
+      "keys": 19217771,
+      "lexindex": [
+        {
+          "structure": "Dict 32",
+          "blob": 128124634,
+          "from_bytes_heap": 137413772,
+          "mmap_heap": 9289138
+        },
+        {
+          "structure": "Dict 256",
+          "blob": 102334127,
+          "from_bytes_heap": 104661660,
+          "mmap_heap": 2327533
+        },
+        {
+          "structure": "Dict 1024",
+          "blob": 97332808,
+          "from_bytes_heap": 99057499,
+          "mmap_heap": 1724691
+        },
+        {
+          "structure": "StringIndex",
+          "blob": 221838442,
+          "from_bytes_heap": 221838474,
+          "mmap_heap": 32
+        }
+      ],
+      "marisa": [
+        {
+          "roles": [
+            "smallest_io"
+          ],
+          "cache": "tiny",
+          "tries": 30,
+          "tries_built": 30,
+          "bytes_io": 98617848,
+          "bytes_total": 98611034,
+          "mmap_heap": 34080,
+          "load_heap": 98645114
+        },
+        {
+          "roles": [
+            "smallest_total"
+          ],
+          "cache": "tiny",
+          "tries": 32,
+          "tries_built": 32,
+          "bytes_io": 98618024,
+          "bytes_total": 98610762,
+          "mmap_heap": 36352,
+          "load_heap": 98647114
+        },
+        {
+          "roles": [
+            "default"
+          ],
+          "cache": "default",
+          "tries": 3,
+          "tries_built": 3,
+          "bytes_io": 102346008,
+          "bytes_total": 102345320,
+          "mmap_heap": 3408,
+          "load_heap": 102348728
+        }
+      ]
+    }
+  ]
+}

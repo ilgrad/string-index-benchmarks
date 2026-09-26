@@ -15,15 +15,16 @@ variants, and lexindex — each over a grid of its own configurations, never at 
 flatter someone. Serialised bytes per key, single-key lookup latency, build time and peak RSS.
 MARISA's grid is the one to three tries the C² benchmark builds, at the default cache; its smallest
 configuration lies outside it, so its size has an artifact of its own: [MARISA at its
-smallest](#marisa-at-its-smallest).
+smallest](#marisa-at-its-smallest). What it and lexindex hold once loaded has another: [What a
+loaded index holds](#what-a-loaded-index-holds).
 
 **Who wrote it.** The author of [lexindex](https://github.com/ilgrad/lexindex), which is one of the
 competitors here. That is a conflict of interest and the reason the protocol below is as explicit as
 it is: lexindex is fetched from crates.io at a pinned version like every other entrant, this
 repository has no dependency on a lexindex checkout, and the corpora where a trie comes within a few
-tenths of a per cent of it — MARISA at its smallest, on `paths` and on the ten-million-key titles
-and URLs — are in a table of their own rather than a footnote. Re-run it and disagree; see the last
-section.
+tenths of a per cent of it, or passes it once both are loaded — MARISA at its smallest, on `paths`
+and on the larger titles and URLs files — are in tables of their own rather than a footnote. Re-run
+it and disagree; see the last section.
 
 ## Quickstart
 
@@ -33,6 +34,7 @@ sib build                      # fetch and compile every competitor at its pinne
 sib corpora build              # fetch and derive the thirteen corpora (4.6 GB, once)
 sib run                        # the campaign at a million keys
 sib marisa-floor               # MARISA's smallest size on the same corpora -- sizes only, minutes
+sib resident                   # what each loaded index holds beside its file -- sizes only, minutes
 sib table results/<latest>.json
 ```
 
@@ -276,16 +278,65 @@ campaign's.
 | `titles-en` | 19,217,770 | 5.233 (3 tries) | 5.070 (19 tries, tiny) | **5.019** (Dict 1024) | +1.02 % |
 | `urls` | 19,217,771 | 5.326 (3 tries) | 5.132 (30 tries, tiny) | **5.065** (Dict 1024) | +1.30 % |
 
-Against its smallest, MARISA draws level on `paths`: lexindex's file is 2 431 bytes smaller in
-6.5 MB, 0.04 %. That is a tie by any measure, and by the count the campaign takes for MARISA —
+Against its smallest, MARISA draws level on `paths`: lexindex's file is 2 431 bytes smaller in 6.5
+MB, 0.04 %. That is a tie by any measure, and by the count the campaign takes for MARISA —
 `total_size()`, the trie's arrays without the file's framing, 220 to 270 bytes a trie less than what
 `save()` writes — MARISA is 2 206 bytes the smaller. At ten million keys English titles are 0.11 %
-apart (59 KB) and URLs 0.30 %; at 19.2 million, 1.0 % and 1.3 %. The other margins narrow and stand,
-from 3.8 % (`titles-en` at a million) to 15 % (`words`) on real keys. On `uuid`, `opaque`, `dna` and
-`numeric` the smallest other is still PDT or a CoCo variant, smaller there than MARISA's floor at
-both scales. How far the floor lies below the campaign's best is a property of the keys: at a
-million, 0.5 % on `dna`, 0.8 % on `words`, 5–12 % on the titles and URLs and a third on `uuid`;
+apart (59 KB) and URLs 0.30 %; at 19.2 million, 1.0 % and 1.3 %. Once loaded, MARISA is the smaller
+on those four and on `paths` ([below](#what-a-loaded-index-holds)). The other margins narrow and
+stand, from 3.8 % (`titles-en` at a million) to 15 % (`words`) on real keys. On `uuid`, `opaque`,
+`dna` and `numeric` the smallest other is still PDT or a CoCo variant, smaller there than MARISA's
+floor at both scales. How far the floor lies below the campaign's best is a property of the keys: at
+a million, 0.5 % on `dna`, 0.8 % on `words`, 5–12 % on the titles and URLs and a third on `uuid`;
 3–5 % on the larger titles and URLs files.
+
+## What a loaded index holds
+
+Every size above is a file. A loaded index can hold more: lexindex's `load_mmap` leaves the blob to
+the page cache and derives lookup tables beside it on the heap — a `DictIndex`'s block samples, its
+character-code tables and, on `paths`, a trie over the samples that tie — and marisa's `Trie::mmap`
+keeps a few kilobytes of its own. `sib resident` builds each index as the campaign does, writes its
+file, maps it, looks up every 97th key, and counts the bytes asked for by every allocation the load
+still holds: a counting global allocator in `harness/lex`'s `resident`, replaced `operator new` in
+`harness/marisa_resident.cpp`, so both sides are counted alike and neither carries the allocator's
+rounding. MARISA is built at each corpus's floor configuration and lexindex as `DictIndex` at
+blocks 32, 256 and 1024 and as `StringIndex`; the table shows the smallest file of each. Nothing is
+timed. Artifacts `results/resident-{1m,10m,full}-2026-09-26-arz-156b1a7.json`.
+
+| corpus | lexindex, smallest | its file | + `load_mmap` heap | MARISA, smallest | its file | + `mmap` heap | margin, files | margin, mapped |
+|---|---|---:|---:|---|---:|---:|---:|---:|
+| `words-full` | Dict 1024 | 1,205,985 | 24,266 | 4 tries, tiny | 1,418,040 | 4,544 | +14.95 % | +13.52 % |
+| `dna-1000000` | Dict 1024 | 4,230,538 | 19,272 | 3 tries, tiny | 7,524,656 | 3,408 | +43.78 % | +43.55 % |
+| `domains-1000000` | Dict 1024 | 4,362,536 | 70,860 | 8 tries, tiny | 4,795,712 | 9,088 | +9.03 % | +7.73 % |
+| `idents-1000000` | Dict 1024 | 4,859,777 | 87,093 | 12 tries, tiny | 5,122,544 | 13,632 | +5.13 % | +3.69 % |
+| `numeric-1000000` | StringIndex | 301 | 32 | 1 try, tiny | 1,623,704 | 1,136 | +99.98 % | +99.98 % |
+| `opaque-1000000` | Dict 1024 | 10,290,593 | 20,104 | 6 tries, tiny | 15,547,856 | 6,816 | +33.81 % | +33.71 % |
+| `paths-1000000` | Dict 1024 | 6,510,793 | 139,923 | 19 tries, tiny | 6,513,224 | 21,584 | +0.04 % | -1.77 % |
+| `pypi-full` | Dict 1024 | 3,603,537 | 62,319 | 9 tries, tiny | 3,925,536 | 10,224 | +8.20 % | +6.86 % |
+| `titles-en-1000000` | Dict 1024 | 7,211,896 | 130,176 | 15 tries, tiny | 7,494,136 | 17,040 | +3.77 % | +2.25 % |
+| `titles-ru-1000000` | Dict 1024 | 6,697,959 | 247,462 | 19 tries, tiny | 7,610,368 | 21,584 | +11.99 % | +9.00 % |
+| `titles-zh-1000000` | Dict 1024 | 5,686,608 | 332,204 | 12 tries, tiny | 6,215,480 | 13,632 | +8.51 % | +3.38 % |
+| `urls-1000000` | Dict 1024 | 7,271,039 | 130,980 | 20 tries, tiny | 7,569,896 | 22,720 | +3.95 % | +2.51 % |
+| `uuid-1000000` | Dict 1024 | 17,893,932 | 48,120 | 10 tries, tiny | 22,977,776 | 11,360 | +22.13 % | +21.95 % |
+| `dna-10000000` | Dict 1024 | 38,127,206 | 187,128 | 3 tries, tiny | 66,911,944 | 3,408 | +43.02 % | +42.74 % |
+| `numeric-10000000` | StringIndex | 356 | 32 | 1 try, tiny | 16,270,544 | 1,136 | +99.998 % | +99.998 % |
+| `opaque-10000000` | Dict 1024 | 99,534,713 | 195,084 | 5 tries, tiny | 147,165,592 | 5,680 | +32.37 % | +32.24 % |
+| `titles-en-10000000` | Dict 1024 | 54,776,214 | 1,048,430 | 18 tries, tiny | 54,835,296 | 20,448 | +0.11 % | -1.77 % |
+| `urls-10000000` | Dict 1024 | 55,301,331 | 1,056,973 | 27 tries, tiny | 55,470,184 | 30,672 | +0.30 % | -1.54 % |
+| `uuid-10000000` | Dict 1024 | 174,170,565 | 462,987 | 9 tries, tiny | 206,181,120 | 10,224 | +15.53 % | +15.31 % |
+| `titles-en-full` | Dict 1024 | 96,451,922 | 1,704,468 | 19 tries, tiny | 97,442,352 | 21,584 | +1.02 % | -0.71 % |
+| `urls-full` | Dict 1024 | 97,332,808 | 1,724,691 | 30 tries, tiny | 98,617,848 | 34,080 | +1.30 % | -0.41 % |
+
+Mapped, MARISA at its smallest is the smaller on five rows of the twenty-one: `paths` at a million
+keys, by 1.77 %, and English titles and URLs at ten million, by 1.77 % and 1.54 %, and at 19.2
+million, by 0.71 % and 0.41 %. A `DictIndex` derives 0.02 to 0.33 bytes a key at a million keys —
+most on `titles-zh` and `titles-ru`, whose character-code tables are the largest, then `paths` — and
+0.09 to 0.11 on the larger titles and URLs files, where a mapped marisa trie keeps 1 to 34 KB
+whatever the corpus. The other margins narrow and stand, from 2.25 % on `titles-en` at a million
+up. The file's pages are the page cache's, shared by every process that maps them; the derived
+tables are each process's own. An owned load compares the same way: lexindex's `from_bytes` holds
+the file and the same tables, to the byte on every row, and marisa's `load()` its file and 0.9 to
+27 KB more.
 
 ## The protocol
 
@@ -306,7 +357,8 @@ The rules a number here had to survive:
   its arrays: the C² benchmark's `space_cost()` and XCDAT's `memory_in_bytes` leave out a file's
   framing, which for MARISA is 220 to 270 bytes a trie, and the MARISA floor records both. One row
   holds more than its file and counts it: a routed `DictIndex` is the blob and the restart words
-  `route_microblocks()` derives beside it at load.
+  `route_microblocks()` derives beside it at load. What every other load holds beside its file is a
+  table of its own: [What a loaded index holds](#what-a-loaded-index-holds).
 - **A lookup is a lookup.** `id(key) -> u64` for a key that is present, one at a time, from a
   shuffled probe set — not a batch, not a prefix walk, not an iterator. Every probe is a member, so
   a row that cannot turn a stranger away is timed like one that can: `HashedDictIndex` closed
@@ -334,10 +386,12 @@ ran at into the filename.
 | `harness/build.sh` | fetches and compiles every competitor at its pinned commit into `build/` |
 | `harness/pins.sh` | the commits, in one place |
 | `harness/run.sh` | the campaign: quiet gate, rounds, ordering, artifact |
-| `harness/lex/` | the lexindex entrant, depending on the published crate |
+| `harness/lex/` | the lexindex entrant and `resident`, depending on the published crate |
 | `harness/xcdat_frontier.cpp` | the XCDAT entrant, since XCDAT ships no benchmark driver |
 | `harness/marisa_floor.cpp` | MARISA's size at every `num_tries` and the tiny cache, from the pinned marisa |
 | `harness/marisa_floor.py` | runs it over a scale's corpora into `results/marisa-floor-*.json` |
+| `harness/marisa_resident.cpp` | the heap a loaded marisa trie keeps, from the pinned marisa |
+| `harness/resident.py` | runs it and `harness/lex`'s `resident` over a scale's corpora into `results/resident-*.json` |
 | `harness/tables.py` | artifact → markdown |
 | `sib/corpora.py` | the corpus definitions, fetching and hashing |
 | `sib/chart.py` | artifact → figure |
