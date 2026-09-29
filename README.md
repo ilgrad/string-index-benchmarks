@@ -117,9 +117,12 @@ smallest of eight structures on the other side; holding one side to a single ind
 picks from eight would be a different measurement, not a modest one. On twelve corpora that index is
 the front-coded `DictIndex`. On `numeric` it is `StringIndex`, where an fst folds a dense decimal id
 space into **301 bytes whole** — a real win and a degenerate corpus at once, and the total is
-printed rather than a rounded 0.00 so that it reads as both. `lexindex plan` picks the index off the
-keys alone, which is what makes that column something a caller gets rather than something chosen
-here after the fact.
+printed rather than a rounded 0.00 so that it reads as both. The artifacts here record a size in
+MiB to six decimals, a byte either way at this size, so each total is the blob's own count: the
+loaded-index artifact's at a million and ten million keys ([below](#what-a-loaded-index-holds)),
+and lexindex 4.0.0's `serialized_len()` over the same ids at a hundred million. `lexindex plan`
+picks the index off the keys alone, which is what makes that column something a caller gets rather
+than something chosen here after the fact.
 
 **Two lookup columns, because there are two questions.** `HashedDictIndex` — a minimal perfect hash
 beside the dictionary it is built over — answers first on all thirteen, 14 to 61 ns against XCDAT
@@ -166,13 +169,13 @@ Six corpora on 2026-09-26, the same machine, toolchain and protocol; other work 
 | corpus | keys | raw B/key | lexindex, smallest | smallest other | margin | fastest other | `HashedDict` closed | lexindex's fastest exact search |
 |---|---:|---:|---|---|---:|---|---:|---|
 | `dna` | 10,000,000 | 24.0 | **3.81** (Dict 1024) | 5.98 (C²-CoCo ρ=1) | **+36.3 %** | XCDAT 15 561 ns | **60 ns** | 434 ns (Dict 1024 routed), **0.77×** |
-| `numeric` | 10,000,000 | 6.9 | **357 B total** (StringIndex) | 0.51 (CoCo) | **+99.99 %** | XCDAT 15 204 ns | **37 ns** | 97 ns (StringIndex), **0.48×** |
+| `numeric` | 10,000,000 | 6.9 | **356 B total** (StringIndex) | 0.51 (CoCo) | **+99.99 %** | XCDAT 15 204 ns | **37 ns** | 97 ns (StringIndex), **0.48×** |
 | `opaque` | 10,000,000 | 16.0 | **9.95** (Dict 1024) | 13.73 (PDT) | **+27.5 %** | XCDAT 15 330 ns | **72 ns** | 449 ns (Dict 1024 routed), 1.36× |
 | `titles-en` | 10,000,000 | 21.0 | **5.48** (Dict 1024) | 5.71 (MARISA ρ=2) | **+4.1 %** | XCDAT 15 580 ns | **67 ns** | 548 ns (Dict 256 routed), **0.95×** |
 | `urls` | 10,000,000 | 52.4 | **5.53** (Dict 1024) | 5.83 (MARISA ρ=2) | **+5.2 %** | XCDAT 15 700 ns | **80 ns** | 631 ns (Dict 256 routed), **0.90×** |
 | `uuid` | 10,000,000 | 36.0 | **17.42** (Dict 1024) | 20.59 (PDT) | **+15.4 %** | XCDAT 15 553 ns | **79 ns** | 534 ns (Dict 256 routed), 0.97× |
 
-`DictIndex` is the smallest structure on five and `StringIndex` on `numeric`, at 357 bytes for ten
+`DictIndex` is the smallest structure on five and `StringIndex` on `numeric`, at 356 bytes for ten
 million keys; against MARISA at its smallest, English titles are 0.11 % apart and URLs 0.30 %
 ([below](#marisa-at-its-smallest)). The exact search wins `dna` (0.77×), `numeric` (0.48×), `urls`
 (0.90×) and `titles-en` (0.95×), is level on `uuid` — 3 % ahead, inside what the placement of a
@@ -228,7 +231,7 @@ not include.
 
 | corpus | lexindex, smallest | XCDAT 15 | lexindex, fastest | XCDAT 15 |
 |---|---|---:|---|---:|
-| `numeric` | **420 B total** (StringIndex) | 7.05 | **156 ns** (StringIndex) | 408 ns |
+| `numeric` | **421 B total** (StringIndex) | 7.05 | **156 ns** (StringIndex) | 408 ns |
 | `dna` | **3.40** (Dict 1024) | 9.45 | 844 ns (Dict 1024) | 864 ns |
 | `uuid` | **16.94** (Dict 1024) | 37.98 | 924 ns (StringIndex, 34.91) | **873 ns** |
 | `opaque` | **9.46** (Dict 1024) | 19.99 | 833 ns (StringIndex, 19.58) | **546 ns** |
@@ -270,7 +273,7 @@ campaign's.
 | `urls` | 1,000,000 | 8.395 (3 tries) | 7.570 (20 tries, tiny) | **7.271** (Dict 1024) | +3.95 % |
 | `uuid` | 1,000,000 | 34.575 (3 tries) | 22.978 (10 tries, tiny) | **17.894** (Dict 1024) | +22.13 % |
 | `dna` | 10,000,000 | 6.750 (3 tries) | 6.691 (3 tries, tiny) | **3.813** (Dict 1024) | +43.02 % |
-| `numeric` | 10,000,000 | 1.657 (1 try) | 1.627 (1 try, tiny) | **357 B total** (StringIndex) | +99.998 % |
+| `numeric` | 10,000,000 | 1.657 (1 try) | 1.627 (1 try, tiny) | **356 B total** (StringIndex) | +99.998 % |
 | `opaque` | 10,000,000 | 18.076 (1 try) | 14.717 (5 tries, tiny) | **9.953** (Dict 1024) | +32.37 % |
 | `titles-en` | 10,000,000 | 5.715 (3 tries) | 5.484 (18 tries, tiny) | **5.478** (Dict 1024) | +0.11 % |
 | `urls` | 10,000,000 | 5.833 (3 tries) | 5.547 (27 tries, tiny) | **5.530** (Dict 1024) | +0.30 % |
