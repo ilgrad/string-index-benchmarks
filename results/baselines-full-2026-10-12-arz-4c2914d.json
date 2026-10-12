@@ -1,0 +1,117 @@
+{
+  "table": "baselines-full",
+  "environment": {
+    "date": "2026-10-12T20:48:34+03:00",
+    "host": "arz",
+    "commit": "4c2914d",
+    "table": "baselines-full",
+    "kernel": "Linux 7.2.9-201.fc44.x86_64 x86_64",
+    "compiler": "rustc 1.99.0 (b940084d7 2026-09-28)",
+    "crate sux": "0.15.0 (crates.io)",
+    "crate fcsd": "0.2.0 (crates.io)",
+    "sizes": "fcsd: size_in_bytes(), what serialize_into writes; sux: mem_size, its arrays and fields without a file's framing; bytes_per_key is bytes over keys",
+    "quiet-machine gates": "none: sizes are deterministic"
+  },
+  "corpora": [
+    {
+      "corpus": "titles-en-full",
+      "keys": 19217770,
+      "raw_bytes": 403040259,
+      "raw_bytes_per_key": 20.972,
+      "configurations": [
+        {
+          "structure": "sux RearCodedListStr",
+          "parameter": "ratio 16",
+          "bytes": 233353616,
+          "bytes_per_key": 12.1426
+        },
+        {
+          "structure": "sux RearCodedListStr",
+          "parameter": "ratio 64",
+          "bytes": 216217438,
+          "bytes_per_key": 11.2509
+        },
+        {
+          "structure": "sux RearCodedListStr",
+          "parameter": "ratio 256",
+          "bytes": 211931272,
+          "bytes_per_key": 11.0279
+        },
+        {
+          "structure": "fcsd Set",
+          "parameter": "bucket 8",
+          "bytes": 245385789,
+          "bytes_per_key": 12.7687
+        },
+        {
+          "structure": "fcsd Set",
+          "parameter": "bucket 64",
+          "bytes": 214865276,
+          "bytes_per_key": 11.1806
+        },
+        {
+          "structure": "fcsd Set",
+          "parameter": "bucket 256",
+          "bytes": 211592555,
+          "bytes_per_key": 11.0103
+        }
+      ],
+      "smallest": {
+        "structure": "fcsd Set",
+        "parameter": "bucket 256",
+        "bytes": 211592555,
+        "bytes_per_key": 11.0103
+      }
+    },
+    {
+      "corpus": "urls-full",
+      "keys": 19217771,
+      "raw_bytes": 1006306673,
+      "raw_bytes_per_key": 52.363,
+      "configurations": [
+        {
+          "structure": "sux RearCodedListStr",
+          "parameter": "ratio 16",
+          "bytes": 284356153,
+          "bytes_per_key": 14.7965
+        },
+        {
+          "structure": "sux RearCodedListStr",
+          "parameter": "ratio 64",
+          "bytes": 239625313,
+          "bytes_per_key": 12.4689
+        },
+        {
+          "structure": "sux RearCodedListStr",
+          "parameter": "ratio 256",
+          "bytes": 228430671,
+          "bytes_per_key": 11.8864
+        },
+        {
+          "structure": "fcsd Set",
+          "parameter": "bucket 8",
+          "bytes": 333504935,
+          "bytes_per_key": 17.354
+        },
+        {
+          "structure": "fcsd Set",
+          "parameter": "bucket 64",
+          "bytes": 238269991,
+          "bytes_per_key": 12.3984
+        },
+        {
+          "structure": "fcsd Set",
+          "parameter": "bucket 256",
+          "bytes": 228088944,
+          "bytes_per_key": 11.8686
+        }
+      ],
+      "smallest": {
+        "structure": "fcsd Set",
+        "parameter": "bucket 256",
+        "bytes": 228088944,
+        "bytes_per_key": 11.8686
+      }
+    }
+  ]
+}

@@ -16,7 +16,8 @@ flatter someone. Serialised bytes per key, single-key lookup latency, build time
 MARISA's grid is the one to three tries the C² benchmark builds, at the default cache; its smallest
 configuration lies outside it, so its size has an artifact of its own: [MARISA at its
 smallest](#marisa-at-its-smallest). What it and lexindex hold once loaded has another: [What a
-loaded index holds](#what-a-loaded-index-holds).
+loaded index holds](#what-a-loaded-index-holds). Plain front coding, the yardstick under all of
+them, has a third: [Plain front coding](#plain-front-coding).
 
 **Who wrote it.** The author of [lexindex](https://github.com/ilgrad/lexindex), which is one of the
 competitors here. That is a conflict of interest and the reason the protocol below is as explicit as
@@ -35,6 +36,7 @@ sib corpora build              # fetch and derive the thirteen corpora (4.6 GB, 
 sib run                        # the campaign at a million keys
 sib marisa-floor               # MARISA's smallest size on the same corpora -- sizes only, minutes
 sib resident                   # what each loaded index holds beside its file -- sizes only, minutes
+sib baselines                  # plain front coding on the same corpora -- sizes only, minutes
 sib table results/<latest>.json
 ```
 
@@ -341,6 +343,54 @@ tables are each process's own. An owned load compares the same way: lexindex's `
 the file and the same tables, to the byte on every row, and marisa's `load()` its file and 0.9 to
 27 KB more.
 
+## Plain front coding
+
+The yardstick every compressed string dictionary is measured from has no row in the campaign: the
+sorted keys cut into blocks, each block's first key stored whole and every other key as the length
+it shares with the key before it and the rest. `sib baselines` builds it twice from crates.io over
+the campaign's corpus files — sux 0.15's rear-coded list at block ratios 16, 64 and 256, and fcsd
+0.2's front-coded set at buckets of 8 keys (its default), 64 and 256 — checks that each answers
+every key both ways, and records sizes only, so these rows have no lookup column either. fcsd's size
+is what `serialize_into` writes; sux's is its `mem_size`, the arrays without a file's framing. fcsd
+at 256 is the smaller on every corpus, sux at 256 within 0.021 bytes a key of it. A larger bucket
+would shrink both further, and slowly — from 64 keys to 256 took 0.2 % (`uuid`) to 3.8 % (`paths`)
+off fcsd's size at a million keys — and a lookup decodes a whole bucket. Artifacts
+`results/baselines-{1m,10m,full}-2026-10-12-arz-4c2914d.json`; the lexindex column is the
+campaign's.
+
+| corpus | keys | raw B/key | front coding (fcsd, 256) | lexindex, smallest | margin |
+|---|---:|---:|---:|---|---:|
+| `words` | 479,823 | 9.3 | 5.022 | **2.513** (Dict 1024) | +49.95 % |
+| `dna` | 1,000,000 | 24.0 | 16.883 | **4.231** (Dict 1024) | +74.94 % |
+| `domains` | 1,000,000 | 13.8 | 10.005 | **4.363** (Dict 1024) | +56.40 % |
+| `idents` | 1,000,000 | 16.6 | 9.336 | **4.860** (Dict 1024) | +47.95 % |
+| `numeric` | 1,000,000 | 5.9 | 3.026 | **301 B total** (StringIndex) | +99.990 % |
+| `opaque` | 1,000,000 | 16.0 | 15.250 | **10.291** (Dict 1024) | +32.52 % |
+| `paths` | 1,000,000 | 58.4 | 14.395 | **6.511** (Dict 1024) | +54.77 % |
+| `pypi` | 895,600 | 13.3 | 8.046 | **4.024** (Dict 1024) | +49.99 % |
+| `titles-en` | 1,000,000 | 21.0 | 14.771 | **7.212** (Dict 1024) | +51.17 % |
+| `titles-ru` | 1,000,000 | 35.8 | 21.859 | **6.698** (Dict 1024) | +69.36 % |
+| `titles-zh` | 1,000,000 | 16.9 | 11.250 | **5.687** (Dict 1024) | +49.45 % |
+| `urls` | 1,000,000 | 52.4 | 15.945 | **7.271** (Dict 1024) | +54.40 % |
+| `uuid` | 1,000,000 | 36.0 | 33.709 | **17.894** (Dict 1024) | +46.92 % |
+| `dna` | 10,000,000 | 24.0 | 15.230 | **3.813** (Dict 1024) | +74.97 % |
+| `numeric` | 10,000,000 | 6.9 | 3.031 | **356 B total** (StringIndex) | +99.999 % |
+| `opaque` | 10,000,000 | 16.0 | 14.798 | **9.953** (Dict 1024) | +32.74 % |
+| `titles-en` | 10,000,000 | 21.0 | 11.950 | **5.478** (Dict 1024) | +54.16 % |
+| `urls` | 10,000,000 | 52.4 | 12.890 | **5.530** (Dict 1024) | +57.10 % |
+| `uuid` | 10,000,000 | 36.0 | 32.875 | **17.417** (Dict 1024) | +47.02 % |
+| `titles-en` | 19,217,770 | 21.0 | 11.010 | **5.019** (Dict 1024) | +54.42 % |
+| `urls` | 19,217,771 | 52.4 | 11.869 | **5.065** (Dict 1024) | +57.33 % |
+
+lexindex's smallest index is a third to three quarters smaller than front coding on every row, from
+32.5 % (`opaque` at a million keys) to 75.0 % (`dna` at ten million). At the same 256 keys a block,
+a `DictIndex` is 31.8 % (`opaque`) to 74.1 % (`dna`) smaller at a million keys: what it adds to
+front coding is the symbol table its suffixes are coded in. Front coding is no straw man, though. At
+a million keys it is smaller than XCDAT's smallest configuration on ten corpora of the thirteen,
+CoCo-trie's on six of the nine it holds, FST's on three (`dna`, `opaque`, `uuid`) and MARISA's on
+`opaque` and `uuid` — and on `opaque` than MARISA at its smallest too, by 1.9 %. PDT and lexindex
+are smaller on all thirteen.
+
 ## The protocol
 
 The rules a number here had to survive:
@@ -395,6 +445,8 @@ ran at into the filename.
 | `harness/marisa_floor.py` | runs it over a scale's corpora into `results/marisa-floor-*.json` |
 | `harness/marisa_resident.cpp` | the heap a loaded marisa trie keeps, from the pinned marisa |
 | `harness/resident.py` | runs it and `harness/lex`'s `resident` over a scale's corpora into `results/resident-*.json` |
+| `harness/baselines/` | plain front coding's size, sux's rear-coded list and fcsd's set, from crates.io |
+| `harness/baselines.py` | runs it over a scale's corpora into `results/baselines-*.json` |
 | `harness/tables.py` | artifact → markdown |
 | `sib/corpora.py` | the corpus definitions, fetching and hashing |
 | `sib/chart.py` | artifact → figure |
