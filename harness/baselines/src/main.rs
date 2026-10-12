@@ -1,6 +1,6 @@
 //! Front-coded string lists the frontier campaign does not run, sized over one corpus file: sux's
 //! rear-coded list at three block ratios and fcsd's front-coded set at three bucket sizes, each up
-//! to the 256 that makes it smallest. The keys are read, sorted and deduplicated as `frontier_lex`
+//! to 256 keys a block. The keys are read, sorted and deduplicated as `frontier_lex`
 //! reads them. Before its size is printed, every structure answers every key both ways, id to key
 //! and key to id, so no size is one of a structure that does not hold the keys. Nothing is timed.
 //!
