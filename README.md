@@ -295,6 +295,13 @@ floor at both scales. How far the floor lies below the campaign's best is a prop
 a million, 0.5 % on `dna`, 0.8 % on `words`, 5–12 % on the titles and URLs and a third on `uuid`;
 3–5 % on the larger titles and URLs files.
 
+marisa-trie 0.3.1 (2025-07-20), three releases past the 0.2.6 pinned here, moves none of these
+sizes: `harness/marisa_floor.cpp` built against it on 2026-10-12 reported the same `io_size()` and
+`total_size()` as the artifacts above for all 35 configurations of all 21 rows. 0.3.0's release
+notes also announce improved performance, which no size can show. The campaign's timed MARISA rows
+stay 0.2.6's, the version the C² benchmark builds and its own MARISA headers are written against,
+so MARISA's lookup column may understate a current build.
+
 ## What a loaded index holds
 
 Every size above is a file. A loaded index can hold more: lexindex's `load_mmap` leaves the blob to
