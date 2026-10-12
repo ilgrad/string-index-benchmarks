@@ -11,13 +11,14 @@
     sib marisa-floor               # MARISA's size at every num_tries and the tiny cache, at 1 M
     sib marisa-floor --scale 10m   # the same over the six ten-million-key files
     sib resident                   # what a loaded index holds beside its file, lexindex and MARISA
+    sib baselines                  # plain front coding's size, sux and fcsd, at 1 M
     sib table results/<...>.json   # the markdown the README quotes
     sib chart results/<...>.json   # the figure
 
 Each subcommand is a thin wrapper over the script that does the work -- `harness/build.sh`,
 `sib/corpora.py`, `harness/run.sh`, `harness/marisa_floor.py`, `harness/resident.py`,
-`harness/tables.py`, `sib/chart.py` -- so that reading any one of them tells you the whole truth
-about what it did. Nothing here hides a flag.
+`harness/baselines.py`, `harness/tables.py`, `sib/chart.py` -- so that reading any one of them
+tells you the whole truth about what it did. Nothing here hides a flag.
 
 `--keys` is the one subcommand that is not a wrapper, and the one most people want. It stages your
 file as a corpus and runs the same protocol over it, so the answer is about *your* keys: a
@@ -107,6 +108,15 @@ def cmd_marisa_floor(args: argparse.Namespace) -> int:
     return _run(argv)
 
 
+def cmd_baselines(args: argparse.Namespace) -> int:
+    argv = [sys.executable, "harness/baselines.py", "--scale", args.scale]
+    if args.jobs:
+        argv += ["--jobs", str(args.jobs)]
+    if args.allow_dirty:
+        argv.append("--allow-dirty")
+    return _run(argv)
+
+
 def cmd_resident(args: argparse.Namespace) -> int:
     argv = [sys.executable, "harness/resident.py", "--scale", args.scale]
     if args.jobs:
@@ -164,6 +174,14 @@ def main() -> int:
     )
     resident.add_argument("--allow-dirty", action="store_true")
     resident.set_defaults(func=cmd_resident)
+
+    baselines = sub.add_parser("baselines", help="plain front coding's size, sux and fcsd")
+    baselines.add_argument("--scale", choices=("1m", "10m", "full"), default="1m")
+    baselines.add_argument(
+        "--jobs", type=int, default=0, help="corpora built at once (default: as memory allows)"
+    )
+    baselines.add_argument("--allow-dirty", action="store_true")
+    baselines.set_defaults(func=cmd_baselines)
 
     table = sub.add_parser("table", help="the markdown for a campaign artifact")
     table.add_argument("artifact")

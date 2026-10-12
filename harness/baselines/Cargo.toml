@@ -1,0 +1,20 @@
+# Front-coded string lists the frontier campaign does not run, sized over its corpus files: sux's
+# rear-coded list and fcsd's front-coded set. Sizes only. Its own crate, so that frontier_lex keeps
+# depending on the published lexindex and nothing else.
+[package]
+name = "baselines"
+version = "0.0.0"
+edition = "2024"
+publish = false
+
+[workspace]
+
+[dependencies]
+fcsd = "0.2.0"
+mem_dbg = "0.4.1"
+# Without the default `rayon`, `flate2` and `zstd`: the rear-coded list needs none of them.
+sux = { version = "0.15.0", default-features = false }
+
+[profile.release]
+lto = "thin"
+codegen-units = 1

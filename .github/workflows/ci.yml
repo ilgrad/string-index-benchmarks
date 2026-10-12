@@ -51,7 +51,7 @@ jobs:
           for json in results/frontier-*.json; do
             uv run --no-project --python 3.11 python harness/tables.py "$json" >/dev/null
           done
-          for json in results/marisa-floor-*.json results/resident-*.json; do
+          for json in results/marisa-floor-*.json results/resident-*.json results/baselines-*.json; do
             uv run --no-project --python 3.11 python -m json.tool "$json" >/dev/null
           done
       # A citation of an artifact that was never committed is a 404 from the day it is pushed. The
@@ -111,7 +111,7 @@ jobs:
         run: ./actionlint -color
 
   harness:
-    name: harness (frontier_lex builds against the pinned lexindex)
+    name: harness (frontier_lex against the pinned lexindex · baselines)
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -124,10 +124,18 @@ jobs:
           components: rustfmt, clippy
       - uses: Swatinem/rust-cache@6323deb102c322ba6fcbdcafc7e3dddab59af2b6 # v2.9.2
         with:
-          workspaces: harness/lex
+          workspaces: |
+            harness/lex
+            harness/baselines
       - name: fmt
         run: cargo fmt --all --check
       # `--locked`: the lexindex version a campaign measures is the one in Cargo.lock, and a
       # manifest that no longer agrees with it fails here rather than in the next `sib build`.
       - name: clippy
+        run: cargo clippy --locked --all-targets -- -D warnings
+      - name: fmt (baselines)
+        working-directory: harness/baselines
+        run: cargo fmt --all --check
+      - name: clippy (baselines)
+        working-directory: harness/baselines
         run: cargo clippy --locked --all-targets -- -D warnings

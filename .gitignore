@@ -12,6 +12,7 @@ __pycache__/
 .venv/
 .ruff_cache/
 harness/lex/target/
+harness/baselines/target/
 # Local notes and scratch measurements, never published.
 /local/
 /plans/
