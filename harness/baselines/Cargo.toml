@@ -10,10 +10,10 @@ publish = false
 [workspace]
 
 [dependencies]
-fcsd = "0.2.0"
-mem_dbg = "0.4.1"
+fcsd = "0.3.1"
+mem_dbg = "0.4.4"
 # Without the default `rayon`, `flate2` and `zstd`: the rear-coded list needs none of them.
-sux = { version = "0.15.0", default-features = false }
+sux = { version = "0.15.3", default-features = false }
 
 [profile.release]
 lto = "thin"
