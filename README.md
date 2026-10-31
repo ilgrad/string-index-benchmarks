@@ -81,6 +81,35 @@ the 10 M one — so a difference between two scales is scale and never compositi
 UTF-8, one key per line, deduplicated, and **shuffled with a fixed seed**: a sorted build order is
 the one order an ordered index must not be handed by accident.
 
+## The entrants, and their versions
+
+Every entrant is pinned at its latest release on 2026-10-31, or at its latest commit where it has
+none: `harness/pins.sh` for the C++ code, a `Cargo.lock` for each Rust harness. The size-only
+artifacts — the MARISA floor, what a loaded index holds, plain front coding — were re-run at these
+pins and hold the same bytes as the ones they replace, but for fcsd's 4-byte header. The timed
+campaigns ran before the bump, so their tables name the versions their artifacts record; rebuilt at
+the new pins, the C² driver gave the same `space_cost` on all 208 runs of the million-key
+campaign's first round that recorded one. **The lookup and build columns wait for the next
+campaign**, which needs a quiet machine.
+
+| entrant | language | structure | pinned now | the timed campaigns |
+|---|---|---|---|---|
+| lexindex `DictIndex`, routed `DictIndex`, `StringIndex`, `HashedDictIndex`, `DoubleArrayIndex` | Rust | front-coded blocks under a symbol table; a finite-state transducer (`fst` 0.4.7); a minimal perfect hash over the dictionary; a character-wise double-array trie | 4.5.3 (crates.io), 2026-10-20 | 4.5.2 |
+| MARISA, [`s-yata/marisa-trie`](https://github.com/s-yata/marisa-trie) | C++ | recursive LOUDS Patricia trie | 0.3.1, `3e87d53`, 2025-07-20; the commits past it change CI only | 0.2.6, `e54f296` |
+| XCDAT, [`kampersanda/xcdat`](https://github.com/kampersanda/xcdat) | C++ | compressed double-array trie, in four layouts (types 7, 8, 15, 16) | 0.2.2, `2451441`, 2024-09-10 | the same |
+| C²-FST, C²-CoCo, C²-MARISA, [`alexztc/C2`](https://github.com/alexztc/C2) | C++ | succinct tries with cache-conscious bit vectors and adaptive unary-path compression | `92c1b86`, 2026-06-20 | the same |
+| FST, as C² carries it | C++ | SuRF's LOUDS-Dense/Sparse fast succinct trie | C² `92c1b86` | the same |
+| CoCo-trie, as C² carries it | C++ | succinct trie of collapsed nodes, each coded by its own best encoding | C² `92c1b86`, with CoCo-trie's adapted headers at `ee860d4`, 2026-04-09 | the same |
+| PDT, as C² carries it | C++ | path-decomposed trie | C² `92c1b86` | the same |
+| ART, C-ART, as C² carries them | C++ | adaptive radix tree, and its compact form | C² `92c1b86` | the same |
+| sux, fcsd ([Plain front coding](#plain-front-coding)) | Rust | rear-coded list; front-coded set | sux 0.15.3, 2026-10-29; fcsd 0.3.1, 2026-10-25 | never timed; sized at the new versions, after sux 0.15.0 and fcsd 0.2.0 |
+| sdsl-lite, sux, ds2i, FSST: what C² builds on | C++ | succinct bit vectors and sequences; Elias–Fano; string compression | `0b861c7` 2026-10-10, `568903f` 2024-10-07, `4f46606` 2021-01-21, `e638d4c` 2026-04-06 | sdsl-lite `4312ea9`, sux `5944f6b`; the other two the same |
+| ctriepp, [`ofek.gila1/ctriepp`](https://gitlab.com/ofek.gila1/ctriepp) | C++ | compiled into C²'s driver for a prefix test the campaign does not run | `52d2c16`, 2025-04-09 | the same |
+
+C² builds MARISA from the pinned release and, since 0.3.0 changed the classes its headers declare,
+with that release's own headers in place of the 0.2.6 copy C² carries; the wrapper around it is C²'s,
+unchanged.
+
 ## Results: a million keys
 
 Measured 2026-09-26 on an AMD Ryzen 7 5800HS (8 cores / 16 threads, Fedora 44, GCC 16.2.1, rustc
@@ -256,8 +285,8 @@ tails save at most 160 bytes where they save any (`domains`), too little to move
 Every floor in the table lies inside that grid, the deepest at 30 tries. Sizes are files, as the
 protocol below has it, so the campaign's-best column reads a few hundred bytes above the campaign's
 own MARISA rows, which count `total_size()`. Artifacts
-`results/marisa-floor-{1m,10m,full}-2026-09-26-arz-452704f.json`; the lexindex column is the
-campaign's.
+`results/marisa-floor-{1m,10m,full}-2026-10-31-arz-c36150a.json`, at marisa 0.3.1; the lexindex
+column is the campaign's.
 
 | corpus | keys | MARISA, the campaign's best | MARISA, smallest | lexindex, smallest | margin |
 |---|---:|---:|---|---|---:|
@@ -295,12 +324,11 @@ floor at both scales. How far the floor lies below the campaign's best is a prop
 a million, 0.5 % on `dna`, 0.8 % on `words`, 5–12 % on the titles and URLs and a third on `uuid`;
 3–5 % on the larger titles and URLs files.
 
-marisa-trie 0.3.1 (2025-07-20), three releases past the 0.2.6 pinned here, moves none of these
-sizes: `harness/marisa_floor.cpp` built against it on 2026-10-12 reported the same `io_size()` and
-`total_size()` as the artifacts above for all 35 configurations of all 21 rows. 0.3.0's release
-notes also announce improved performance, which no size can show. The campaign's timed MARISA rows
-stay 0.2.6's, the version the C² benchmark builds and its own MARISA headers are written against,
-so MARISA's lookup column may understate a current build.
+marisa-trie 0.3.1 (2025-07-20), three releases past 0.2.6, moves none of these sizes: the 0.2.6
+artifacts these replace, `results/marisa-floor-{1m,10m,full}-2026-09-26-arz-452704f.json`, hold the
+same `io_size()` and `total_size()` for all 35 configurations of all 21 rows. 0.3.0's release notes
+also announce improved performance, which no size can show, so MARISA's lookup column, timed at
+0.2.6, waits for the next campaign.
 
 ## What a loaded index holds
 
@@ -313,7 +341,9 @@ still holds: a counting global allocator in `harness/lex`'s `resident`, replaced
 `harness/marisa_resident.cpp`, so both sides are counted alike and neither carries the allocator's
 rounding. MARISA is built at each corpus's floor configuration and lexindex as `DictIndex` at
 blocks 32, 256 and 1024 and as `StringIndex`; the table shows the smallest file of each. Nothing is
-timed. Artifacts `results/resident-{1m,10m,full}-2026-09-26-arz-156b1a7.json`.
+timed. Artifacts `results/resident-{1m,10m,full}-2026-10-31-arz-c36150a.json`, at marisa 0.3.1 and
+lexindex 4.5.3; the ones they replace, at 0.2.6 and 4.5.2
+(`results/resident-{1m,10m,full}-2026-09-26-arz-156b1a7.json`), count the same bytes in every cell.
 
 | corpus | lexindex, smallest | its file | + `load_mmap` heap | MARISA, smallest | its file | + `mmap` heap | margin, files | margin, mapped |
 |---|---|---:|---:|---|---:|---:|---:|---:|
@@ -355,15 +385,17 @@ the file and the same tables, to the byte on every row, and marisa's `load()` it
 The yardstick every compressed string dictionary is measured from has no row in the campaign: the
 sorted keys cut into blocks, each block's first key stored whole and every other key as the length
 it shares with the key before it and the rest. `sib baselines` builds it twice from crates.io over
-the campaign's corpus files — sux 0.15's rear-coded list at block ratios 16, 64 and 256, and fcsd
-0.2's front-coded set at buckets of 8 keys (its default), 64 and 256 — checks that each answers
+the campaign's corpus files — sux 0.15.3's rear-coded list at block ratios 16, 64 and 256, and fcsd
+0.3.1's front-coded set at buckets of 8 keys (its default), 64 and 256 — checks that each answers
 every key both ways, and records sizes only, so these rows have no lookup column either. fcsd's size
 is what `serialize_into` writes; sux's is its `mem_size`, the arrays without a file's framing. fcsd
 at 256 is the smaller on every corpus, sux at 256 within 0.021 bytes a key of it. A larger bucket
 would shrink both further, and slowly — from 64 keys to 256 took 0.2 % (`uuid`) to 3.8 % (`paths`)
 off fcsd's size at a million keys — and a lookup decodes a whole bucket. Artifacts
-`results/baselines-{1m,10m,full}-2026-10-12-arz-4c2914d.json`; the lexindex column is the
-campaign's.
+`results/baselines-{1m,10m,full}-2026-10-31-arz-c36150a.json`; the lexindex column is the
+campaign's. They replace the 2026-10-12 ones at sux 0.15.0 and fcsd 0.2.0
+(`results/baselines-{1m,10m,full}-2026-10-12-arz-4c2914d.json`): sux builds the same bytes, and
+every fcsd set is 4 bytes larger, the versioned header 0.3.0 added, which moves no cell below.
 
 | corpus | keys | raw B/key | front coding (fcsd, 256) | lexindex, smallest | margin |
 |---|---:|---:|---:|---|---:|
