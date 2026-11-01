@@ -37,6 +37,7 @@ sib run                        # the campaign at a million keys
 sib marisa-floor               # MARISA's smallest size on the same corpora -- sizes only, minutes
 sib resident                   # what each loaded index holds beside its file -- sizes only, minutes
 sib baselines                  # plain front coding on the same corpora -- sizes only, minutes
+sib maps                       # static maps that do not store their keys -- sizes only, minutes
 sib table results/<latest>.json
 ```
 
@@ -103,6 +104,8 @@ campaign**, which needs a quiet machine.
 | PDT, as C² carries it | C++ | path-decomposed trie | C² `92c1b86` | the same |
 | ART, C-ART, as C² carries them | C++ | adaptive radix tree, and its compact form | C² `92c1b86` | the same |
 | sux, fcsd ([Plain front coding](#plain-front-coding)) | Rust | rear-coded list; front-coded set | sux 0.15.3, 2026-10-29; fcsd 0.3.1, 2026-10-25 | never timed; sized at the new versions, after sux 0.15.0 and fcsd 0.2.0 |
+| constmap `ConstMap`, `VerifiedConstMap`, [`lemire/rsconstmap`](https://github.com/lemire/rsconstmap) ([Static maps](#static-maps-that-do-not-store-their-keys)) | Rust | binary fuse map from a string to a 64-bit value; the same with a 64-bit check | 0.3.0 (crates.io), 2026-09-17 | never timed; sized at this version |
+| lexindex `ClosedHashIndex`, `CompactHashIndex`, `PerfectHashIndex` ([Static maps](#static-maps-that-do-not-store-their-keys)) | Rust | minimal perfect hash; the same with a fingerprint a key; the same with the keys | 4.5.3 (crates.io), 2026-10-20 | never timed; sized at this version |
 | sdsl-lite, sux, ds2i, FSST: what C² builds on | C++ | succinct bit vectors and sequences; Elias–Fano; string compression | `0b861c7` 2026-10-10, `568903f` 2024-10-07, `4f46606` 2021-01-21, `e638d4c` 2026-04-06 | sdsl-lite `4312ea9`, sux `5944f6b`; the other two the same |
 | ctriepp, [`ofek.gila1/ctriepp`](https://gitlab.com/ofek.gila1/ctriepp) | C++ | compiled into C²'s driver for a prefix test the campaign does not run | `52d2c16`, 2025-04-09 | the same |
 
@@ -430,6 +433,54 @@ CoCo-trie's on six of the nine it holds, FST's on three (`dna`, `opaque`, `uuid`
 `opaque` and `uuid` — and on `opaque` than MARISA at its smallest too, by 1.9 %. PDT and lexindex
 are smaller on all thirteen.
 
+## Static maps that do not store their keys
+
+A map from a string to a number can be far smaller than any dictionary of the strings if it never
+has to give a string back. constmap (`lemire/rsconstmap`, the Rust port of Daniel Lemire's
+`constmap`; `fastconstmap` on PyPI) builds one by binary fuse construction: a key's value is the XOR
+of three words of an array. lexindex's hash indexes build one from a minimal perfect hash.
+`sib maps` builds both from crates.io over the campaign's corpus files. It checks that every
+structure answers every key, asks each structure that can reject a string for as many strings that
+are not keys as there are keys (each a key with one byte appended), and counts the ones it accepts.
+Sizes are a file's bytes: what constmap's `write_to` writes and lexindex's `serialized_len()`.
+Artifacts `results/maps-{1m,10m,full}-2026-11-01-arz-15d2a8d.json`; bytes a key, the range over the
+corpora:
+
+| structure | a key gives | a string that is not a key gives | 1 M | 10 M | 19.2 M |
+|---|---|---|---:|---:|---:|
+| constmap `ConstMap` | the 64-bit value it was built with | an undefined value | 9.044–9.151 | 9.018 | 9.003 |
+| lexindex `ClosedHashIndex` | its id, dense in [0, n), in an order the hash picks | some id | **0.240–0.242** | **0.239** | **0.239** |
+| constmap `VerifiedConstMap` | the value | `NOT_FOUND`; a 64-bit check, accepted 0 times | 18.088–18.302 | 18.035 | 18.006 |
+| lexindex `CompactHashIndex`, 64-bit fingerprint | its id | `None`; accepted 0 times | **8.240–8.242** | **8.239** | **8.239** |
+| lexindex `CompactHashIndex`, 32 / 16 / 8 bits | its id | `None`, but for about 2⁻³² / 2⁻¹⁶ / 2⁻⁸ of them; accepted at 1 M 0 times, 0.0009–0.0024 %, 0.381–0.398 % (1/256 is 0.391 %) | 4.240–4.242 / 2.240–2.242 / 1.240–1.242 | 4.239 / 2.239 / 1.239 | 4.239 / 2.239 / 1.239 |
+| lexindex `PerfectHashIndex` | its id, and the key back from the id | `None`: it compares the stored key | 7.442–60.622 | 8.441–54.631 | 23.235–54.626 |
+
+The sizes of the first five rows depend on the number of keys only, not on the corpus. At 1 M the
+range comes from `words` and `pypi`, which hold fewer keys.
+
+**The two kinds of map do not answer the same question.** constmap stores a value the caller
+chooses; lexindex's hash indexes choose the id themselves. Where an id is all a caller needs — to
+encode a column of strings as numbers, say — `ClosedHashIndex` holds it in 2.7 % of `ConstMap`'s
+bytes. Where the caller has a value of its own, it keeps an array of n values beside the index,
+read at the id. With 64-bit values that adds 8 bytes a key, and the pair is still the smaller:
+`ClosedHashIndex` and the array take 8.240 bytes a key on `titles-en` at a million keys against
+`ConstMap`'s 9.044 (−8.9 %), and 8.239 against 9.003 at 19.2 M (−8.5 %). `CompactHashIndex` at 64
+bits and the array take 16.240 against `VerifiedConstMap`'s 18.088 (−10.2 %), and 16.239 against
+18.006 at 19.2 M (−9.8 %). An array of narrower values makes the gap wider; constmap's value is 64
+bits wide whatever it holds.
+
+Two differences are not about size. constmap's build fails ("duplicate key hash detected") on a key
+set in which two keys share their 64-bit xxh64. lexindex keeps such keys in a side table and
+answers them exactly. No corpus here holds such a pair. None of these structures except
+`PerfectHashIndex` gives a key back from its id, and none has an order or a prefix search, so none
+is a row of the campaign's tables.
+
+`fastconstmap` 0.11.1, the PyPI package, builds the same seed and the same array words as the
+crate. Its files differ only in that they store the number of keys: `ConstMap` gains a 4-byte field
+(format `CMAP0003`), and `VerifiedConstMap` writes the count into 4 bytes the crate leaves zero.
+This was checked once, on `titles-en` at a million keys, and is not in an artifact. **The lookup
+columns wait for the next campaign**, which needs a quiet machine.
+
 ## The protocol
 
 The rules a number here had to survive:
@@ -486,6 +537,8 @@ ran at into the filename.
 | `harness/resident.py` | runs it and `harness/lex`'s `resident` over a scale's corpora into `results/resident-*.json` |
 | `harness/baselines/` | plain front coding's size, sux's rear-coded list and fcsd's set, from crates.io |
 | `harness/baselines.py` | runs it over a scale's corpora into `results/baselines-*.json` |
+| `harness/maps/` | static maps that do not store their keys, constmap's and lexindex's, from crates.io |
+| `harness/maps.py` | runs it over a scale's corpora into `results/maps-*.json` |
 | `harness/tables.py` | artifact → markdown |
 | `sib/corpora.py` | the corpus definitions, fetching and hashing |
 | `sib/chart.py` | artifact → figure |

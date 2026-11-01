@@ -1,0 +1,146 @@
+{
+  "table": "maps-full",
+  "environment": {
+    "date": "2026-11-01T13:11:13+02:00",
+    "host": "arz",
+    "commit": "15d2a8d",
+    "table": "maps-full",
+    "kernel": "Linux 7.2.13-200.fc44.x86_64 x86_64",
+    "compiler": "rustc 1.99.1 (58cf8f9c3 2026-10-13)",
+    "crate constmap": "0.3.0 (crates.io)",
+    "crate lexindex": "4.5.3 (crates.io)",
+    "sizes": "a file's bytes: constmap's write_to, lexindex's serialized_len(); bytes_per_key is bytes over keys",
+    "absent_accepted": "of as many strings that are not keys as there are keys, each a key with a byte appended, how many the structure accepts; null where it cannot reject one",
+    "quiet-machine gates": "none: sizes are deterministic"
+  },
+  "corpora": [
+    {
+      "corpus": "titles-en-full",
+      "keys": 19217770,
+      "raw_bytes": 403040259,
+      "raw_bytes_per_key": 20.972,
+      "configurations": [
+        {
+          "structure": "constmap ConstMap",
+          "parameter": "u64 value",
+          "bytes": 173015076,
+          "bytes_per_key": 9.0029,
+          "absent_accepted": null
+        },
+        {
+          "structure": "constmap VerifiedConstMap",
+          "parameter": "u64 value + 64-bit check",
+          "bytes": 346030120,
+          "bytes_per_key": 18.0057,
+          "absent_accepted": 0
+        },
+        {
+          "structure": "lexindex ClosedHashIndex",
+          "parameter": "",
+          "bytes": 4593941,
+          "bytes_per_key": 0.239,
+          "absent_accepted": null
+        },
+        {
+          "structure": "lexindex CompactHashIndex",
+          "parameter": "fingerprint 8 bits",
+          "bytes": 23811715,
+          "bytes_per_key": 1.239,
+          "absent_accepted": 75044
+        },
+        {
+          "structure": "lexindex CompactHashIndex",
+          "parameter": "fingerprint 16 bits",
+          "bytes": 43029485,
+          "bytes_per_key": 2.239,
+          "absent_accepted": 329
+        },
+        {
+          "structure": "lexindex CompactHashIndex",
+          "parameter": "fingerprint 32 bits",
+          "bytes": 81465025,
+          "bytes_per_key": 4.239,
+          "absent_accepted": 0
+        },
+        {
+          "structure": "lexindex CompactHashIndex",
+          "parameter": "fingerprint 64 bits",
+          "bytes": 158336105,
+          "bytes_per_key": 8.239,
+          "absent_accepted": 0
+        },
+        {
+          "structure": "lexindex PerfectHashIndex",
+          "parameter": "stores the keys",
+          "bytes": 446520469,
+          "bytes_per_key": 23.2348,
+          "absent_accepted": 0
+        }
+      ]
+    },
+    {
+      "corpus": "urls-full",
+      "keys": 19217771,
+      "raw_bytes": 1006306673,
+      "raw_bytes_per_key": 52.363,
+      "configurations": [
+        {
+          "structure": "constmap ConstMap",
+          "parameter": "u64 value",
+          "bytes": 173015076,
+          "bytes_per_key": 9.0029,
+          "absent_accepted": null
+        },
+        {
+          "structure": "constmap VerifiedConstMap",
+          "parameter": "u64 value + 64-bit check",
+          "bytes": 346030120,
+          "bytes_per_key": 18.0057,
+          "absent_accepted": 0
+        },
+        {
+          "structure": "lexindex ClosedHashIndex",
+          "parameter": "",
+          "bytes": 4596110,
+          "bytes_per_key": 0.2392,
+          "absent_accepted": null
+        },
+        {
+          "structure": "lexindex CompactHashIndex",
+          "parameter": "fingerprint 8 bits",
+          "bytes": 23813885,
+          "bytes_per_key": 1.2392,
+          "absent_accepted": 75093
+        },
+        {
+          "structure": "lexindex CompactHashIndex",
+          "parameter": "fingerprint 16 bits",
+          "bytes": 43031656,
+          "bytes_per_key": 2.2392,
+          "absent_accepted": 328
+        },
+        {
+          "structure": "lexindex CompactHashIndex",
+          "parameter": "fingerprint 32 bits",
+          "bytes": 81467198,
+          "bytes_per_key": 4.2392,
+          "absent_accepted": 0
+        },
+        {
+          "structure": "lexindex CompactHashIndex",
+          "parameter": "fingerprint 64 bits",
+          "bytes": 158338282,
+          "bytes_per_key": 8.2392,
+          "absent_accepted": 0
+        },
+        {
+          "structure": "lexindex PerfectHashIndex",
+          "parameter": "stores the keys",
+          "bytes": 1049789052,
+          "bytes_per_key": 54.626,
+          "absent_accepted": 0
+        }
+      ]
+    }
+  ]
+}
