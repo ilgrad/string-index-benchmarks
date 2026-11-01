@@ -13,6 +13,7 @@ __pycache__/
 .ruff_cache/
 harness/lex/target/
 harness/baselines/target/
+harness/maps/target/
 # Local notes and scratch measurements, never published.
 /local/
 /plans/

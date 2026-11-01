@@ -2,8 +2,9 @@
 # Build the research-frontier harness: the C² benchmark (C²-FST, C²-CoCo and C²-MARISA beside FST,
 # CoCo-trie, MARISA, PDT, ART and C-ART), XCDAT under the same protocol, MARISA's size at every
 # configuration and what a loaded one holds, `frontier_lex` and `resident` for lexindex, and plain
-# front coding's size from two crates (`harness/baselines`), every competitor at the commit in
-# harness/pins.sh or the version in its Cargo.lock.
+# front coding's size from two crates (`harness/baselines`), static maps that do not store their
+# keys (`harness/maps`), every competitor at the commit in harness/pins.sh or the version in its
+# Cargo.lock.
 #
 #   harness/build.sh    # into ./build, or $SIB_BUILD
 #
@@ -152,6 +153,10 @@ echo "xcdat_frontier"
 step "plain front coding from crates.io, sizes only"
 cargo build --release --locked --manifest-path "$root/harness/baselines/Cargo.toml"
 echo "harness/baselines/target/release/baselines"
+
+step "static maps from crates.io, sizes only"
+cargo build --release --locked --manifest-path "$root/harness/maps/Cargo.toml"
+echo "harness/maps/target/release/maps"
 
 step "lexindex under the same protocol"
 cargo build --release --locked --manifest-path "$root/harness/lex/Cargo.toml"

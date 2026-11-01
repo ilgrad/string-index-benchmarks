@@ -1,0 +1,18 @@
+# Hash maps that do not store their keys, sized over the campaign's corpus files: constmap's binary
+# fuse maps beside lexindex's hash indexes, each from crates.io. Sizes only. Its own crate, so that
+# frontier_lex keeps depending on the published lexindex and nothing else.
+[package]
+name = "maps"
+version = "0.0.0"
+edition = "2024"
+publish = false
+
+[workspace]
+
+[dependencies]
+constmap = "0.3.0"
+lexindex = { version = "4.5.3", default-features = false, features = ["mph"] }
+
+[profile.release]
+lto = "thin"
+codegen-units = 1

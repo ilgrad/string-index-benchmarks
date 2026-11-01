@@ -51,7 +51,8 @@ jobs:
           for json in results/frontier-*.json; do
             uv run --no-project --python 3.11 python harness/tables.py "$json" >/dev/null
           done
-          for json in results/marisa-floor-*.json results/resident-*.json results/baselines-*.json; do
+          for json in results/marisa-floor-*.json results/resident-*.json results/baselines-*.json \
+            results/maps-*.json; do
             uv run --no-project --python 3.11 python -m json.tool "$json" >/dev/null
           done
       # A citation of an artifact that was never committed is a 404 from the day it is pushed. The
@@ -111,7 +112,7 @@ jobs:
         run: ./actionlint -color
 
   harness:
-    name: harness (frontier_lex against the pinned lexindex · baselines)
+    name: harness (frontier_lex against the pinned lexindex · baselines · maps)
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -127,6 +128,7 @@ jobs:
           workspaces: |
             harness/lex
             harness/baselines
+            harness/maps
       - name: fmt
         run: cargo fmt --all --check
       # `--locked`: the lexindex version a campaign measures is the one in Cargo.lock, and a
@@ -138,4 +140,10 @@ jobs:
         run: cargo fmt --all --check
       - name: clippy (baselines)
         working-directory: harness/baselines
+        run: cargo clippy --locked --all-targets -- -D warnings
+      - name: fmt (maps)
+        working-directory: harness/maps
+        run: cargo fmt --all --check
+      - name: clippy (maps)
+        working-directory: harness/maps
         run: cargo clippy --locked --all-targets -- -D warnings

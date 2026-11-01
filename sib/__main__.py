@@ -12,13 +12,14 @@
     sib marisa-floor --scale 10m   # the same over the six ten-million-key files
     sib resident                   # what a loaded index holds beside its file, lexindex and MARISA
     sib baselines                  # plain front coding's size, sux and fcsd, at 1 M
+    sib maps                       # static maps that do not store their keys, constmap, at 1 M
     sib table results/<...>.json   # the markdown the README quotes
     sib chart results/<...>.json   # the figure
 
 Each subcommand is a thin wrapper over the script that does the work -- `harness/build.sh`,
 `sib/corpora.py`, `harness/run.sh`, `harness/marisa_floor.py`, `harness/resident.py`,
-`harness/baselines.py`, `harness/tables.py`, `sib/chart.py` -- so that reading any one of them
-tells you the whole truth about what it did. Nothing here hides a flag.
+`harness/baselines.py`, `harness/maps.py`, `harness/tables.py`, `sib/chart.py` -- so that reading
+any one of them tells you the whole truth about what it did. Nothing here hides a flag.
 
 `--keys` is the one subcommand that is not a wrapper, and the one most people want. It stages your
 file as a corpus and runs the same protocol over it, so the answer is about *your* keys: a
@@ -117,6 +118,15 @@ def cmd_baselines(args: argparse.Namespace) -> int:
     return _run(argv)
 
 
+def cmd_maps(args: argparse.Namespace) -> int:
+    argv = [sys.executable, "harness/maps.py", "--scale", args.scale]
+    if args.jobs:
+        argv += ["--jobs", str(args.jobs)]
+    if args.allow_dirty:
+        argv.append("--allow-dirty")
+    return _run(argv)
+
+
 def cmd_resident(args: argparse.Namespace) -> int:
     argv = [sys.executable, "harness/resident.py", "--scale", args.scale]
     if args.jobs:
@@ -182,6 +192,14 @@ def main() -> int:
     )
     baselines.add_argument("--allow-dirty", action="store_true")
     baselines.set_defaults(func=cmd_baselines)
+
+    maps = sub.add_parser("maps", help="static maps that do not store their keys, constmap")
+    maps.add_argument("--scale", choices=("1m", "10m", "full"), default="1m")
+    maps.add_argument(
+        "--jobs", type=int, default=0, help="corpora built at once (default: as memory allows)"
+    )
+    maps.add_argument("--allow-dirty", action="store_true")
+    maps.set_defaults(func=cmd_maps)
 
     table = sub.add_parser("table", help="the markdown for a campaign artifact")
     table.add_argument("artifact")

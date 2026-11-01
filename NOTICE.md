@@ -24,6 +24,7 @@ for itself and distributes nothing.
 | FSST | [`cwida/fsst`](https://github.com/cwida/fsst) | MIT |
 | ctriepp | [`ofek.gila1/ctriepp`](https://gitlab.com/ofek.gila1/ctriepp) | MIT (`LICENSE.txt`) |
 | lexindex | [`ilgrad/lexindex`](https://github.com/ilgrad/lexindex) | MIT (fetched from crates.io like any dependency) |
+| constmap | [`lemire/rsconstmap`](https://github.com/lemire/rsconstmap) | MIT OR Apache-2.0 (`LICENSE-MIT`, `LICENSE-APACHE`; fetched from crates.io, as is its one dependency, `xxhash-rust`, BSL-1.0), read 2026-11-01 |
 
 **PDT is the one entrant whose licence restricts use, not only redistribution.** The Microsoft
 Research License Agreement allows non-commercial use — its own examples are teaching, academic
