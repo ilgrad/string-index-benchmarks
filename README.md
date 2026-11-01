@@ -470,8 +470,11 @@ bits and the array take 16.240 against `VerifiedConstMap`'s 18.088 (−10.2 %), 
 bits wide whatever it holds.
 
 Two differences are not about size. constmap's build fails ("duplicate key hash detected") on a key
-set in which two keys share their 64-bit xxh64. lexindex keeps such keys in a side table and
-answers them exactly. No corpus here holds such a pair. None of these structures except
+set in which two keys share their 64-bit xxh64. lexindex builds over keys that share its own 64-bit
+hash: it keeps them in a side table, told apart by a second 64-bit hash, and only a pair that shares
+both is merged into one id
+([its design notes](https://github.com/ilgrad/lexindex/blob/main/docs/design.md#perfecthashindex)).
+No corpus here holds an xxh64 pair: every constmap build succeeded. None of these structures except
 `PerfectHashIndex` gives a key back from its id, and none has an order or a prefix search, so none
 is a row of the campaign's tables.
 
