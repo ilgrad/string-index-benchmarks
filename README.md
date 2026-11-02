@@ -36,7 +36,7 @@ sib corpora build              # fetch and derive the thirteen corpora (4.6 GB, 
 sib run                        # the campaign at a million keys
 sib marisa-floor               # MARISA's smallest size on the same corpora -- sizes only, minutes
 sib resident                   # what each loaded index holds beside its file -- sizes only, minutes
-sib baselines                  # plain front coding on the same corpora -- sizes only, minutes
+sib baselines                  # front coding on the same corpora -- sizes only; Re-Pair is slow
 sib maps                       # static maps that do not store their keys -- sizes only, minutes
 sib table results/<latest>.json
 ```
@@ -69,7 +69,9 @@ and `sib build` compiled every entrant with them, though the campaigns here ran 
 gave all 32 structures a cell, none failed, and it wrote its artifact and its table. The 21 C²
 and XCDAT rows hold the same sizes as the same drivers built on the host with GCC 16.2. The
 times of that run are not quoted: the machine was busy, and they are the machine's. The artifact's
-`host` is the container's id. No campaign and no corpus has been run inside the image.
+`host` is the container's id. At `68652c5`, `sib build` in the image compiled libCSD and
+RearCodedArray too, and on that file their drivers printed the same bytes as the host's. No campaign
+and no corpus but `words` has been run inside the image.
 
 ### Your keys, not ours
 
@@ -475,6 +477,65 @@ CoCo-trie's on six of the nine it holds, FST's on three (`dna`, `opaque`, `uuid`
 `opaque` and `uuid` — and on `opaque` than MARISA at its smallest too, by 1.9 %. PDT and lexindex
 are smaller on all thirteen.
 
+### libCSD and RearCodedArray
+
+`DictIndex` descends from libCSD's dictionaries, so `sib baselines` sizes them too, and RearCodedArray,
+at a million keys and at the commits in the versions table. Artifact
+`results/baselines-1m-2026-11-02-arz-68652c5.json` and what the drivers printed,
+`results/baselines-1m-2026-11-02-arz-68652c5.log`. Its sux and fcsd rows hold the same bytes as the
+2026-10-31 artifact's, all 78 of them. **Nothing here is timed: the `id` and build columns are empty
+and owed to the next quiet window.** Nor has anything here run at ten million keys.
+
+PFC is plain front coding, and RPFC is the same with its internal strings under Re-Pair. HTFC codes
+headers and internal strings by Hu-Tucker; HHTFC and RPHTFC code the internal strings by Huffman and
+by Re-Pair. Each runs at buckets of 8, 64, 256 and 1024 keys, and a cell is its smallest, at 1024
+where it names no bucket. A libCSD size is the file `save()` writes, and every key is checked both
+ways on that file once reloaded. RearCodedArray has two layouts and blocks of 32 to 8192 bytes; a
+cell is its smallest, at 8192 on every corpus. It writes no file, so its size is `size_in_bytes()`,
+without a file's framing. `HHTFC` and `RPHTFC` have no column of their own, but they are in `libCSD,
+smallest`.
+
+| corpus | keys | PFC | RPFC | HTFC | RearCodedArray | libCSD, smallest | lexindex, smallest | margin | `id` ns, owed | build ms, owed |
+|---|---:|---:|---:|---:|---:|---|---|---:|---:|---:|
+| `words` | 479,823 | 4.998 | 2.678 | 3.564 | 5.001 | 2.678 (RPFC) | **2.513** (Dict 1024) | +6.15 % | | |
+| `dna` | 1,000,000 | 16.850 | 6.357 | 7.507 | 16.881 | 6.235 (HHTFC) | **4.231** (Dict 1024) | +32.15 % | | |
+| `domains` | 1,000,000 | 9.982 | 4.583 | 6.487 | 9.995 | 4.583 (RPFC) | **4.363** (Dict 1024) | +4.82 % | | |
+| `idents` | 1,000,000 | 9.303 | 5.377 | 7.148 | 9.316 | 5.377 (RPFC) | **4.860** (Dict 1024) | +9.62 % | | |
+| `numeric` | 1,000,000 | 3.007 | 1.134 | 1.524 | 3.006 | 1.134 (RPFC) | **301 B total** (StringIndex) | +99.973 % | | |
+| `opaque` | 1,000,000 | 15.236 | 15.923 (bucket 256) | 11.994 | 15.257 | 11.994 (HTFC) | **10.291** (Dict 1024) | +14.21 % | | |
+| `paths` | 1,000,000 | 14.254 | 6.828 | 10.411 | 14.296 (1 rank wrong) | 6.828 (RPFC) | **6.511** (Dict 1024) | +4.64 % | | |
+| `pypi` | 895,600 | 8.019 | 4.518 | 5.524 | 8.029 | 4.518 (RPFC) | **4.024** (Dict 1024) | +10.94 % | | |
+| `titles-en` | 1,000,000 | 14.741 | 7.889 | 10.449 | 14.766 (41,085 ranks wrong) | 7.889 (RPFC) | **7.212** (Dict 1024) | +8.58 % | | |
+| `titles-ru` | 1,000,000 | 21.806 | 7.333 | wrong answer | 21.866 (594,461 ranks wrong) | 7.333 (RPFC) | **6.698** (Dict 1024) | +8.66 % | | |
+| `titles-zh` | 1,000,000 | 11.222 | 6.005 | 9.078 | 11.239 (492,036 ranks wrong) | 6.005 (RPFC) | **5.687** (Dict 1024) | +5.30 % | | |
+| `urls` | 1,000,000 | 15.826 | 7.943 | 11.275 | 15.884 | 7.943 (RPFC) | **7.271** (Dict 1024) | +8.46 % | | |
+| `uuid` | 1,000,000 | 33.690 | 22.746 (bucket 256) | 19.140 | 33.746 | 18.694 (HHTFC) | **17.894** (Dict 1024) | +4.28 % | | |
+
+lexindex's smallest index is the smaller on all thirteen, by 4.28 % (`uuid`) to 32.15 % (`dna`) with
+`numeric` aside. **Here libCSD is the closest rival, closer than MARISA in places:** its smallest
+beats MARISA's floor on eight corpora and loses on `idents`, `paths`, `pypi`, `titles-en` and `urls`,
+and beats the campaign's `smallest other` on seven (`words`, `domains`, `titles-en`, `titles-ru`,
+`titles-zh`, `urls`, `uuid`). Those rows are not in the million-key table above, which holds only
+what the campaign also times. How fast RPFC at 1024 keys a bucket answers is what the empty columns
+owe. PFC is the control: at 256 keys a bucket its file is 31 to 39 bytes smaller than fcsd's, on
+every corpus.
+
+Four defects in the pinned code shape these rows. All four are upstream's, and no source is patched:
+
+- **libCSD RPFC and RPHTFC write one `size_t` past a vector** wherever the key count is a multiple
+  of the bucket size, as a million is of 8. That corrupted the heap on twelve corpora in the first
+  run. Nothing reads the entry, so the driver's allocator leaves room for it.
+- **libCSD RPHTFC crashes in `extract`** on some key sets, in upstream's own `Test` tool as well:
+  signal 11 at bucket 256 on `dna` and `domains`, and at every bucket on `numeric`, whose row
+  therefore has no RPHTFC size. The artifact holds each failure in place of a size.
+- **libCSD HTFC and HHTFC answer wrong on `titles-ru`** at every bucket, so that cell holds no size.
+  The first 100,000 keys of the same corpus pass. The first key to fail at each bucket is a long
+  title, on which `locate` gives 0 and `extract` another string. The cause is not traced.
+- **RearCodedArray's `rank` is wrong** on keys past ASCII: it compares bytes as signed `char`, against
+  keys sorted as unsigned bytes. The table counts them, in the layout it sizes. Every key still comes
+  back from `access`, so the size stands. An allocation one byte short of the longest key is padded
+  by the driver.
+
 ## Static maps that do not store their keys
 
 A map from a string to a number can be far smaller than any dictionary of the strings if it never
@@ -584,8 +645,9 @@ The rules a number here had to survive:
     each other, so XCDAT 15's time is bold where it wins.
   - In the static maps' table, each constmap row is set against the lexindex row that rejects the
     same strangers. A row with no such partner has no bold.
-  - The margins of the three size-only tables are plain. The loaded-index table has no bold at all:
-    its two margins differ in sign on five rows, and the margins are the result.
+  - The margins of the MARISA floor's table and of the front-coding tables are plain. The
+    loaded-index table has no bold at all: its two margins differ in sign on five rows, and the
+    margins are the result.
 
 `run.sh` refuses to run on a dirty checkout unless told `--allow-dirty`, and stamps the commit it
 ran at into the filename.

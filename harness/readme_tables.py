@@ -41,6 +41,7 @@ RESIDENT = {
     scale: f"resident-{scale}-2026-10-31-arz-c36150a.json" for scale in ("1m", "10m", "full")
 }
 FRONT = {scale: f"baselines-{scale}-2026-10-31-arz-c36150a.json" for scale in ("1m", "10m", "full")}
+FRONT_FAMILY = "baselines-1m-2026-11-02-arz-68652c5.json"
 MAPS = {scale: f"maps-{scale}-2026-11-01-arz-15d2a8d.json" for scale in ("1m", "10m", "full")}
 
 # The 100 M artifact records numeric's StringIndex as 0.000401 MiB, 420 or 421 bytes, and no
@@ -285,6 +286,51 @@ def front_table() -> list[str]:
     return rows
 
 
+def smallest_of(corpus: dict, structures: tuple[str, ...]) -> dict | None:
+    """The smallest configuration of these structures that holds its keys, if any does."""
+    sized = [c for c in corpus["configurations"] if c["structure"] in structures and "bytes" in c]
+    return min(sized, key=lambda c: c["bytes"]) if sized else None
+
+
+def libcsd_cell(corpus: dict, structure: str) -> str:
+    """Its smallest bucket's bytes a key, the bucket named where that is not the largest."""
+    best = smallest_of(corpus, (structure,))
+    if best is None:
+        failures = {c["failure"] for c in corpus["configurations"] if c["structure"] == structure}
+        return ", ".join(sorted(failures))
+    bucket = best["parameter"].removeprefix("bucket ")
+    size = f"{best['bytes'] / corpus['keys']:.3f}"
+    return size if bucket == "1024" else f"{size} (bucket {bucket})"
+
+
+def family_table() -> list[str]:
+    campaign = Campaign("1m")
+    rows = [
+        "| corpus | keys | PFC | RPFC | HTFC | RearCodedArray | libCSD, smallest "
+        "| lexindex, smallest | margin | `id` ns, owed | build ms, owed |",
+        "|---|---:|---:|---:|---:|---:|---|---|---:|---:|---:|",
+    ]
+    libcsd = ("PFC", "RPFC", "HTFC", "HHTFC", "RPHTFC")
+    for corpus in load(FRONT_FAMILY)["corpora"]:
+        stem, keys = corpus["corpus"], corpus["keys"]
+        best = smallest_of(corpus, tuple(f"libCSD {name}" for name in libcsd))
+        rear = smallest_of(corpus, ("RearCodedArray", "RearCodedArray (headers apart)"))
+        wrong = rear["rank_wrong"]
+        note = f" ({wrong:,} {'rank' if wrong == 1 else 'ranks'} wrong)" if wrong else ""
+        ours = campaign.smallest(stem)["bytes_per_key"]
+        won = ours * keys < best["bytes"]
+        size = f"{best['bytes'] / keys:.3f}"
+        margin = percent(1 - ours / (best["bytes"] / keys), 3 if short(stem) == "numeric" else 2)
+        rows.append(
+            f"| `{short(stem)}` | {keys:,} | {libcsd_cell(corpus, 'libCSD PFC')} "
+            f"| {libcsd_cell(corpus, 'libCSD RPFC')} | {libcsd_cell(corpus, 'libCSD HTFC')} "
+            f"| {rear['bytes'] / keys:.3f}{note} "
+            f"| {bold(size, not won)} ({best['structure'].removeprefix('libCSD ')}) "
+            f"| {lexindex_size(campaign, stem, 3, won)} | {margin} | | |"
+        )
+    return rows
+
+
 def spread(values: list[float], decimals: int, suffix: str = "") -> str:
     """A range over the corpora, or one number where they agree at the printed digits."""
     low, high = f"{min(values):.{decimals}f}", f"{max(values):.{decimals}f}"
@@ -386,7 +432,10 @@ SECTIONS = {
     ),
     "MARISA at its smallest": ((floor_table, tuple(FLOOR.values())),),
     "What a loaded index holds": ((resident_table, tuple(RESIDENT.values())),),
-    "Plain front coding": ((front_table, tuple(FRONT.values())),),
+    "Plain front coding": (
+        (front_table, tuple(FRONT.values())),
+        (family_table, (FRONT_FAMILY,)),
+    ),
     "Static maps that do not store their keys": ((maps_table, tuple(MAPS.values())),),
 }
 

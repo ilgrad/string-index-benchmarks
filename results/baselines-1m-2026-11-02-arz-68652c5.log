@@ -1,0 +1,597 @@
+date: 2026-11-02T16:20:16+02:00
+host: arz
+commit: 68652c5
+table: baselines-1m
+kernel: Linux 7.2.13-200.fc44.x86_64 x86_64
+compiler: rustc 1.99.1 (58cf8f9c3 2026-10-13)
+crate sux: 0.15.3 (crates.io)
+crate fcsd: 0.3.1 (crates.io)
+pin libcsd: 568bf8a87668 https://github.com/migumar2/libCSD
+pin rca: 608b35e2fced https://github.com/gvinciguerra/RearCodedArray
+sizes: fcsd: size_in_bytes(), what serialize_into writes; sux: mem_size, its arrays and fields without a file's framing; libCSD: the file its save() writes; RearCodedArray: size_in_bytes(), its arrays and object, for it writes no file; bytes_per_key is bytes over keys
+quiet-machine gates: none: sizes are deterministic
+--- baselines words-full
+479823 keys, 4473734 raw bytes
+structure,parameter,bytes
+sux RearCodedListStr,ratio 16,2794098
+sux RearCodedListStr,ratio 64,2494546
+sux RearCodedListStr,ratio 256,2419580
+fcsd Set,bucket 8,2878715
+fcsd Set,bucket 64,2455218
+fcsd Set,bucket 256,2409772
+--- libcsd_baselines words-full
+479823 keys, 4473734 raw bytes
+structure,parameter,bytes,failure
+libCSD PFC,bucket 8,2878684,
+libCSD PFC,bucket 64,2455187,
+libCSD PFC,bucket 256,2409741,
+libCSD PFC,bucket 1024,2398346,
+libCSD RPFC,bucket 8,1908676,
+libCSD RPFC,bucket 64,1359208,
+libCSD RPFC,bucket 256,1299840,
+libCSD RPFC,bucket 1024,1285074,
+libCSD HTFC,bucket 8,2134934,
+libCSD HTFC,bucket 64,1760399,
+libCSD HTFC,bucket 256,1720000,
+libCSD HTFC,bucket 1024,1709860,
+libCSD HHTFC,bucket 8,2379486,
+libCSD HHTFC,bucket 64,2022447,
+libCSD HHTFC,bucket 256,1974476,
+libCSD HHTFC,bucket 1024,1957959,
+libCSD RPHTFC,bucket 8,1979959,
+libCSD RPHTFC,bucket 64,1624674,
+libCSD RPHTFC,bucket 256,1576536,
+libCSD RPHTFC,bucket 1024,1560043,
+--- rca_baselines words-full
+479823 keys, 4473734 raw bytes
+structure,parameter,bytes,rank_wrong
+RearCodedArray,block 32 bytes,3857128,0
+RearCodedArray (headers apart),block 32 bytes,3452867,0
+RearCodedArray,block 128 bytes,2730091,0
+RearCodedArray (headers apart),block 128 bytes,2703433,0
+RearCodedArray,block 512 bytes,2477190,0
+RearCodedArray (headers apart),block 512 bytes,2475097,0
+RearCodedArray,block 2048 bytes,2415211,0
+RearCodedArray (headers apart),block 2048 bytes,2415023,0
+RearCodedArray,block 8192 bytes,2399778,0
+RearCodedArray (headers apart),block 8192 bytes,2399845,0
+--- baselines dna-1000000
+1000000 keys, 24000000 raw bytes
+structure,parameter,bytes
+sux RearCodedListStr,ratio 16,17849499
+sux RearCodedListStr,ratio 64,17091893
+sux RearCodedListStr,ratio 256,16902277
+fcsd Set,bucket 8,18249893
+fcsd Set,bucket 64,17015757
+fcsd Set,bucket 256,16883269
+--- libcsd_baselines dna-1000000
+1000000 keys, 24000000 raw bytes
+structure,parameter,bytes,failure
+libCSD PFC,bucket 8,18249854,
+libCSD PFC,bucket 64,17015726,
+libCSD PFC,bucket 256,16883230,
+libCSD PFC,bucket 1024,16850341,
+libCSD RPFC,bucket 8,9148710,
+libCSD RPFC,bucket 64,6694541,
+libCSD RPFC,bucket 256,6421820,
+libCSD RPFC,bucket 1024,6356857,
+libCSD HTFC,bucket 8,8347891,
+libCSD HTFC,bucket 64,7605912,
+libCSD HTFC,bucket 256,7526329,
+libCSD HTFC,bucket 1024,7506529,
+libCSD HHTFC,bucket 8,7301523,
+libCSD HHTFC,bucket 64,6359949,
+libCSD HHTFC,bucket 256,6261243,
+libCSD HHTFC,bucket 1024,6234909,
+libCSD RPHTFC,bucket 8,7646141,
+libCSD RPHTFC,bucket 64,6750892,
+libCSD RPHTFC,bucket 256,,signal 11
+libCSD RPHTFC,bucket 1024,6621152,
+--- rca_baselines dna-1000000
+1000000 keys, 24000000 raw bytes
+structure,parameter,bytes,rank_wrong
+RearCodedArray,block 32 bytes,26919186,0
+RearCodedArray (headers apart),block 32 bytes,23365180,0
+RearCodedArray,block 128 bytes,19458097,0
+RearCodedArray (headers apart),block 128 bytes,19076195,0
+RearCodedArray,block 512 bytes,17503876,0
+RearCodedArray (headers apart),block 512 bytes,17471679,0
+RearCodedArray,block 2048 bytes,17005235,0
+RearCodedArray (headers apart),block 2048 bytes,17003135,0
+RearCodedArray,block 8192 bytes,16880936,0
+RearCodedArray (headers apart),block 8192 bytes,16880664,0
+--- baselines domains-1000000
+1000000 keys, 13782044 raw bytes
+structure,parameter,bytes
+sux RearCodedListStr,ratio 16,10774839
+sux RearCodedListStr,ratio 64,10174275
+sux RearCodedListStr,ratio 256,10024208
+fcsd Set,bucket 8,10950204
+fcsd Set,bucket 64,10096187
+fcsd Set,bucket 256,10004712
+--- libcsd_baselines domains-1000000
+1000000 keys, 13782044 raw bytes
+structure,parameter,bytes,failure
+libCSD PFC,bucket 8,10950173,
+libCSD PFC,bucket 64,10096156,
+libCSD PFC,bucket 256,10004673,
+libCSD PFC,bucket 1024,9981849,
+libCSD RPFC,bucket 8,6308498,
+libCSD RPFC,bucket 64,4785240,
+libCSD RPFC,bucket 256,4623594,
+libCSD RPFC,bucket 1024,4583419,
+libCSD HTFC,bucket 8,7323953,
+libCSD HTFC,bucket 64,6585825,
+libCSD HTFC,bucket 256,6506664,
+libCSD HTFC,bucket 1024,6486826,
+libCSD HHTFC,bucket 8,7440648,
+libCSD HHTFC,bucket 64,6692979,
+libCSD HHTFC,bucket 256,6597931,
+libCSD HHTFC,bucket 1024,6566370,
+libCSD RPHTFC,bucket 8,5954961,
+libCSD RPHTFC,bucket 64,5011094,
+libCSD RPHTFC,bucket 256,,signal 11
+libCSD RPHTFC,bucket 1024,4860145,
+--- rca_baselines domains-1000000
+1000000 keys, 13782044 raw bytes
+structure,parameter,bytes,rank_wrong
+RearCodedArray,block 32 bytes,15228642,0
+RearCodedArray (headers apart),block 32 bytes,13507210,0
+RearCodedArray,block 128 bytes,11284436,0
+RearCodedArray (headers apart),block 128 bytes,11143211,0
+RearCodedArray,block 512 bytes,10301949,0
+RearCodedArray (headers apart),block 512 bytes,10292171,0
+RearCodedArray,block 2048 bytes,10056056,0
+RearCodedArray (headers apart),block 2048 bytes,10055672,0
+RearCodedArray,block 8192 bytes,9994696,0
+RearCodedArray (headers apart),block 8192 bytes,9994818,0
+--- baselines idents-1000000
+1000000 keys, 16569522 raw bytes
+structure,parameter,bytes
+sux RearCodedListStr,ratio 16,10309489
+sux RearCodedListStr,ratio 64,9546938
+sux RearCodedListStr,ratio 256,9355911
+fcsd Set,bucket 8,10701419
+fcsd Set,bucket 64,9468732
+fcsd Set,bucket 256,9336298
+--- libcsd_baselines idents-1000000
+1000000 keys, 16569522 raw bytes
+structure,parameter,bytes,failure
+libCSD PFC,bucket 8,10701388,
+libCSD PFC,bucket 64,9468701,
+libCSD PFC,bucket 256,9336259,
+libCSD PFC,bucket 1024,9302943,
+libCSD RPFC,bucket 8,7366257,
+libCSD RPFC,bucket 64,5612588,
+libCSD RPFC,bucket 256,5424653,
+libCSD RPFC,bucket 1024,5376985,
+libCSD HTFC,bucket 8,8351817,
+libCSD HTFC,bucket 64,7290786,
+libCSD HTFC,bucket 256,7176502,
+libCSD HTFC,bucket 1024,7147757,
+libCSD HHTFC,bucket 8,8516140,
+libCSD HHTFC,bucket 64,7477398,
+libCSD HHTFC,bucket 256,7357825,
+libCSD HHTFC,bucket 1024,7322535,
+libCSD RPHTFC,bucket 8,7082073,
+libCSD RPHTFC,bucket 64,5836600,
+libCSD RPHTFC,bucket 256,5695086,
+libCSD RPHTFC,bucket 1024,5654065,
+--- rca_baselines idents-1000000
+1000000 keys, 16569522 raw bytes
+structure,parameter,bytes,rank_wrong
+RearCodedArray,block 32 bytes,16951728,0
+RearCodedArray (headers apart),block 32 bytes,13278379,0
+RearCodedArray,block 128 bytes,10912473,0
+RearCodedArray (headers apart),block 128 bytes,10647992,0
+RearCodedArray,block 512 bytes,9695189,0
+RearCodedArray (headers apart),block 512 bytes,9666698,0
+RearCodedArray,block 2048 bytes,9390969,0
+RearCodedArray (headers apart),block 2048 bytes,9389691,0
+RearCodedArray,block 8192 bytes,9317172,0
+RearCodedArray (headers apart),block 8192 bytes,9316016,0
+--- baselines numeric-1000000
+1000000 keys, 5888890 raw bytes
+structure,parameter,bytes
+sux RearCodedListStr,ratio 16,3743110
+sux RearCodedListStr,ratio 64,3185811
+sux RearCodedListStr,ratio 256,3046489
+fcsd Set,bucket 8,3829945
+fcsd Set,bucket 64,3103819
+fcsd Set,bucket 256,3026017
+--- libcsd_baselines numeric-1000000
+1000000 keys, 5888890 raw bytes
+structure,parameter,bytes,failure
+libCSD PFC,bucket 8,3829914,
+libCSD PFC,bucket 64,3103780,
+libCSD PFC,bucket 256,3025978,
+libCSD PFC,bucket 1024,3006528,
+libCSD RPFC,bucket 8,2189464,
+libCSD RPFC,bucket 64,1258253,
+libCSD RPFC,bucket 256,1158479,
+libCSD RPFC,bucket 1024,1133537,
+libCSD HTFC,bucket 8,2252379,
+libCSD HTFC,bucket 64,1613560,
+libCSD HTFC,bucket 256,1544356,
+libCSD HTFC,bucket 1024,1524286,
+libCSD HHTFC,bucket 8,2416522,
+libCSD HHTFC,bucket 64,1795643,
+libCSD HHTFC,bucket 256,1702035,
+libCSD HHTFC,bucket 1024,1670850,
+libCSD RPHTFC,bucket 8,,signal 11
+libCSD RPHTFC,bucket 64,,signal 11
+libCSD RPHTFC,bucket 256,,signal 11
+libCSD RPHTFC,bucket 1024,,signal 11
+--- rca_baselines numeric-1000000
+1000000 keys, 5888890 raw bytes
+structure,parameter,bytes,rank_wrong
+RearCodedArray,block 32 bytes,4588761,0
+RearCodedArray (headers apart),block 32 bytes,4324222,0
+RearCodedArray,block 128 bytes,3378673,0
+RearCodedArray (headers apart),block 128 bytes,3361255,0
+RearCodedArray,block 512 bytes,3093571,0
+RearCodedArray (headers apart),block 512 bytes,3092479,0
+RearCodedArray,block 2048 bytes,3023407,0
+RearCodedArray (headers apart),block 2048 bytes,3023348,0
+RearCodedArray,block 8192 bytes,3005925,0
+RearCodedArray (headers apart),block 8192 bytes,3005945,0
+--- baselines opaque-1000000
+1000000 keys, 16000000 raw bytes
+structure,parameter,bytes
+sux RearCodedListStr,ratio 16,15841710
+sux RearCodedListStr,ratio 64,15383906
+sux RearCodedListStr,ratio 256,15269372
+fcsd Set,bucket 8,15827144
+fcsd Set,bucket 64,15305818
+fcsd Set,bucket 256,15249876
+--- libcsd_baselines opaque-1000000
+1000000 keys, 16000000 raw bytes
+structure,parameter,bytes,failure
+libCSD PFC,bucket 8,15827113,
+libCSD PFC,bucket 64,15305787,
+libCSD PFC,bucket 256,15249837,
+libCSD PFC,bucket 1024,15235863,
+libCSD RPFC,bucket 8,16605723,
+libCSD RPFC,bucket 64,16002287,
+libCSD RPFC,bucket 256,15922523,
+libCSD RPFC,bucket 1024,16744812,
+libCSD HTFC,bucket 8,12653331,
+libCSD HTFC,bucket 64,12072280,
+libCSD HTFC,bucket 256,12009996,
+libCSD HTFC,bucket 1024,11994417,
+libCSD HHTFC,bucket 8,12727407,
+libCSD HHTFC,bucket 64,12155538,
+libCSD HHTFC,bucket 256,12089803,
+libCSD HHTFC,bucket 1024,12067952,
+libCSD RPHTFC,bucket 8,16435797,
+libCSD RPHTFC,bucket 64,16240008,
+libCSD RPHTFC,bucket 256,16199473,
+libCSD RPHTFC,bucket 1024,17026154,
+--- rca_baselines opaque-1000000
+1000000 keys, 16000000 raw bytes
+structure,parameter,bytes,rank_wrong
+RearCodedArray,block 32 bytes,22016871,0
+RearCodedArray (headers apart),block 32 bytes,18698594,0
+RearCodedArray,block 128 bytes,16761088,0
+RearCodedArray (headers apart),block 128 bytes,16608166,0
+RearCodedArray,block 512 bytes,15636194,0
+RearCodedArray (headers apart),block 512 bytes,15624552,0
+RearCodedArray,block 2048 bytes,15333382,0
+RearCodedArray (headers apart),block 2048 bytes,15332469,0
+RearCodedArray,block 8192 bytes,15256804,0
+RearCodedArray (headers apart),block 8192 bytes,15256807,0
+--- baselines paths-1000000
+1000000 keys, 58358139 raw bytes
+structure,parameter,bytes
+sux RearCodedListStr,ratio 16,17517138
+sux RearCodedListStr,ratio 64,15025900
+sux RearCodedListStr,ratio 256,14402185
+fcsd Set,bucket 8,20239275
+fcsd Set,bucket 64,14959616
+fcsd Set,bucket 256,14395041
+--- libcsd_baselines paths-1000000
+1000000 keys, 58358139 raw bytes
+structure,parameter,bytes,failure
+libCSD PFC,bucket 8,20239236,
+libCSD PFC,bucket 64,14959585,
+libCSD PFC,bucket 256,14395002,
+libCSD PFC,bucket 1024,14254276,
+libCSD RPFC,bucket 8,13888565,
+libCSD RPFC,bucket 64,7663584,
+libCSD RPFC,bucket 256,6995229,
+libCSD RPFC,bucket 1024,6827781,
+libCSD HTFC,bucket 8,14600396,
+libCSD HTFC,bucket 64,10919056,
+libCSD HTFC,bucket 256,10513232,
+libCSD HTFC,bucket 1024,10411216,
+libCSD HHTFC,bucket 8,14513005,
+libCSD HHTFC,bucket 64,10981115,
+libCSD HHTFC,bucket 256,10588617,
+libCSD HHTFC,bucket 1024,10481653,
+libCSD RPHTFC,bucket 8,11621310,
+libCSD RPHTFC,bucket 64,7655660,
+libCSD RPHTFC,bucket 256,7215922,
+libCSD RPHTFC,bucket 1024,7096589,
+--- rca_baselines paths-1000000
+1000000 keys, 58358139 raw bytes
+structure,parameter,bytes,rank_wrong
+RearCodedArray,block 32 bytes,70122164,0
+RearCodedArray (headers apart),block 32 bytes,29076533,1
+RearCodedArray,block 128 bytes,27907976,1
+RearCodedArray (headers apart),block 128 bytes,19659548,1
+RearCodedArray,block 512 bytes,16004282,1
+RearCodedArray (headers apart),block 512 bytes,15751868,1
+RearCodedArray,block 2048 bytes,14613415,1
+RearCodedArray (headers apart),block 2048 bytes,14599587,1
+RearCodedArray,block 8192 bytes,14297011,1
+RearCodedArray (headers apart),block 8192 bytes,14295712,1
+--- baselines pypi-full
+895600 keys, 11941344 raw bytes
+structure,parameter,bytes
+sux RearCodedListStr,ratio 16,7975158
+sux RearCodedListStr,ratio 64,7374794
+sux RearCodedListStr,ratio 256,7224104
+fcsd Set,bucket 8,8202610
+fcsd Set,bucket 64,7303111
+fcsd Set,bucket 256,7206205
+--- libcsd_baselines pypi-full
+895600 keys, 11941344 raw bytes
+structure,parameter,bytes,failure
+libCSD PFC,bucket 8,8202571,
+libCSD PFC,bucket 64,7303072,
+libCSD PFC,bucket 256,7206174,
+libCSD PFC,bucket 1024,7182149,
+libCSD RPFC,bucket 8,5545596,
+libCSD RPFC,bucket 64,4222463,
+libCSD RPFC,bucket 256,4081621,
+libCSD RPFC,bucket 1024,4046152,
+libCSD HTFC,bucket 8,5804771,
+libCSD HTFC,bucket 64,5049086,
+libCSD HTFC,bucket 256,4967582,
+libCSD HTFC,bucket 1024,4947222,
+libCSD HHTFC,bucket 8,6001101,
+libCSD HHTFC,bucket 64,5255535,
+libCSD HHTFC,bucket 256,5163327,
+libCSD HHTFC,bucket 1024,5133887,
+libCSD RPHTFC,bucket 8,5279222,
+libCSD RPHTFC,bucket 64,4455494,
+libCSD RPHTFC,bucket 256,4354644,
+libCSD RPHTFC,bucket 1024,4322747,
+--- rca_baselines pypi-full
+895600 keys, 11941344 raw bytes
+structure,parameter,bytes,rank_wrong
+RearCodedArray,block 32 bytes,12238340,0
+RearCodedArray (headers apart),block 32 bytes,10168982,0
+RearCodedArray,block 128 bytes,8277131,0
+RearCodedArray (headers apart),block 128 bytes,8139561,0
+RearCodedArray,block 512 bytes,7444104,0
+RearCodedArray (headers apart),block 512 bytes,7435234,0
+RearCodedArray,block 2048 bytes,7241026,0
+RearCodedArray (headers apart),block 2048 bytes,7240526,0
+RearCodedArray,block 8192 bytes,7190873,0
+RearCodedArray (headers apart),block 8192 bytes,7190920,0
+--- baselines titles-en-1000000
+1000000 keys, 20984647 raw bytes
+structure,parameter,bytes
+sux RearCodedListStr,ratio 16,15684121
+sux RearCodedListStr,ratio 64,14968566
+sux RearCodedListStr,ratio 256,14790433
+fcsd Set,bucket 8,16011248
+fcsd Set,bucket 64,14890400
+fcsd Set,bucket 256,14770858
+--- libcsd_baselines titles-en-1000000
+1000000 keys, 20984647 raw bytes
+structure,parameter,bytes,failure
+libCSD PFC,bucket 8,16011217,
+libCSD PFC,bucket 64,14890369,
+libCSD PFC,bucket 256,14770819,
+libCSD PFC,bucket 1024,14740764,
+libCSD RPFC,bucket 8,10162355,
+libCSD RPFC,bucket 64,8157758,
+libCSD RPFC,bucket 256,7943659,
+libCSD RPFC,bucket 1024,7889174,
+libCSD HTFC,bucket 8,11520479,
+libCSD HTFC,bucket 64,10575271,
+libCSD HTFC,bucket 256,10474352,
+libCSD HTFC,bucket 1024,10449108,
+libCSD HHTFC,bucket 8,11585074,
+libCSD HHTFC,bucket 64,10628595,
+libCSD HHTFC,bucket 256,10517866,
+libCSD HHTFC,bucket 1024,10483699,
+libCSD RPHTFC,bucket 8,9611580,
+libCSD RPHTFC,bucket 64,8352272,
+libCSD RPHTFC,bucket 256,8209289,
+libCSD RPHTFC,bucket 1024,8166262,
+--- rca_baselines titles-en-1000000
+1000000 keys, 20984647 raw bytes
+structure,parameter,bytes,rank_wrong
+RearCodedArray,block 32 bytes,23883364,9577
+RearCodedArray (headers apart),block 32 bytes,19808115,14367
+RearCodedArray,block 128 bytes,17029830,20276
+RearCodedArray (headers apart),block 128 bytes,16639598,21505
+RearCodedArray,block 512 bytes,15308167,27978
+RearCodedArray (headers apart),block 512 bytes,15280469,28205
+RearCodedArray,block 2048 bytes,14875549,34477
+RearCodedArray (headers apart),block 2048 bytes,14873215,34505
+RearCodedArray,block 8192 bytes,14766573,40485
+RearCodedArray (headers apart),block 8192 bytes,14766155,41085
+--- baselines titles-ru-1000000
+1000000 keys, 35819661 raw bytes
+structure,parameter,bytes
+sux RearCodedListStr,ratio 16,23231829
+sux RearCodedListStr,ratio 64,22150387
+sux RearCodedListStr,ratio 256,21879910
+fcsd Set,bucket 8,24058957
+fcsd Set,bucket 64,22072794
+fcsd Set,bucket 256,21859472
+--- libcsd_baselines titles-ru-1000000
+1000000 keys, 35819661 raw bytes
+structure,parameter,bytes,failure
+libCSD PFC,bucket 8,24058918,
+libCSD PFC,bucket 64,22072763,
+libCSD PFC,bucket 256,21859433,
+libCSD PFC,bucket 1024,21806496,
+libCSD RPFC,bucket 8,11532238,
+libCSD RPFC,bucket 64,7826103,
+libCSD RPFC,bucket 256,7431986,
+libCSD RPFC,bucket 1024,7332890,
+libCSD HTFC,bucket 8,,wrong answer
+libCSD HTFC,bucket 64,,wrong answer
+libCSD HTFC,bucket 256,,wrong answer
+libCSD HTFC,bucket 1024,,wrong answer
+libCSD HHTFC,bucket 8,,wrong answer
+libCSD HHTFC,bucket 64,,wrong answer
+libCSD HHTFC,bucket 256,,wrong answer
+libCSD HHTFC,bucket 1024,,wrong answer
+libCSD RPHTFC,bucket 8,10027737,
+libCSD RPHTFC,bucket 64,7885430,
+libCSD RPHTFC,bucket 256,7655492,
+libCSD RPHTFC,bucket 1024,7596360,
+--- rca_baselines titles-ru-1000000
+1000000 keys, 35819661 raw bytes
+structure,parameter,bytes,rank_wrong
+RearCodedArray,block 32 bytes,41440288,42853
+RearCodedArray (headers apart),block 32 bytes,30511296,84022
+RearCodedArray,block 128 bytes,26906675,137564
+RearCodedArray (headers apart),block 128 bytes,25466625,158484
+RearCodedArray,block 512 bytes,23016942,274751
+RearCodedArray (headers apart),block 512 bytes,22919696,282617
+RearCodedArray,block 2048 bytes,22094720,438402
+RearCodedArray (headers apart),block 2048 bytes,22087286,440980
+RearCodedArray,block 8192 bytes,21866494,594461
+RearCodedArray (headers apart),block 8192 bytes,21866784,593575
+--- baselines titles-zh-1000000
+1000000 keys, 16871822 raw bytes
+structure,parameter,bytes
+sux RearCodedListStr,ratio 16,12127950
+sux RearCodedListStr,ratio 64,11441296
+sux RearCodedListStr,ratio 256,11269496
+fcsd Set,bucket 8,12419145
+fcsd Set,bucket 64,11363186
+fcsd Set,bucket 256,11249977
+--- libcsd_baselines titles-zh-1000000
+1000000 keys, 16871822 raw bytes
+structure,parameter,bytes,failure
+libCSD PFC,bucket 8,12419114,
+libCSD PFC,bucket 64,11363155,
+libCSD PFC,bucket 256,11249938,
+libCSD PFC,bucket 1024,11221599,
+libCSD RPFC,bucket 8,7687207,
+libCSD RPFC,bucket 64,6238910,
+libCSD RPFC,bucket 256,6051477,
+libCSD RPFC,bucket 1024,6004667,
+libCSD HTFC,bucket 8,10224290,
+libCSD HTFC,bucket 64,9214462,
+libCSD HTFC,bucket 256,9105036,
+libCSD HTFC,bucket 1024,9077565,
+libCSD HHTFC,bucket 8,10440878,
+libCSD HHTFC,bucket 64,9421681,
+libCSD HHTFC,bucket 256,9307605,
+libCSD HHTFC,bucket 1024,9275793,
+libCSD RPHTFC,bucket 8,7563338,
+libCSD RPHTFC,bucket 64,6475892,
+libCSD RPHTFC,bucket 256,6322558,
+libCSD RPHTFC,bucket 1024,6280846,
+--- rca_baselines titles-zh-1000000
+1000000 keys, 16871822 raw bytes
+structure,parameter,bytes,rank_wrong
+RearCodedArray,block 32 bytes,18358072,93622
+RearCodedArray (headers apart),block 32 bytes,15424132,117493
+RearCodedArray,block 128 bytes,12945781,176679
+RearCodedArray (headers apart),block 128 bytes,12690602,184609
+RearCodedArray,block 512 bytes,11643166,271923
+RearCodedArray (headers apart),block 512 bytes,11625055,274534
+RearCodedArray,block 2048 bytes,11319314,378961
+RearCodedArray (headers apart),block 2048 bytes,11318651,381040
+RearCodedArray,block 8192 bytes,11238787,492036
+RearCodedArray (headers apart),block 8192 bytes,11238895,489763
+--- baselines urls-1000000
+1000000 keys, 52361181 raw bytes
+structure,parameter,bytes
+sux RearCodedListStr,ratio 16,18637183
+sux RearCodedListStr,ratio 64,16499173
+sux RearCodedListStr,ratio 256,15965274
+fcsd Set,bucket 8,20875225
+fcsd Set,bucket 64,16420634
+fcsd Set,bucket 256,15945333
+--- libcsd_baselines urls-1000000
+1000000 keys, 52361181 raw bytes
+structure,parameter,bytes,failure
+libCSD PFC,bucket 8,20875186,
+libCSD PFC,bucket 64,16420603,
+libCSD PFC,bucket 256,15945294,
+libCSD PFC,bucket 1024,15826223,
+libCSD RPFC,bucket 8,14124139,
+libCSD RPFC,bucket 64,8673825,
+libCSD RPFC,bucket 256,8088571,
+libCSD RPFC,bucket 1024,7943450,
+libCSD HTFC,bucket 8,14999471,
+libCSD HTFC,bucket 64,11742053,
+libCSD HTFC,bucket 256,11368826,
+libCSD HTFC,bucket 1024,11274756,
+libCSD HHTFC,bucket 8,14615938,
+libCSD HHTFC,bucket 64,11610308,
+libCSD HHTFC,bucket 256,11282145,
+libCSD HHTFC,bucket 1024,11195219,
+libCSD RPHTFC,bucket 8,12072052,
+libCSD RPHTFC,bucket 64,8674410,
+libCSD RPHTFC,bucket 256,8302879,
+libCSD RPHTFC,bucket 1024,8206196,
+--- rca_baselines urls-1000000
+1000000 keys, 52361181 raw bytes
+structure,parameter,bytes,rank_wrong
+RearCodedArray,block 32 bytes,65361281,0
+RearCodedArray (headers apart),block 32 bytes,29125385,0
+RearCodedArray,block 128 bytes,23782128,0
+RearCodedArray (headers apart),block 128 bytes,20877626,0
+RearCodedArray,block 512 bytes,17437527,0
+RearCodedArray (headers apart),block 512 bytes,17262520,0
+RearCodedArray,block 2048 bytes,16181549,0
+RearCodedArray (headers apart),block 2048 bytes,16171151,0
+RearCodedArray,block 8192 bytes,15884703,0
+RearCodedArray (headers apart),block 8192 bytes,15883957,0
+--- baselines uuid-1000000
+1000000 keys, 36000000 raw bytes
+structure,parameter,bytes
+sux RearCodedListStr,ratio 16,34390452
+sux RearCodedListStr,ratio 64,33859891
+sux RearCodedListStr,ratio 256,33727336
+fcsd Set,bucket 8,34503965
+fcsd Set,bucket 64,33785707
+fcsd Set,bucket 256,33708816
+--- libcsd_baselines uuid-1000000
+1000000 keys, 36000000 raw bytes
+structure,parameter,bytes,failure
+libCSD PFC,bucket 8,34503934,
+libCSD PFC,bucket 64,33785676,
+libCSD PFC,bucket 256,33708785,
+libCSD PFC,bucket 1024,33689563,
+libCSD RPFC,bucket 8,25528073,
+libCSD RPFC,bucket 64,23473840,
+libCSD RPFC,bucket 256,22745755,
+libCSD RPFC,bucket 1024,23064165,
+libCSD HTFC,bucket 8,19826973,
+libCSD HTFC,bucket 64,19221460,
+libCSD HTFC,bucket 256,19156627,
+libCSD HTFC,bucket 1024,19140384,
+libCSD HHTFC,bucket 8,19543237,
+libCSD HHTFC,bucket 64,18838257,
+libCSD HHTFC,bucket 256,18733895,
+libCSD HHTFC,bucket 1024,18693969,
+libCSD RPHTFC,bucket 8,23858458,
+libCSD RPHTFC,bucket 64,23568059,
+libCSD RPHTFC,bucket 256,23000058,
+libCSD RPHTFC,bucket 1024,23344694,
+--- rca_baselines uuid-1000000
+1000000 keys, 36000000 raw bytes
+structure,parameter,bytes,rank_wrong
+RearCodedArray,block 32 bytes,49000100,0
+RearCodedArray (headers apart),block 32 bytes,41334731,0
+RearCodedArray,block 128 bytes,37512410,0
+RearCodedArray (headers apart),block 128 bytes,36746782,0
+RearCodedArray,block 512 bytes,34644578,0
+RearCodedArray (headers apart),block 512 bytes,34584113,0
+RearCodedArray,block 2048 bytes,33934377,0
+RearCodedArray (headers apart),block 2048 bytes,33930160,0
+RearCodedArray,block 8192 bytes,33746087,0
+RearCodedArray (headers apart),block 8192 bytes,33745880,0

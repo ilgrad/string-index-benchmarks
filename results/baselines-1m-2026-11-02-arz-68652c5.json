@@ -1,0 +1,3125 @@
+{
+  "table": "baselines-1m",
+  "environment": {
+    "date": "2026-11-02T16:20:16+02:00",
+    "host": "arz",
+    "commit": "68652c5",
+    "table": "baselines-1m",
+    "kernel": "Linux 7.2.13-200.fc44.x86_64 x86_64",
+    "compiler": "rustc 1.99.1 (58cf8f9c3 2026-10-13)",
+    "crate sux": "0.15.3 (crates.io)",
+    "crate fcsd": "0.3.1 (crates.io)",
+    "pin libcsd": "568bf8a87668 https://github.com/migumar2/libCSD",
+    "pin rca": "608b35e2fced https://github.com/gvinciguerra/RearCodedArray",
+    "sizes": "fcsd: size_in_bytes(), what serialize_into writes; sux: mem_size, its arrays and fields without a file's framing; libCSD: the file its save() writes; RearCodedArray: size_in_bytes(), its arrays and object, for it writes no file; bytes_per_key is bytes over keys",
+    "quiet-machine gates": "none: sizes are deterministic"
+  },
+  "corpora": [
+    {
+      "corpus": "words-full",
+      "keys": 479823,
+      "raw_bytes": 4473734,
+      "raw_bytes_per_key": 9.324,
+      "configurations": [
+        {
+          "structure": "sux RearCodedListStr",
+          "parameter": "ratio 16",
+          "bytes": 2794098,
+          "bytes_per_key": 5.8232
+        },
+        {
+          "structure": "sux RearCodedListStr",
+          "parameter": "ratio 64",
+          "bytes": 2494546,
+          "bytes_per_key": 5.1989
+        },
+        {
+          "structure": "sux RearCodedListStr",
+          "parameter": "ratio 256",
+          "bytes": 2419580,
+          "bytes_per_key": 5.0427
+        },
+        {
+          "structure": "fcsd Set",
+          "parameter": "bucket 8",
+          "bytes": 2878715,
+          "bytes_per_key": 5.9995
+        },
+        {
+          "structure": "fcsd Set",
+          "parameter": "bucket 64",
+          "bytes": 2455218,
+          "bytes_per_key": 5.1169
+        },
+        {
+          "structure": "fcsd Set",
+          "parameter": "bucket 256",
+          "bytes": 2409772,
+          "bytes_per_key": 5.0222
+        },
+        {
+          "structure": "libCSD PFC",
+          "parameter": "bucket 8",
+          "bytes": 2878684,
+          "bytes_per_key": 5.9995
+        },
+        {
+          "structure": "libCSD PFC",
+          "parameter": "bucket 64",
+          "bytes": 2455187,
+          "bytes_per_key": 5.1169
+        },
+        {
+          "structure": "libCSD PFC",
+          "parameter": "bucket 256",
+          "bytes": 2409741,
+          "bytes_per_key": 5.0221
+        },
+        {
+          "structure": "libCSD PFC",
+          "parameter": "bucket 1024",
+          "bytes": 2398346,
+          "bytes_per_key": 4.9984
+        },
+        {
+          "structure": "libCSD RPFC",
+          "parameter": "bucket 8",
+          "bytes": 1908676,
+          "bytes_per_key": 3.9779
+        },
+        {
+          "structure": "libCSD RPFC",
+          "parameter": "bucket 64",
+          "bytes": 1359208,
+          "bytes_per_key": 2.8327
+        },
+        {
+          "structure": "libCSD RPFC",
+          "parameter": "bucket 256",
+          "bytes": 1299840,
+          "bytes_per_key": 2.709
+        },
+        {
+          "structure": "libCSD RPFC",
+          "parameter": "bucket 1024",
+          "bytes": 1285074,
+          "bytes_per_key": 2.6782
+        },
+        {
+          "structure": "libCSD HTFC",
+          "parameter": "bucket 8",
+          "bytes": 2134934,
+          "bytes_per_key": 4.4494
+        },
+        {
+          "structure": "libCSD HTFC",
+          "parameter": "bucket 64",
+          "bytes": 1760399,
+          "bytes_per_key": 3.6689
+        },
+        {
+          "structure": "libCSD HTFC",
+          "parameter": "bucket 256",
+          "bytes": 1720000,
+          "bytes_per_key": 3.5847
+        },
+        {
+          "structure": "libCSD HTFC",
+          "parameter": "bucket 1024",
+          "bytes": 1709860,
+          "bytes_per_key": 3.5635
+        },
+        {
+          "structure": "libCSD HHTFC",
+          "parameter": "bucket 8",
+          "bytes": 2379486,
+          "bytes_per_key": 4.9591
+        },
+        {
+          "structure": "libCSD HHTFC",
+          "parameter": "bucket 64",
+          "bytes": 2022447,
+          "bytes_per_key": 4.215
+        },
+        {
+          "structure": "libCSD HHTFC",
+          "parameter": "bucket 256",
+          "bytes": 1974476,
+          "bytes_per_key": 4.115
+        },
+        {
+          "structure": "libCSD HHTFC",
+          "parameter": "bucket 1024",
+          "bytes": 1957959,
+          "bytes_per_key": 4.0806
+        },
+        {
+          "structure": "libCSD RPHTFC",
+          "parameter": "bucket 8",
+          "bytes": 1979959,
+          "bytes_per_key": 4.1264
+        },
+        {
+          "structure": "libCSD RPHTFC",
+          "parameter": "bucket 64",
+          "bytes": 1624674,
+          "bytes_per_key": 3.386
+        },
+        {
+          "structure": "libCSD RPHTFC",
+          "parameter": "bucket 256",
+          "bytes": 1576536,
+          "bytes_per_key": 3.2857
+        },
+        {
+          "structure": "libCSD RPHTFC",
+          "parameter": "bucket 1024",
+          "bytes": 1560043,
+          "bytes_per_key": 3.2513
+        },
+        {
+          "structure": "RearCodedArray",
+          "parameter": "block 32 bytes",
+          "bytes": 3857128,
+          "bytes_per_key": 8.0386,
+          "rank_wrong": 0
+        },
+        {
+          "structure": "RearCodedArray (headers apart)",
+          "parameter": "block 32 bytes",
+          "bytes": 3452867,
+          "bytes_per_key": 7.1961,
+          "rank_wrong": 0
+        },
+        {
+          "structure": "RearCodedArray",
+          "parameter": "block 128 bytes",
+          "bytes": 2730091,
+          "bytes_per_key": 5.6898,
+          "rank_wrong": 0
+        },
+        {
+          "structure": "RearCodedArray (headers apart)",
+          "parameter": "block 128 bytes",
+          "bytes": 2703433,
+          "bytes_per_key": 5.6342,
+          "rank_wrong": 0
+        },
+        {
+          "structure": "RearCodedArray",
+          "parameter": "block 512 bytes",
+          "bytes": 2477190,
+          "bytes_per_key": 5.1627,
+          "rank_wrong": 0
+        },
+        {
+          "structure": "RearCodedArray (headers apart)",
+          "parameter": "block 512 bytes",
+          "bytes": 2475097,
+          "bytes_per_key": 5.1584,
+          "rank_wrong": 0
+        },
+        {
+          "structure": "RearCodedArray",
+          "parameter": "block 2048 bytes",
+          "bytes": 2415211,
+          "bytes_per_key": 5.0335,
+          "rank_wrong": 0
+        },
+        {
+          "structure": "RearCodedArray (headers apart)",
+          "parameter": "block 2048 bytes",
+          "bytes": 2415023,
+          "bytes_per_key": 5.0332,
+          "rank_wrong": 0
+        },
+        {
+          "structure": "RearCodedArray",
+          "parameter": "block 8192 bytes",
+          "bytes": 2399778,
+          "bytes_per_key": 5.0014,
+          "rank_wrong": 0
+        },
+        {
+          "structure": "RearCodedArray (headers apart)",
+          "parameter": "block 8192 bytes",
+          "bytes": 2399845,
+          "bytes_per_key": 5.0015,
+          "rank_wrong": 0
+        }
+      ],
+      "smallest": {
+        "structure": "libCSD RPFC",
+        "parameter": "bucket 1024",
+        "bytes": 1285074,
+        "bytes_per_key": 2.6782
+      }
+    },
+    {
+      "corpus": "dna-1000000",
+      "keys": 1000000,
+      "raw_bytes": 24000000,
+      "raw_bytes_per_key": 24.0,
+      "configurations": [
+        {
+          "structure": "sux RearCodedListStr",
+          "parameter": "ratio 16",
+          "bytes": 17849499,
+          "bytes_per_key": 17.8495
+        },
+        {
+          "structure": "sux RearCodedListStr",
+          "parameter": "ratio 64",
+          "bytes": 17091893,
+          "bytes_per_key": 17.0919
+        },
+        {
+          "structure": "sux RearCodedListStr",
+          "parameter": "ratio 256",
+          "bytes": 16902277,
+          "bytes_per_key": 16.9023
+        },
+        {
+          "structure": "fcsd Set",
+          "parameter": "bucket 8",
+          "bytes": 18249893,
+          "bytes_per_key": 18.2499
+        },
+        {
+          "structure": "fcsd Set",
+          "parameter": "bucket 64",
+          "bytes": 17015757,
+          "bytes_per_key": 17.0158
+        },
+        {
+          "structure": "fcsd Set",
+          "parameter": "bucket 256",
+          "bytes": 16883269,
+          "bytes_per_key": 16.8833
+        },
+        {
+          "structure": "libCSD PFC",
+          "parameter": "bucket 8",
+          "bytes": 18249854,
+          "bytes_per_key": 18.2499
+        },
+        {
+          "structure": "libCSD PFC",
+          "parameter": "bucket 64",
+          "bytes": 17015726,
+          "bytes_per_key": 17.0157
+        },
+        {
+          "structure": "libCSD PFC",
+          "parameter": "bucket 256",
+          "bytes": 16883230,
+          "bytes_per_key": 16.8832
+        },
+        {
+          "structure": "libCSD PFC",
+          "parameter": "bucket 1024",
+          "bytes": 16850341,
+          "bytes_per_key": 16.8503
+        },
+        {
+          "structure": "libCSD RPFC",
+          "parameter": "bucket 8",
+          "bytes": 9148710,
+          "bytes_per_key": 9.1487
+        },
+        {
+          "structure": "libCSD RPFC",
+          "parameter": "bucket 64",
+          "bytes": 6694541,
+          "bytes_per_key": 6.6945
+        },
+        {
+          "structure": "libCSD RPFC",
+          "parameter": "bucket 256",
+          "bytes": 6421820,
+          "bytes_per_key": 6.4218
+        },
+        {
+          "structure": "libCSD RPFC",
+          "parameter": "bucket 1024",
+          "bytes": 6356857,
+          "bytes_per_key": 6.3569
+        },
+        {
+          "structure": "libCSD HTFC",
+          "parameter": "bucket 8",
+          "bytes": 8347891,
+          "bytes_per_key": 8.3479
+        },
+        {
+          "structure": "libCSD HTFC",
+          "parameter": "bucket 64",
+          "bytes": 7605912,
+          "bytes_per_key": 7.6059
+        },
+        {
+          "structure": "libCSD HTFC",
+          "parameter": "bucket 256",
+          "bytes": 7526329,
+          "bytes_per_key": 7.5263
+        },
+        {
+          "structure": "libCSD HTFC",
+          "parameter": "bucket 1024",
+          "bytes": 7506529,
+          "bytes_per_key": 7.5065
+        },
+        {
+          "structure": "libCSD HHTFC",
+          "parameter": "bucket 8",
+          "bytes": 7301523,
+          "bytes_per_key": 7.3015
+        },
+        {
+          "structure": "libCSD HHTFC",
+          "parameter": "bucket 64",
+          "bytes": 6359949,
+          "bytes_per_key": 6.3599
+        },
+        {
+          "structure": "libCSD HHTFC",
+          "parameter": "bucket 256",
+          "bytes": 6261243,
+          "bytes_per_key": 6.2612
+        },
+        {
+          "structure": "libCSD HHTFC",
+          "parameter": "bucket 1024",
+          "bytes": 6234909,
+          "bytes_per_key": 6.2349
+        },
+        {
+          "structure": "libCSD RPHTFC",
+          "parameter": "bucket 8",
+          "bytes": 7646141,
+          "bytes_per_key": 7.6461
+        },
+        {
+          "structure": "libCSD RPHTFC",
+          "parameter": "bucket 64",
+          "bytes": 6750892,
+          "bytes_per_key": 6.7509
+        },
+        {
+          "structure": "libCSD RPHTFC",
+          "parameter": "bucket 256",
+          "failure": "signal 11"
+        },
+        {
+          "structure": "libCSD RPHTFC",
+          "parameter": "bucket 1024",
+          "bytes": 6621152,
+          "bytes_per_key": 6.6212
+        },
+        {
+          "structure": "RearCodedArray",
+          "parameter": "block 32 bytes",
+          "bytes": 26919186,
+          "bytes_per_key": 26.9192,
+          "rank_wrong": 0
+        },
+        {
+          "structure": "RearCodedArray (headers apart)",
+          "parameter": "block 32 bytes",
+          "bytes": 23365180,
+          "bytes_per_key": 23.3652,
+          "rank_wrong": 0
+        },
+        {
+          "structure": "RearCodedArray",
+          "parameter": "block 128 bytes",
+          "bytes": 19458097,
+          "bytes_per_key": 19.4581,
+          "rank_wrong": 0
+        },
+        {
+          "structure": "RearCodedArray (headers apart)",
+          "parameter": "block 128 bytes",
+          "bytes": 19076195,
+          "bytes_per_key": 19.0762,
+          "rank_wrong": 0
+        },
+        {
+          "structure": "RearCodedArray",
+          "parameter": "block 512 bytes",
+          "bytes": 17503876,
+          "bytes_per_key": 17.5039,
+          "rank_wrong": 0
+        },
+        {
+          "structure": "RearCodedArray (headers apart)",
+          "parameter": "block 512 bytes",
+          "bytes": 17471679,
+          "bytes_per_key": 17.4717,
+          "rank_wrong": 0
+        },
+        {
+          "structure": "RearCodedArray",
+          "parameter": "block 2048 bytes",
+          "bytes": 17005235,
+          "bytes_per_key": 17.0052,
+          "rank_wrong": 0
+        },
+        {
+          "structure": "RearCodedArray (headers apart)",
+          "parameter": "block 2048 bytes",
+          "bytes": 17003135,
+          "bytes_per_key": 17.0031,
+          "rank_wrong": 0
+        },
+        {
+          "structure": "RearCodedArray",
+          "parameter": "block 8192 bytes",
+          "bytes": 16880936,
+          "bytes_per_key": 16.8809,
+          "rank_wrong": 0
+        },
+        {
+          "structure": "RearCodedArray (headers apart)",
+          "parameter": "block 8192 bytes",
+          "bytes": 16880664,
+          "bytes_per_key": 16.8807,
+          "rank_wrong": 0
+        }
+      ],
+      "smallest": {
+        "structure": "libCSD HHTFC",
+        "parameter": "bucket 1024",
+        "bytes": 6234909,
+        "bytes_per_key": 6.2349
+      }
+    },
+    {
+      "corpus": "domains-1000000",
+      "keys": 1000000,
+      "raw_bytes": 13782044,
+      "raw_bytes_per_key": 13.782,
+      "configurations": [
+        {
+          "structure": "sux RearCodedListStr",
+          "parameter": "ratio 16",
+          "bytes": 10774839,
+          "bytes_per_key": 10.7748
+        },
+        {
+          "structure": "sux RearCodedListStr",
+          "parameter": "ratio 64",
+          "bytes": 10174275,
+          "bytes_per_key": 10.1743
+        },
+        {
+          "structure": "sux RearCodedListStr",
+          "parameter": "ratio 256",
+          "bytes": 10024208,
+          "bytes_per_key": 10.0242
+        },
+        {
+          "structure": "fcsd Set",
+          "parameter": "bucket 8",
+          "bytes": 10950204,
+          "bytes_per_key": 10.9502
+        },
+        {
+          "structure": "fcsd Set",
+          "parameter": "bucket 64",
+          "bytes": 10096187,
+          "bytes_per_key": 10.0962
+        },
+        {
+          "structure": "fcsd Set",
+          "parameter": "bucket 256",
+          "bytes": 10004712,
+          "bytes_per_key": 10.0047
+        },
+        {
+          "structure": "libCSD PFC",
+          "parameter": "bucket 8",
+          "bytes": 10950173,
+          "bytes_per_key": 10.9502
+        },
+        {
+          "structure": "libCSD PFC",
+          "parameter": "bucket 64",
+          "bytes": 10096156,
+          "bytes_per_key": 10.0962
+        },
+        {
+          "structure": "libCSD PFC",
+          "parameter": "bucket 256",
+          "bytes": 10004673,
+          "bytes_per_key": 10.0047
+        },
+        {
+          "structure": "libCSD PFC",
+          "parameter": "bucket 1024",
+          "bytes": 9981849,
+          "bytes_per_key": 9.9818
+        },
+        {
+          "structure": "libCSD RPFC",
+          "parameter": "bucket 8",
+          "bytes": 6308498,
+          "bytes_per_key": 6.3085
+        },
+        {
+          "structure": "libCSD RPFC",
+          "parameter": "bucket 64",
+          "bytes": 4785240,
+          "bytes_per_key": 4.7852
+        },
+        {
+          "structure": "libCSD RPFC",
+          "parameter": "bucket 256",
+          "bytes": 4623594,
+          "bytes_per_key": 4.6236
+        },
+        {
+          "structure": "libCSD RPFC",
+          "parameter": "bucket 1024",
+          "bytes": 4583419,
+          "bytes_per_key": 4.5834
+        },
+        {
+          "structure": "libCSD HTFC",
+          "parameter": "bucket 8",
+          "bytes": 7323953,
+          "bytes_per_key": 7.324
+        },
+        {
+          "structure": "libCSD HTFC",
+          "parameter": "bucket 64",
+          "bytes": 6585825,
+          "bytes_per_key": 6.5858
+        },
+        {
+          "structure": "libCSD HTFC",
+          "parameter": "bucket 256",
+          "bytes": 6506664,
+          "bytes_per_key": 6.5067
+        },
+        {
+          "structure": "libCSD HTFC",
+          "parameter": "bucket 1024",
+          "bytes": 6486826,
+          "bytes_per_key": 6.4868
+        },
+        {
+          "structure": "libCSD HHTFC",
+          "parameter": "bucket 8",
+          "bytes": 7440648,
+          "bytes_per_key": 7.4406
+        },
+        {
+          "structure": "libCSD HHTFC",
+          "parameter": "bucket 64",
+          "bytes": 6692979,
+          "bytes_per_key": 6.693
+        },
+        {
+          "structure": "libCSD HHTFC",
+          "parameter": "bucket 256",
+          "bytes": 6597931,
+          "bytes_per_key": 6.5979
+        },
+        {
+          "structure": "libCSD HHTFC",
+          "parameter": "bucket 1024",
+          "bytes": 6566370,
+          "bytes_per_key": 6.5664
+        },
+        {
+          "structure": "libCSD RPHTFC",
+          "parameter": "bucket 8",
+          "bytes": 5954961,
+          "bytes_per_key": 5.955
+        },
+        {
+          "structure": "libCSD RPHTFC",
+          "parameter": "bucket 64",
+          "bytes": 5011094,
+          "bytes_per_key": 5.0111
+        },
+        {
+          "structure": "libCSD RPHTFC",
+          "parameter": "bucket 256",
+          "failure": "signal 11"
+        },
+        {
+          "structure": "libCSD RPHTFC",
+          "parameter": "bucket 1024",
+          "bytes": 4860145,
+          "bytes_per_key": 4.8601
+        },
+        {
+          "structure": "RearCodedArray",
+          "parameter": "block 32 bytes",
+          "bytes": 15228642,
+          "bytes_per_key": 15.2286,
+          "rank_wrong": 0
+        },
+        {
+          "structure": "RearCodedArray (headers apart)",
+          "parameter": "block 32 bytes",
+          "bytes": 13507210,
+          "bytes_per_key": 13.5072,
+          "rank_wrong": 0
+        },
+        {
+          "structure": "RearCodedArray",
+          "parameter": "block 128 bytes",
+          "bytes": 11284436,
+          "bytes_per_key": 11.2844,
+          "rank_wrong": 0
+        },
+        {
+          "structure": "RearCodedArray (headers apart)",
+          "parameter": "block 128 bytes",
+          "bytes": 11143211,
+          "bytes_per_key": 11.1432,
+          "rank_wrong": 0
+        },
+        {
+          "structure": "RearCodedArray",
+          "parameter": "block 512 bytes",
+          "bytes": 10301949,
+          "bytes_per_key": 10.3019,
+          "rank_wrong": 0
+        },
+        {
+          "structure": "RearCodedArray (headers apart)",
+          "parameter": "block 512 bytes",
+          "bytes": 10292171,
+          "bytes_per_key": 10.2922,
+          "rank_wrong": 0
+        },
+        {
+          "structure": "RearCodedArray",
+          "parameter": "block 2048 bytes",
+          "bytes": 10056056,
+          "bytes_per_key": 10.0561,
+          "rank_wrong": 0
+        },
+        {
+          "structure": "RearCodedArray (headers apart)",
+          "parameter": "block 2048 bytes",
+          "bytes": 10055672,
+          "bytes_per_key": 10.0557,
+          "rank_wrong": 0
+        },
+        {
+          "structure": "RearCodedArray",
+          "parameter": "block 8192 bytes",
+          "bytes": 9994696,
+          "bytes_per_key": 9.9947,
+          "rank_wrong": 0
+        },
+        {
+          "structure": "RearCodedArray (headers apart)",
+          "parameter": "block 8192 bytes",
+          "bytes": 9994818,
+          "bytes_per_key": 9.9948,
+          "rank_wrong": 0
+        }
+      ],
+      "smallest": {
+        "structure": "libCSD RPFC",
+        "parameter": "bucket 1024",
+        "bytes": 4583419,
+        "bytes_per_key": 4.5834
+      }
+    },
+    {
+      "corpus": "idents-1000000",
+      "keys": 1000000,
+      "raw_bytes": 16569522,
+      "raw_bytes_per_key": 16.57,
+      "configurations": [
+        {
+          "structure": "sux RearCodedListStr",
+          "parameter": "ratio 16",
+          "bytes": 10309489,
+          "bytes_per_key": 10.3095
+        },
+        {
+          "structure": "sux RearCodedListStr",
+          "parameter": "ratio 64",
+          "bytes": 9546938,
+          "bytes_per_key": 9.5469
+        },
+        {
+          "structure": "sux RearCodedListStr",
+          "parameter": "ratio 256",
+          "bytes": 9355911,
+          "bytes_per_key": 9.3559
+        },
+        {
+          "structure": "fcsd Set",
+          "parameter": "bucket 8",
+          "bytes": 10701419,
+          "bytes_per_key": 10.7014
+        },
+        {
+          "structure": "fcsd Set",
+          "parameter": "bucket 64",
+          "bytes": 9468732,
+          "bytes_per_key": 9.4687
+        },
+        {
+          "structure": "fcsd Set",
+          "parameter": "bucket 256",
+          "bytes": 9336298,
+          "bytes_per_key": 9.3363
+        },
+        {
+          "structure": "libCSD PFC",
+          "parameter": "bucket 8",
+          "bytes": 10701388,
+          "bytes_per_key": 10.7014
+        },
+        {
+          "structure": "libCSD PFC",
+          "parameter": "bucket 64",
+          "bytes": 9468701,
+          "bytes_per_key": 9.4687
+        },
+        {
+          "structure": "libCSD PFC",
+          "parameter": "bucket 256",
+          "bytes": 9336259,
+          "bytes_per_key": 9.3363
+        },
+        {
+          "structure": "libCSD PFC",
+          "parameter": "bucket 1024",
+          "bytes": 9302943,
+          "bytes_per_key": 9.3029
+        },
+        {
+          "structure": "libCSD RPFC",
+          "parameter": "bucket 8",
+          "bytes": 7366257,
+          "bytes_per_key": 7.3663
+        },
+        {
+          "structure": "libCSD RPFC",
+          "parameter": "bucket 64",
+          "bytes": 5612588,
+          "bytes_per_key": 5.6126
+        },
+        {
+          "structure": "libCSD RPFC",
+          "parameter": "bucket 256",
+          "bytes": 5424653,
+          "bytes_per_key": 5.4247
+        },
+        {
+          "structure": "libCSD RPFC",
+          "parameter": "bucket 1024",
+          "bytes": 5376985,
+          "bytes_per_key": 5.377
+        },
+        {
+          "structure": "libCSD HTFC",
+          "parameter": "bucket 8",
+          "bytes": 8351817,
+          "bytes_per_key": 8.3518
+        },
+        {
+          "structure": "libCSD HTFC",
+          "parameter": "bucket 64",
+          "bytes": 7290786,
+          "bytes_per_key": 7.2908
+        },
+        {
+          "structure": "libCSD HTFC",
+          "parameter": "bucket 256",
+          "bytes": 7176502,
+          "bytes_per_key": 7.1765
+        },
+        {
+          "structure": "libCSD HTFC",
+          "parameter": "bucket 1024",
+          "bytes": 7147757,
+          "bytes_per_key": 7.1478
+        },
+        {
+          "structure": "libCSD HHTFC",
+          "parameter": "bucket 8",
+          "bytes": 8516140,
+          "bytes_per_key": 8.5161
+        },
+        {
+          "structure": "libCSD HHTFC",
+          "parameter": "bucket 64",
+          "bytes": 7477398,
+          "bytes_per_key": 7.4774
+        },
+        {
+          "structure": "libCSD HHTFC",
+          "parameter": "bucket 256",
+          "bytes": 7357825,
+          "bytes_per_key": 7.3578
+        },
+        {
+          "structure": "libCSD HHTFC",
+          "parameter": "bucket 1024",
+          "bytes": 7322535,
+          "bytes_per_key": 7.3225
+        },
+        {
+          "structure": "libCSD RPHTFC",
+          "parameter": "bucket 8",
+          "bytes": 7082073,
+          "bytes_per_key": 7.0821
+        },
+        {
+          "structure": "libCSD RPHTFC",
+          "parameter": "bucket 64",
+          "bytes": 5836600,
+          "bytes_per_key": 5.8366
+        },
+        {
+          "structure": "libCSD RPHTFC",
+          "parameter": "bucket 256",
+          "bytes": 5695086,
+          "bytes_per_key": 5.6951
+        },
+        {
+          "structure": "libCSD RPHTFC",
+          "parameter": "bucket 1024",
+          "bytes": 5654065,
+          "bytes_per_key": 5.6541
+        },
+        {
+          "structure": "RearCodedArray",
+          "parameter": "block 32 bytes",
+          "bytes": 16951728,
+          "bytes_per_key": 16.9517,
+          "rank_wrong": 0
+        },
+        {
+          "structure": "RearCodedArray (headers apart)",
+          "parameter": "block 32 bytes",
+          "bytes": 13278379,
+          "bytes_per_key": 13.2784,
+          "rank_wrong": 0
+        },
+        {
+          "structure": "RearCodedArray",
+          "parameter": "block 128 bytes",
+          "bytes": 10912473,
+          "bytes_per_key": 10.9125,
+          "rank_wrong": 0
+        },
+        {
+          "structure": "RearCodedArray (headers apart)",
+          "parameter": "block 128 bytes",
+          "bytes": 10647992,
+          "bytes_per_key": 10.648,
+          "rank_wrong": 0
+        },
+        {
+          "structure": "RearCodedArray",
+          "parameter": "block 512 bytes",
+          "bytes": 9695189,
+          "bytes_per_key": 9.6952,
+          "rank_wrong": 0
+        },
+        {
+          "structure": "RearCodedArray (headers apart)",
+          "parameter": "block 512 bytes",
+          "bytes": 9666698,
+          "bytes_per_key": 9.6667,
+          "rank_wrong": 0
+        },
+        {
+          "structure": "RearCodedArray",
+          "parameter": "block 2048 bytes",
+          "bytes": 9390969,
+          "bytes_per_key": 9.391,
+          "rank_wrong": 0
+        },
+        {
+          "structure": "RearCodedArray (headers apart)",
+          "parameter": "block 2048 bytes",
+          "bytes": 9389691,
+          "bytes_per_key": 9.3897,
+          "rank_wrong": 0
+        },
+        {
+          "structure": "RearCodedArray",
+          "parameter": "block 8192 bytes",
+          "bytes": 9317172,
+          "bytes_per_key": 9.3172,
+          "rank_wrong": 0
+        },
+        {
+          "structure": "RearCodedArray (headers apart)",
+          "parameter": "block 8192 bytes",
+          "bytes": 9316016,
+          "bytes_per_key": 9.316,
+          "rank_wrong": 0
+        }
+      ],
+      "smallest": {
+        "structure": "libCSD RPFC",
+        "parameter": "bucket 1024",
+        "bytes": 5376985,
+        "bytes_per_key": 5.377
+      }
+    },
+    {
+      "corpus": "numeric-1000000",
+      "keys": 1000000,
+      "raw_bytes": 5888890,
+      "raw_bytes_per_key": 5.889,
+      "configurations": [
+        {
+          "structure": "sux RearCodedListStr",
+          "parameter": "ratio 16",
+          "bytes": 3743110,
+          "bytes_per_key": 3.7431
+        },
+        {
+          "structure": "sux RearCodedListStr",
+          "parameter": "ratio 64",
+          "bytes": 3185811,
+          "bytes_per_key": 3.1858
+        },
+        {
+          "structure": "sux RearCodedListStr",
+          "parameter": "ratio 256",
+          "bytes": 3046489,
+          "bytes_per_key": 3.0465
+        },
+        {
+          "structure": "fcsd Set",
+          "parameter": "bucket 8",
+          "bytes": 3829945,
+          "bytes_per_key": 3.8299
+        },
+        {
+          "structure": "fcsd Set",
+          "parameter": "bucket 64",
+          "bytes": 3103819,
+          "bytes_per_key": 3.1038
+        },
+        {
+          "structure": "fcsd Set",
+          "parameter": "bucket 256",
+          "bytes": 3026017,
+          "bytes_per_key": 3.026
+        },
+        {
+          "structure": "libCSD PFC",
+          "parameter": "bucket 8",
+          "bytes": 3829914,
+          "bytes_per_key": 3.8299
+        },
+        {
+          "structure": "libCSD PFC",
+          "parameter": "bucket 64",
+          "bytes": 3103780,
+          "bytes_per_key": 3.1038
+        },
+        {
+          "structure": "libCSD PFC",
+          "parameter": "bucket 256",
+          "bytes": 3025978,
+          "bytes_per_key": 3.026
+        },
+        {
+          "structure": "libCSD PFC",
+          "parameter": "bucket 1024",
+          "bytes": 3006528,
+          "bytes_per_key": 3.0065
+        },
+        {
+          "structure": "libCSD RPFC",
+          "parameter": "bucket 8",
+          "bytes": 2189464,
+          "bytes_per_key": 2.1895
+        },
+        {
+          "structure": "libCSD RPFC",
+          "parameter": "bucket 64",
+          "bytes": 1258253,
+          "bytes_per_key": 1.2583
+        },
+        {
+          "structure": "libCSD RPFC",
+          "parameter": "bucket 256",
+          "bytes": 1158479,
+          "bytes_per_key": 1.1585
+        },
+        {
+          "structure": "libCSD RPFC",
+          "parameter": "bucket 1024",
+          "bytes": 1133537,
+          "bytes_per_key": 1.1335
+        },
+        {
+          "structure": "libCSD HTFC",
+          "parameter": "bucket 8",
+          "bytes": 2252379,
+          "bytes_per_key": 2.2524
+        },
+        {
+          "structure": "libCSD HTFC",
+          "parameter": "bucket 64",
+          "bytes": 1613560,
+          "bytes_per_key": 1.6136
+        },
+        {
+          "structure": "libCSD HTFC",
+          "parameter": "bucket 256",
+          "bytes": 1544356,
+          "bytes_per_key": 1.5444
+        },
+        {
+          "structure": "libCSD HTFC",
+          "parameter": "bucket 1024",
+          "bytes": 1524286,
+          "bytes_per_key": 1.5243
+        },
+        {
+          "structure": "libCSD HHTFC",
+          "parameter": "bucket 8",
+          "bytes": 2416522,
+          "bytes_per_key": 2.4165
+        },
+        {
+          "structure": "libCSD HHTFC",
+          "parameter": "bucket 64",
+          "bytes": 1795643,
+          "bytes_per_key": 1.7956
+        },
+        {
+          "structure": "libCSD HHTFC",
+          "parameter": "bucket 256",
+          "bytes": 1702035,
+          "bytes_per_key": 1.702
+        },
+        {
+          "structure": "libCSD HHTFC",
+          "parameter": "bucket 1024",
+          "bytes": 1670850,
+          "bytes_per_key": 1.6708
+        },
+        {
+          "structure": "libCSD RPHTFC",
+          "parameter": "bucket 8",
+          "failure": "signal 11"
+        },
+        {
+          "structure": "libCSD RPHTFC",
+          "parameter": "bucket 64",
+          "failure": "signal 11"
+        },
+        {
+          "structure": "libCSD RPHTFC",
+          "parameter": "bucket 256",
+          "failure": "signal 11"
+        },
+        {
+          "structure": "libCSD RPHTFC",
+          "parameter": "bucket 1024",
+          "failure": "signal 11"
+        },
+        {
+          "structure": "RearCodedArray",
+          "parameter": "block 32 bytes",
+          "bytes": 4588761,
+          "bytes_per_key": 4.5888,
+          "rank_wrong": 0
+        },
+        {
+          "structure": "RearCodedArray (headers apart)",
+          "parameter": "block 32 bytes",
+          "bytes": 4324222,
+          "bytes_per_key": 4.3242,
+          "rank_wrong": 0
+        },
+        {
+          "structure": "RearCodedArray",
+          "parameter": "block 128 bytes",
+          "bytes": 3378673,
+          "bytes_per_key": 3.3787,
+          "rank_wrong": 0
+        },
+        {
+          "structure": "RearCodedArray (headers apart)",
+          "parameter": "block 128 bytes",
+          "bytes": 3361255,
+          "bytes_per_key": 3.3613,
+          "rank_wrong": 0
+        },
+        {
+          "structure": "RearCodedArray",
+          "parameter": "block 512 bytes",
+          "bytes": 3093571,
+          "bytes_per_key": 3.0936,
+          "rank_wrong": 0
+        },
+        {
+          "structure": "RearCodedArray (headers apart)",
+          "parameter": "block 512 bytes",
+          "bytes": 3092479,
+          "bytes_per_key": 3.0925,
+          "rank_wrong": 0
+        },
+        {
+          "structure": "RearCodedArray",
+          "parameter": "block 2048 bytes",
+          "bytes": 3023407,
+          "bytes_per_key": 3.0234,
+          "rank_wrong": 0
+        },
+        {
+          "structure": "RearCodedArray (headers apart)",
+          "parameter": "block 2048 bytes",
+          "bytes": 3023348,
+          "bytes_per_key": 3.0233,
+          "rank_wrong": 0
+        },
+        {
+          "structure": "RearCodedArray",
+          "parameter": "block 8192 bytes",
+          "bytes": 3005925,
+          "bytes_per_key": 3.0059,
+          "rank_wrong": 0
+        },
+        {
+          "structure": "RearCodedArray (headers apart)",
+          "parameter": "block 8192 bytes",
+          "bytes": 3005945,
+          "bytes_per_key": 3.0059,
+          "rank_wrong": 0
+        }
+      ],
+      "smallest": {
+        "structure": "libCSD RPFC",
+        "parameter": "bucket 1024",
+        "bytes": 1133537,
+        "bytes_per_key": 1.1335
+      }
+    },
+    {
+      "corpus": "opaque-1000000",
+      "keys": 1000000,
+      "raw_bytes": 16000000,
+      "raw_bytes_per_key": 16.0,
+      "configurations": [
+        {
+          "structure": "sux RearCodedListStr",
+          "parameter": "ratio 16",
+          "bytes": 15841710,
+          "bytes_per_key": 15.8417
+        },
+        {
+          "structure": "sux RearCodedListStr",
+          "parameter": "ratio 64",
+          "bytes": 15383906,
+          "bytes_per_key": 15.3839
+        },
+        {
+          "structure": "sux RearCodedListStr",
+          "parameter": "ratio 256",
+          "bytes": 15269372,
+          "bytes_per_key": 15.2694
+        },
+        {
+          "structure": "fcsd Set",
+          "parameter": "bucket 8",
+          "bytes": 15827144,
+          "bytes_per_key": 15.8271
+        },
+        {
+          "structure": "fcsd Set",
+          "parameter": "bucket 64",
+          "bytes": 15305818,
+          "bytes_per_key": 15.3058
+        },
+        {
+          "structure": "fcsd Set",
+          "parameter": "bucket 256",
+          "bytes": 15249876,
+          "bytes_per_key": 15.2499
+        },
+        {
+          "structure": "libCSD PFC",
+          "parameter": "bucket 8",
+          "bytes": 15827113,
+          "bytes_per_key": 15.8271
+        },
+        {
+          "structure": "libCSD PFC",
+          "parameter": "bucket 64",
+          "bytes": 15305787,
+          "bytes_per_key": 15.3058
+        },
+        {
+          "structure": "libCSD PFC",
+          "parameter": "bucket 256",
+          "bytes": 15249837,
+          "bytes_per_key": 15.2498
+        },
+        {
+          "structure": "libCSD PFC",
+          "parameter": "bucket 1024",
+          "bytes": 15235863,
+          "bytes_per_key": 15.2359
+        },
+        {
+          "structure": "libCSD RPFC",
+          "parameter": "bucket 8",
+          "bytes": 16605723,
+          "bytes_per_key": 16.6057
+        },
+        {
+          "structure": "libCSD RPFC",
+          "parameter": "bucket 64",
+          "bytes": 16002287,
+          "bytes_per_key": 16.0023
+        },
+        {
+          "structure": "libCSD RPFC",
+          "parameter": "bucket 256",
+          "bytes": 15922523,
+          "bytes_per_key": 15.9225
+        },
+        {
+          "structure": "libCSD RPFC",
+          "parameter": "bucket 1024",
+          "bytes": 16744812,
+          "bytes_per_key": 16.7448
+        },
+        {
+          "structure": "libCSD HTFC",
+          "parameter": "bucket 8",
+          "bytes": 12653331,
+          "bytes_per_key": 12.6533
+        },
+        {
+          "structure": "libCSD HTFC",
+          "parameter": "bucket 64",
+          "bytes": 12072280,
+          "bytes_per_key": 12.0723
+        },
+        {
+          "structure": "libCSD HTFC",
+          "parameter": "bucket 256",
+          "bytes": 12009996,
+          "bytes_per_key": 12.01
+        },
+        {
+          "structure": "libCSD HTFC",
+          "parameter": "bucket 1024",
+          "bytes": 11994417,
+          "bytes_per_key": 11.9944
+        },
+        {
+          "structure": "libCSD HHTFC",
+          "parameter": "bucket 8",
+          "bytes": 12727407,
+          "bytes_per_key": 12.7274
+        },
+        {
+          "structure": "libCSD HHTFC",
+          "parameter": "bucket 64",
+          "bytes": 12155538,
+          "bytes_per_key": 12.1555
+        },
+        {
+          "structure": "libCSD HHTFC",
+          "parameter": "bucket 256",
+          "bytes": 12089803,
+          "bytes_per_key": 12.0898
+        },
+        {
+          "structure": "libCSD HHTFC",
+          "parameter": "bucket 1024",
+          "bytes": 12067952,
+          "bytes_per_key": 12.068
+        },
+        {
+          "structure": "libCSD RPHTFC",
+          "parameter": "bucket 8",
+          "bytes": 16435797,
+          "bytes_per_key": 16.4358
+        },
+        {
+          "structure": "libCSD RPHTFC",
+          "parameter": "bucket 64",
+          "bytes": 16240008,
+          "bytes_per_key": 16.24
+        },
+        {
+          "structure": "libCSD RPHTFC",
+          "parameter": "bucket 256",
+          "bytes": 16199473,
+          "bytes_per_key": 16.1995
+        },
+        {
+          "structure": "libCSD RPHTFC",
+          "parameter": "bucket 1024",
+          "bytes": 17026154,
+          "bytes_per_key": 17.0262
+        },
+        {
+          "structure": "RearCodedArray",
+          "parameter": "block 32 bytes",
+          "bytes": 22016871,
+          "bytes_per_key": 22.0169,
+          "rank_wrong": 0
+        },
+        {
+          "structure": "RearCodedArray (headers apart)",
+          "parameter": "block 32 bytes",
+          "bytes": 18698594,
+          "bytes_per_key": 18.6986,
+          "rank_wrong": 0
+        },
+        {
+          "structure": "RearCodedArray",
+          "parameter": "block 128 bytes",
+          "bytes": 16761088,
+          "bytes_per_key": 16.7611,
+          "rank_wrong": 0
+        },
+        {
+          "structure": "RearCodedArray (headers apart)",
+          "parameter": "block 128 bytes",
+          "bytes": 16608166,
+          "bytes_per_key": 16.6082,
+          "rank_wrong": 0
+        },
+        {
+          "structure": "RearCodedArray",
+          "parameter": "block 512 bytes",
+          "bytes": 15636194,
+          "bytes_per_key": 15.6362,
+          "rank_wrong": 0
+        },
+        {
+          "structure": "RearCodedArray (headers apart)",
+          "parameter": "block 512 bytes",
+          "bytes": 15624552,
+          "bytes_per_key": 15.6246,
+          "rank_wrong": 0
+        },
+        {
+          "structure": "RearCodedArray",
+          "parameter": "block 2048 bytes",
+          "bytes": 15333382,
+          "bytes_per_key": 15.3334,
+          "rank_wrong": 0
+        },
+        {
+          "structure": "RearCodedArray (headers apart)",
+          "parameter": "block 2048 bytes",
+          "bytes": 15332469,
+          "bytes_per_key": 15.3325,
+          "rank_wrong": 0
+        },
+        {
+          "structure": "RearCodedArray",
+          "parameter": "block 8192 bytes",
+          "bytes": 15256804,
+          "bytes_per_key": 15.2568,
+          "rank_wrong": 0
+        },
+        {
+          "structure": "RearCodedArray (headers apart)",
+          "parameter": "block 8192 bytes",
+          "bytes": 15256807,
+          "bytes_per_key": 15.2568,
+          "rank_wrong": 0
+        }
+      ],
+      "smallest": {
+        "structure": "libCSD HTFC",
+        "parameter": "bucket 1024",
+        "bytes": 11994417,
+        "bytes_per_key": 11.9944
+      }
+    },
+    {
+      "corpus": "paths-1000000",
+      "keys": 1000000,
+      "raw_bytes": 58358139,
+      "raw_bytes_per_key": 58.358,
+      "configurations": [
+        {
+          "structure": "sux RearCodedListStr",
+          "parameter": "ratio 16",
+          "bytes": 17517138,
+          "bytes_per_key": 17.5171
+        },
+        {
+          "structure": "sux RearCodedListStr",
+          "parameter": "ratio 64",
+          "bytes": 15025900,
+          "bytes_per_key": 15.0259
+        },
+        {
+          "structure": "sux RearCodedListStr",
+          "parameter": "ratio 256",
+          "bytes": 14402185,
+          "bytes_per_key": 14.4022
+        },
+        {
+          "structure": "fcsd Set",
+          "parameter": "bucket 8",
+          "bytes": 20239275,
+          "bytes_per_key": 20.2393
+        },
+        {
+          "structure": "fcsd Set",
+          "parameter": "bucket 64",
+          "bytes": 14959616,
+          "bytes_per_key": 14.9596
+        },
+        {
+          "structure": "fcsd Set",
+          "parameter": "bucket 256",
+          "bytes": 14395041,
+          "bytes_per_key": 14.395
+        },
+        {
+          "structure": "libCSD PFC",
+          "parameter": "bucket 8",
+          "bytes": 20239236,
+          "bytes_per_key": 20.2392
+        },
+        {
+          "structure": "libCSD PFC",
+          "parameter": "bucket 64",
+          "bytes": 14959585,
+          "bytes_per_key": 14.9596
+        },
+        {
+          "structure": "libCSD PFC",
+          "parameter": "bucket 256",
+          "bytes": 14395002,
+          "bytes_per_key": 14.395
+        },
+        {
+          "structure": "libCSD PFC",
+          "parameter": "bucket 1024",
+          "bytes": 14254276,
+          "bytes_per_key": 14.2543
+        },
+        {
+          "structure": "libCSD RPFC",
+          "parameter": "bucket 8",
+          "bytes": 13888565,
+          "bytes_per_key": 13.8886
+        },
+        {
+          "structure": "libCSD RPFC",
+          "parameter": "bucket 64",
+          "bytes": 7663584,
+          "bytes_per_key": 7.6636
+        },
+        {
+          "structure": "libCSD RPFC",
+          "parameter": "bucket 256",
+          "bytes": 6995229,
+          "bytes_per_key": 6.9952
+        },
+        {
+          "structure": "libCSD RPFC",
+          "parameter": "bucket 1024",
+          "bytes": 6827781,
+          "bytes_per_key": 6.8278
+        },
+        {
+          "structure": "libCSD HTFC",
+          "parameter": "bucket 8",
+          "bytes": 14600396,
+          "bytes_per_key": 14.6004
+        },
+        {
+          "structure": "libCSD HTFC",
+          "parameter": "bucket 64",
+          "bytes": 10919056,
+          "bytes_per_key": 10.9191
+        },
+        {
+          "structure": "libCSD HTFC",
+          "parameter": "bucket 256",
+          "bytes": 10513232,
+          "bytes_per_key": 10.5132
+        },
+        {
+          "structure": "libCSD HTFC",
+          "parameter": "bucket 1024",
+          "bytes": 10411216,
+          "bytes_per_key": 10.4112
+        },
+        {
+          "structure": "libCSD HHTFC",
+          "parameter": "bucket 8",
+          "bytes": 14513005,
+          "bytes_per_key": 14.513
+        },
+        {
+          "structure": "libCSD HHTFC",
+          "parameter": "bucket 64",
+          "bytes": 10981115,
+          "bytes_per_key": 10.9811
+        },
+        {
+          "structure": "libCSD HHTFC",
+          "parameter": "bucket 256",
+          "bytes": 10588617,
+          "bytes_per_key": 10.5886
+        },
+        {
+          "structure": "libCSD HHTFC",
+          "parameter": "bucket 1024",
+          "bytes": 10481653,
+          "bytes_per_key": 10.4817
+        },
+        {
+          "structure": "libCSD RPHTFC",
+          "parameter": "bucket 8",
+          "bytes": 11621310,
+          "bytes_per_key": 11.6213
+        },
+        {
+          "structure": "libCSD RPHTFC",
+          "parameter": "bucket 64",
+          "bytes": 7655660,
+          "bytes_per_key": 7.6557
+        },
+        {
+          "structure": "libCSD RPHTFC",
+          "parameter": "bucket 256",
+          "bytes": 7215922,
+          "bytes_per_key": 7.2159
+        },
+        {
+          "structure": "libCSD RPHTFC",
+          "parameter": "bucket 1024",
+          "bytes": 7096589,
+          "bytes_per_key": 7.0966
+        },
+        {
+          "structure": "RearCodedArray",
+          "parameter": "block 32 bytes",
+          "bytes": 70122164,
+          "bytes_per_key": 70.1222,
+          "rank_wrong": 0
+        },
+        {
+          "structure": "RearCodedArray (headers apart)",
+          "parameter": "block 32 bytes",
+          "bytes": 29076533,
+          "bytes_per_key": 29.0765,
+          "rank_wrong": 1
+        },
+        {
+          "structure": "RearCodedArray",
+          "parameter": "block 128 bytes",
+          "bytes": 27907976,
+          "bytes_per_key": 27.908,
+          "rank_wrong": 1
+        },
+        {
+          "structure": "RearCodedArray (headers apart)",
+          "parameter": "block 128 bytes",
+          "bytes": 19659548,
+          "bytes_per_key": 19.6595,
+          "rank_wrong": 1
+        },
+        {
+          "structure": "RearCodedArray",
+          "parameter": "block 512 bytes",
+          "bytes": 16004282,
+          "bytes_per_key": 16.0043,
+          "rank_wrong": 1
+        },
+        {
+          "structure": "RearCodedArray (headers apart)",
+          "parameter": "block 512 bytes",
+          "bytes": 15751868,
+          "bytes_per_key": 15.7519,
+          "rank_wrong": 1
+        },
+        {
+          "structure": "RearCodedArray",
+          "parameter": "block 2048 bytes",
+          "bytes": 14613415,
+          "bytes_per_key": 14.6134,
+          "rank_wrong": 1
+        },
+        {
+          "structure": "RearCodedArray (headers apart)",
+          "parameter": "block 2048 bytes",
+          "bytes": 14599587,
+          "bytes_per_key": 14.5996,
+          "rank_wrong": 1
+        },
+        {
+          "structure": "RearCodedArray",
+          "parameter": "block 8192 bytes",
+          "bytes": 14297011,
+          "bytes_per_key": 14.297,
+          "rank_wrong": 1
+        },
+        {
+          "structure": "RearCodedArray (headers apart)",
+          "parameter": "block 8192 bytes",
+          "bytes": 14295712,
+          "bytes_per_key": 14.2957,
+          "rank_wrong": 1
+        }
+      ],
+      "smallest": {
+        "structure": "libCSD RPFC",
+        "parameter": "bucket 1024",
+        "bytes": 6827781,
+        "bytes_per_key": 6.8278
+      }
+    },
+    {
+      "corpus": "pypi-full",
+      "keys": 895600,
+      "raw_bytes": 11941344,
+      "raw_bytes_per_key": 13.333,
+      "configurations": [
+        {
+          "structure": "sux RearCodedListStr",
+          "parameter": "ratio 16",
+          "bytes": 7975158,
+          "bytes_per_key": 8.9048
+        },
+        {
+          "structure": "sux RearCodedListStr",
+          "parameter": "ratio 64",
+          "bytes": 7374794,
+          "bytes_per_key": 8.2345
+        },
+        {
+          "structure": "sux RearCodedListStr",
+          "parameter": "ratio 256",
+          "bytes": 7224104,
+          "bytes_per_key": 8.0662
+        },
+        {
+          "structure": "fcsd Set",
+          "parameter": "bucket 8",
+          "bytes": 8202610,
+          "bytes_per_key": 9.1588
+        },
+        {
+          "structure": "fcsd Set",
+          "parameter": "bucket 64",
+          "bytes": 7303111,
+          "bytes_per_key": 8.1544
+        },
+        {
+          "structure": "fcsd Set",
+          "parameter": "bucket 256",
+          "bytes": 7206205,
+          "bytes_per_key": 8.0462
+        },
+        {
+          "structure": "libCSD PFC",
+          "parameter": "bucket 8",
+          "bytes": 8202571,
+          "bytes_per_key": 9.1587
+        },
+        {
+          "structure": "libCSD PFC",
+          "parameter": "bucket 64",
+          "bytes": 7303072,
+          "bytes_per_key": 8.1544
+        },
+        {
+          "structure": "libCSD PFC",
+          "parameter": "bucket 256",
+          "bytes": 7206174,
+          "bytes_per_key": 8.0462
+        },
+        {
+          "structure": "libCSD PFC",
+          "parameter": "bucket 1024",
+          "bytes": 7182149,
+          "bytes_per_key": 8.0194
+        },
+        {
+          "structure": "libCSD RPFC",
+          "parameter": "bucket 8",
+          "bytes": 5545596,
+          "bytes_per_key": 6.192
+        },
+        {
+          "structure": "libCSD RPFC",
+          "parameter": "bucket 64",
+          "bytes": 4222463,
+          "bytes_per_key": 4.7147
+        },
+        {
+          "structure": "libCSD RPFC",
+          "parameter": "bucket 256",
+          "bytes": 4081621,
+          "bytes_per_key": 4.5574
+        },
+        {
+          "structure": "libCSD RPFC",
+          "parameter": "bucket 1024",
+          "bytes": 4046152,
+          "bytes_per_key": 4.5178
+        },
+        {
+          "structure": "libCSD HTFC",
+          "parameter": "bucket 8",
+          "bytes": 5804771,
+          "bytes_per_key": 6.4814
+        },
+        {
+          "structure": "libCSD HTFC",
+          "parameter": "bucket 64",
+          "bytes": 5049086,
+          "bytes_per_key": 5.6377
+        },
+        {
+          "structure": "libCSD HTFC",
+          "parameter": "bucket 256",
+          "bytes": 4967582,
+          "bytes_per_key": 5.5467
+        },
+        {
+          "structure": "libCSD HTFC",
+          "parameter": "bucket 1024",
+          "bytes": 4947222,
+          "bytes_per_key": 5.5239
+        },
+        {
+          "structure": "libCSD HHTFC",
+          "parameter": "bucket 8",
+          "bytes": 6001101,
+          "bytes_per_key": 6.7006
+        },
+        {
+          "structure": "libCSD HHTFC",
+          "parameter": "bucket 64",
+          "bytes": 5255535,
+          "bytes_per_key": 5.8682
+        },
+        {
+          "structure": "libCSD HHTFC",
+          "parameter": "bucket 256",
+          "bytes": 5163327,
+          "bytes_per_key": 5.7652
+        },
+        {
+          "structure": "libCSD HHTFC",
+          "parameter": "bucket 1024",
+          "bytes": 5133887,
+          "bytes_per_key": 5.7323
+        },
+        {
+          "structure": "libCSD RPHTFC",
+          "parameter": "bucket 8",
+          "bytes": 5279222,
+          "bytes_per_key": 5.8946
+        },
+        {
+          "structure": "libCSD RPHTFC",
+          "parameter": "bucket 64",
+          "bytes": 4455494,
+          "bytes_per_key": 4.9749
+        },
+        {
+          "structure": "libCSD RPHTFC",
+          "parameter": "bucket 256",
+          "bytes": 4354644,
+          "bytes_per_key": 4.8623
+        },
+        {
+          "structure": "libCSD RPHTFC",
+          "parameter": "bucket 1024",
+          "bytes": 4322747,
+          "bytes_per_key": 4.8266
+        },
+        {
+          "structure": "RearCodedArray",
+          "parameter": "block 32 bytes",
+          "bytes": 12238340,
+          "bytes_per_key": 13.665,
+          "rank_wrong": 0
+        },
+        {
+          "structure": "RearCodedArray (headers apart)",
+          "parameter": "block 32 bytes",
+          "bytes": 10168982,
+          "bytes_per_key": 11.3544,
+          "rank_wrong": 0
+        },
+        {
+          "structure": "RearCodedArray",
+          "parameter": "block 128 bytes",
+          "bytes": 8277131,
+          "bytes_per_key": 9.242,
+          "rank_wrong": 0
+        },
+        {
+          "structure": "RearCodedArray (headers apart)",
+          "parameter": "block 128 bytes",
+          "bytes": 8139561,
+          "bytes_per_key": 9.0884,
+          "rank_wrong": 0
+        },
+        {
+          "structure": "RearCodedArray",
+          "parameter": "block 512 bytes",
+          "bytes": 7444104,
+          "bytes_per_key": 8.3119,
+          "rank_wrong": 0
+        },
+        {
+          "structure": "RearCodedArray (headers apart)",
+          "parameter": "block 512 bytes",
+          "bytes": 7435234,
+          "bytes_per_key": 8.302,
+          "rank_wrong": 0
+        },
+        {
+          "structure": "RearCodedArray",
+          "parameter": "block 2048 bytes",
+          "bytes": 7241026,
+          "bytes_per_key": 8.0851,
+          "rank_wrong": 0
+        },
+        {
+          "structure": "RearCodedArray (headers apart)",
+          "parameter": "block 2048 bytes",
+          "bytes": 7240526,
+          "bytes_per_key": 8.0846,
+          "rank_wrong": 0
+        },
+        {
+          "structure": "RearCodedArray",
+          "parameter": "block 8192 bytes",
+          "bytes": 7190873,
+          "bytes_per_key": 8.0291,
+          "rank_wrong": 0
+        },
+        {
+          "structure": "RearCodedArray (headers apart)",
+          "parameter": "block 8192 bytes",
+          "bytes": 7190920,
+          "bytes_per_key": 8.0292,
+          "rank_wrong": 0
+        }
+      ],
+      "smallest": {
+        "structure": "libCSD RPFC",
+        "parameter": "bucket 1024",
+        "bytes": 4046152,
+        "bytes_per_key": 4.5178
+      }
+    },
+    {
+      "corpus": "titles-en-1000000",
+      "keys": 1000000,
+      "raw_bytes": 20984647,
+      "raw_bytes_per_key": 20.985,
+      "configurations": [
+        {
+          "structure": "sux RearCodedListStr",
+          "parameter": "ratio 16",
+          "bytes": 15684121,
+          "bytes_per_key": 15.6841
+        },
+        {
+          "structure": "sux RearCodedListStr",
+          "parameter": "ratio 64",
+          "bytes": 14968566,
+          "bytes_per_key": 14.9686
+        },
+        {
+          "structure": "sux RearCodedListStr",
+          "parameter": "ratio 256",
+          "bytes": 14790433,
+          "bytes_per_key": 14.7904
+        },
+        {
+          "structure": "fcsd Set",
+          "parameter": "bucket 8",
+          "bytes": 16011248,
+          "bytes_per_key": 16.0112
+        },
+        {
+          "structure": "fcsd Set",
+          "parameter": "bucket 64",
+          "bytes": 14890400,
+          "bytes_per_key": 14.8904
+        },
+        {
+          "structure": "fcsd Set",
+          "parameter": "bucket 256",
+          "bytes": 14770858,
+          "bytes_per_key": 14.7709
+        },
+        {
+          "structure": "libCSD PFC",
+          "parameter": "bucket 8",
+          "bytes": 16011217,
+          "bytes_per_key": 16.0112
+        },
+        {
+          "structure": "libCSD PFC",
+          "parameter": "bucket 64",
+          "bytes": 14890369,
+          "bytes_per_key": 14.8904
+        },
+        {
+          "structure": "libCSD PFC",
+          "parameter": "bucket 256",
+          "bytes": 14770819,
+          "bytes_per_key": 14.7708
+        },
+        {
+          "structure": "libCSD PFC",
+          "parameter": "bucket 1024",
+          "bytes": 14740764,
+          "bytes_per_key": 14.7408
+        },
+        {
+          "structure": "libCSD RPFC",
+          "parameter": "bucket 8",
+          "bytes": 10162355,
+          "bytes_per_key": 10.1624
+        },
+        {
+          "structure": "libCSD RPFC",
+          "parameter": "bucket 64",
+          "bytes": 8157758,
+          "bytes_per_key": 8.1578
+        },
+        {
+          "structure": "libCSD RPFC",
+          "parameter": "bucket 256",
+          "bytes": 7943659,
+          "bytes_per_key": 7.9437
+        },
+        {
+          "structure": "libCSD RPFC",
+          "parameter": "bucket 1024",
+          "bytes": 7889174,
+          "bytes_per_key": 7.8892
+        },
+        {
+          "structure": "libCSD HTFC",
+          "parameter": "bucket 8",
+          "bytes": 11520479,
+          "bytes_per_key": 11.5205
+        },
+        {
+          "structure": "libCSD HTFC",
+          "parameter": "bucket 64",
+          "bytes": 10575271,
+          "bytes_per_key": 10.5753
+        },
+        {
+          "structure": "libCSD HTFC",
+          "parameter": "bucket 256",
+          "bytes": 10474352,
+          "bytes_per_key": 10.4744
+        },
+        {
+          "structure": "libCSD HTFC",
+          "parameter": "bucket 1024",
+          "bytes": 10449108,
+          "bytes_per_key": 10.4491
+        },
+        {
+          "structure": "libCSD HHTFC",
+          "parameter": "bucket 8",
+          "bytes": 11585074,
+          "bytes_per_key": 11.5851
+        },
+        {
+          "structure": "libCSD HHTFC",
+          "parameter": "bucket 64",
+          "bytes": 10628595,
+          "bytes_per_key": 10.6286
+        },
+        {
+          "structure": "libCSD HHTFC",
+          "parameter": "bucket 256",
+          "bytes": 10517866,
+          "bytes_per_key": 10.5179
+        },
+        {
+          "structure": "libCSD HHTFC",
+          "parameter": "bucket 1024",
+          "bytes": 10483699,
+          "bytes_per_key": 10.4837
+        },
+        {
+          "structure": "libCSD RPHTFC",
+          "parameter": "bucket 8",
+          "bytes": 9611580,
+          "bytes_per_key": 9.6116
+        },
+        {
+          "structure": "libCSD RPHTFC",
+          "parameter": "bucket 64",
+          "bytes": 8352272,
+          "bytes_per_key": 8.3523
+        },
+        {
+          "structure": "libCSD RPHTFC",
+          "parameter": "bucket 256",
+          "bytes": 8209289,
+          "bytes_per_key": 8.2093
+        },
+        {
+          "structure": "libCSD RPHTFC",
+          "parameter": "bucket 1024",
+          "bytes": 8166262,
+          "bytes_per_key": 8.1663
+        },
+        {
+          "structure": "RearCodedArray",
+          "parameter": "block 32 bytes",
+          "bytes": 23883364,
+          "bytes_per_key": 23.8834,
+          "rank_wrong": 9577
+        },
+        {
+          "structure": "RearCodedArray (headers apart)",
+          "parameter": "block 32 bytes",
+          "bytes": 19808115,
+          "bytes_per_key": 19.8081,
+          "rank_wrong": 14367
+        },
+        {
+          "structure": "RearCodedArray",
+          "parameter": "block 128 bytes",
+          "bytes": 17029830,
+          "bytes_per_key": 17.0298,
+          "rank_wrong": 20276
+        },
+        {
+          "structure": "RearCodedArray (headers apart)",
+          "parameter": "block 128 bytes",
+          "bytes": 16639598,
+          "bytes_per_key": 16.6396,
+          "rank_wrong": 21505
+        },
+        {
+          "structure": "RearCodedArray",
+          "parameter": "block 512 bytes",
+          "bytes": 15308167,
+          "bytes_per_key": 15.3082,
+          "rank_wrong": 27978
+        },
+        {
+          "structure": "RearCodedArray (headers apart)",
+          "parameter": "block 512 bytes",
+          "bytes": 15280469,
+          "bytes_per_key": 15.2805,
+          "rank_wrong": 28205
+        },
+        {
+          "structure": "RearCodedArray",
+          "parameter": "block 2048 bytes",
+          "bytes": 14875549,
+          "bytes_per_key": 14.8755,
+          "rank_wrong": 34477
+        },
+        {
+          "structure": "RearCodedArray (headers apart)",
+          "parameter": "block 2048 bytes",
+          "bytes": 14873215,
+          "bytes_per_key": 14.8732,
+          "rank_wrong": 34505
+        },
+        {
+          "structure": "RearCodedArray",
+          "parameter": "block 8192 bytes",
+          "bytes": 14766573,
+          "bytes_per_key": 14.7666,
+          "rank_wrong": 40485
+        },
+        {
+          "structure": "RearCodedArray (headers apart)",
+          "parameter": "block 8192 bytes",
+          "bytes": 14766155,
+          "bytes_per_key": 14.7662,
+          "rank_wrong": 41085
+        }
+      ],
+      "smallest": {
+        "structure": "libCSD RPFC",
+        "parameter": "bucket 1024",
+        "bytes": 7889174,
+        "bytes_per_key": 7.8892
+      }
+    },
+    {
+      "corpus": "titles-ru-1000000",
+      "keys": 1000000,
+      "raw_bytes": 35819661,
+      "raw_bytes_per_key": 35.82,
+      "configurations": [
+        {
+          "structure": "sux RearCodedListStr",
+          "parameter": "ratio 16",
+          "bytes": 23231829,
+          "bytes_per_key": 23.2318
+        },
+        {
+          "structure": "sux RearCodedListStr",
+          "parameter": "ratio 64",
+          "bytes": 22150387,
+          "bytes_per_key": 22.1504
+        },
+        {
+          "structure": "sux RearCodedListStr",
+          "parameter": "ratio 256",
+          "bytes": 21879910,
+          "bytes_per_key": 21.8799
+        },
+        {
+          "structure": "fcsd Set",
+          "parameter": "bucket 8",
+          "bytes": 24058957,
+          "bytes_per_key": 24.059
+        },
+        {
+          "structure": "fcsd Set",
+          "parameter": "bucket 64",
+          "bytes": 22072794,
+          "bytes_per_key": 22.0728
+        },
+        {
+          "structure": "fcsd Set",
+          "parameter": "bucket 256",
+          "bytes": 21859472,
+          "bytes_per_key": 21.8595
+        },
+        {
+          "structure": "libCSD PFC",
+          "parameter": "bucket 8",
+          "bytes": 24058918,
+          "bytes_per_key": 24.0589
+        },
+        {
+          "structure": "libCSD PFC",
+          "parameter": "bucket 64",
+          "bytes": 22072763,
+          "bytes_per_key": 22.0728
+        },
+        {
+          "structure": "libCSD PFC",
+          "parameter": "bucket 256",
+          "bytes": 21859433,
+          "bytes_per_key": 21.8594
+        },
+        {
+          "structure": "libCSD PFC",
+          "parameter": "bucket 1024",
+          "bytes": 21806496,
+          "bytes_per_key": 21.8065
+        },
+        {
+          "structure": "libCSD RPFC",
+          "parameter": "bucket 8",
+          "bytes": 11532238,
+          "bytes_per_key": 11.5322
+        },
+        {
+          "structure": "libCSD RPFC",
+          "parameter": "bucket 64",
+          "bytes": 7826103,
+          "bytes_per_key": 7.8261
+        },
+        {
+          "structure": "libCSD RPFC",
+          "parameter": "bucket 256",
+          "bytes": 7431986,
+          "bytes_per_key": 7.432
+        },
+        {
+          "structure": "libCSD RPFC",
+          "parameter": "bucket 1024",
+          "bytes": 7332890,
+          "bytes_per_key": 7.3329
+        },
+        {
+          "structure": "libCSD HTFC",
+          "parameter": "bucket 8",
+          "failure": "wrong answer"
+        },
+        {
+          "structure": "libCSD HTFC",
+          "parameter": "bucket 64",
+          "failure": "wrong answer"
+        },
+        {
+          "structure": "libCSD HTFC",
+          "parameter": "bucket 256",
+          "failure": "wrong answer"
+        },
+        {
+          "structure": "libCSD HTFC",
+          "parameter": "bucket 1024",
+          "failure": "wrong answer"
+        },
+        {
+          "structure": "libCSD HHTFC",
+          "parameter": "bucket 8",
+          "failure": "wrong answer"
+        },
+        {
+          "structure": "libCSD HHTFC",
+          "parameter": "bucket 64",
+          "failure": "wrong answer"
+        },
+        {
+          "structure": "libCSD HHTFC",
+          "parameter": "bucket 256",
+          "failure": "wrong answer"
+        },
+        {
+          "structure": "libCSD HHTFC",
+          "parameter": "bucket 1024",
+          "failure": "wrong answer"
+        },
+        {
+          "structure": "libCSD RPHTFC",
+          "parameter": "bucket 8",
+          "bytes": 10027737,
+          "bytes_per_key": 10.0277
+        },
+        {
+          "structure": "libCSD RPHTFC",
+          "parameter": "bucket 64",
+          "bytes": 7885430,
+          "bytes_per_key": 7.8854
+        },
+        {
+          "structure": "libCSD RPHTFC",
+          "parameter": "bucket 256",
+          "bytes": 7655492,
+          "bytes_per_key": 7.6555
+        },
+        {
+          "structure": "libCSD RPHTFC",
+          "parameter": "bucket 1024",
+          "bytes": 7596360,
+          "bytes_per_key": 7.5964
+        },
+        {
+          "structure": "RearCodedArray",
+          "parameter": "block 32 bytes",
+          "bytes": 41440288,
+          "bytes_per_key": 41.4403,
+          "rank_wrong": 42853
+        },
+        {
+          "structure": "RearCodedArray (headers apart)",
+          "parameter": "block 32 bytes",
+          "bytes": 30511296,
+          "bytes_per_key": 30.5113,
+          "rank_wrong": 84022
+        },
+        {
+          "structure": "RearCodedArray",
+          "parameter": "block 128 bytes",
+          "bytes": 26906675,
+          "bytes_per_key": 26.9067,
+          "rank_wrong": 137564
+        },
+        {
+          "structure": "RearCodedArray (headers apart)",
+          "parameter": "block 128 bytes",
+          "bytes": 25466625,
+          "bytes_per_key": 25.4666,
+          "rank_wrong": 158484
+        },
+        {
+          "structure": "RearCodedArray",
+          "parameter": "block 512 bytes",
+          "bytes": 23016942,
+          "bytes_per_key": 23.0169,
+          "rank_wrong": 274751
+        },
+        {
+          "structure": "RearCodedArray (headers apart)",
+          "parameter": "block 512 bytes",
+          "bytes": 22919696,
+          "bytes_per_key": 22.9197,
+          "rank_wrong": 282617
+        },
+        {
+          "structure": "RearCodedArray",
+          "parameter": "block 2048 bytes",
+          "bytes": 22094720,
+          "bytes_per_key": 22.0947,
+          "rank_wrong": 438402
+        },
+        {
+          "structure": "RearCodedArray (headers apart)",
+          "parameter": "block 2048 bytes",
+          "bytes": 22087286,
+          "bytes_per_key": 22.0873,
+          "rank_wrong": 440980
+        },
+        {
+          "structure": "RearCodedArray",
+          "parameter": "block 8192 bytes",
+          "bytes": 21866494,
+          "bytes_per_key": 21.8665,
+          "rank_wrong": 594461
+        },
+        {
+          "structure": "RearCodedArray (headers apart)",
+          "parameter": "block 8192 bytes",
+          "bytes": 21866784,
+          "bytes_per_key": 21.8668,
+          "rank_wrong": 593575
+        }
+      ],
+      "smallest": {
+        "structure": "libCSD RPFC",
+        "parameter": "bucket 1024",
+        "bytes": 7332890,
+        "bytes_per_key": 7.3329
+      }
+    },
+    {
+      "corpus": "titles-zh-1000000",
+      "keys": 1000000,
+      "raw_bytes": 16871822,
+      "raw_bytes_per_key": 16.872,
+      "configurations": [
+        {
+          "structure": "sux RearCodedListStr",
+          "parameter": "ratio 16",
+          "bytes": 12127950,
+          "bytes_per_key": 12.128
+        },
+        {
+          "structure": "sux RearCodedListStr",
+          "parameter": "ratio 64",
+          "bytes": 11441296,
+          "bytes_per_key": 11.4413
+        },
+        {
+          "structure": "sux RearCodedListStr",
+          "parameter": "ratio 256",
+          "bytes": 11269496,
+          "bytes_per_key": 11.2695
+        },
+        {
+          "structure": "fcsd Set",
+          "parameter": "bucket 8",
+          "bytes": 12419145,
+          "bytes_per_key": 12.4191
+        },
+        {
+          "structure": "fcsd Set",
+          "parameter": "bucket 64",
+          "bytes": 11363186,
+          "bytes_per_key": 11.3632
+        },
+        {
+          "structure": "fcsd Set",
+          "parameter": "bucket 256",
+          "bytes": 11249977,
+          "bytes_per_key": 11.25
+        },
+        {
+          "structure": "libCSD PFC",
+          "parameter": "bucket 8",
+          "bytes": 12419114,
+          "bytes_per_key": 12.4191
+        },
+        {
+          "structure": "libCSD PFC",
+          "parameter": "bucket 64",
+          "bytes": 11363155,
+          "bytes_per_key": 11.3632
+        },
+        {
+          "structure": "libCSD PFC",
+          "parameter": "bucket 256",
+          "bytes": 11249938,
+          "bytes_per_key": 11.2499
+        },
+        {
+          "structure": "libCSD PFC",
+          "parameter": "bucket 1024",
+          "bytes": 11221599,
+          "bytes_per_key": 11.2216
+        },
+        {
+          "structure": "libCSD RPFC",
+          "parameter": "bucket 8",
+          "bytes": 7687207,
+          "bytes_per_key": 7.6872
+        },
+        {
+          "structure": "libCSD RPFC",
+          "parameter": "bucket 64",
+          "bytes": 6238910,
+          "bytes_per_key": 6.2389
+        },
+        {
+          "structure": "libCSD RPFC",
+          "parameter": "bucket 256",
+          "bytes": 6051477,
+          "bytes_per_key": 6.0515
+        },
+        {
+          "structure": "libCSD RPFC",
+          "parameter": "bucket 1024",
+          "bytes": 6004667,
+          "bytes_per_key": 6.0047
+        },
+        {
+          "structure": "libCSD HTFC",
+          "parameter": "bucket 8",
+          "bytes": 10224290,
+          "bytes_per_key": 10.2243
+        },
+        {
+          "structure": "libCSD HTFC",
+          "parameter": "bucket 64",
+          "bytes": 9214462,
+          "bytes_per_key": 9.2145
+        },
+        {
+          "structure": "libCSD HTFC",
+          "parameter": "bucket 256",
+          "bytes": 9105036,
+          "bytes_per_key": 9.105
+        },
+        {
+          "structure": "libCSD HTFC",
+          "parameter": "bucket 1024",
+          "bytes": 9077565,
+          "bytes_per_key": 9.0776
+        },
+        {
+          "structure": "libCSD HHTFC",
+          "parameter": "bucket 8",
+          "bytes": 10440878,
+          "bytes_per_key": 10.4409
+        },
+        {
+          "structure": "libCSD HHTFC",
+          "parameter": "bucket 64",
+          "bytes": 9421681,
+          "bytes_per_key": 9.4217
+        },
+        {
+          "structure": "libCSD HHTFC",
+          "parameter": "bucket 256",
+          "bytes": 9307605,
+          "bytes_per_key": 9.3076
+        },
+        {
+          "structure": "libCSD HHTFC",
+          "parameter": "bucket 1024",
+          "bytes": 9275793,
+          "bytes_per_key": 9.2758
+        },
+        {
+          "structure": "libCSD RPHTFC",
+          "parameter": "bucket 8",
+          "bytes": 7563338,
+          "bytes_per_key": 7.5633
+        },
+        {
+          "structure": "libCSD RPHTFC",
+          "parameter": "bucket 64",
+          "bytes": 6475892,
+          "bytes_per_key": 6.4759
+        },
+        {
+          "structure": "libCSD RPHTFC",
+          "parameter": "bucket 256",
+          "bytes": 6322558,
+          "bytes_per_key": 6.3226
+        },
+        {
+          "structure": "libCSD RPHTFC",
+          "parameter": "bucket 1024",
+          "bytes": 6280846,
+          "bytes_per_key": 6.2808
+        },
+        {
+          "structure": "RearCodedArray",
+          "parameter": "block 32 bytes",
+          "bytes": 18358072,
+          "bytes_per_key": 18.3581,
+          "rank_wrong": 93622
+        },
+        {
+          "structure": "RearCodedArray (headers apart)",
+          "parameter": "block 32 bytes",
+          "bytes": 15424132,
+          "bytes_per_key": 15.4241,
+          "rank_wrong": 117493
+        },
+        {
+          "structure": "RearCodedArray",
+          "parameter": "block 128 bytes",
+          "bytes": 12945781,
+          "bytes_per_key": 12.9458,
+          "rank_wrong": 176679
+        },
+        {
+          "structure": "RearCodedArray (headers apart)",
+          "parameter": "block 128 bytes",
+          "bytes": 12690602,
+          "bytes_per_key": 12.6906,
+          "rank_wrong": 184609
+        },
+        {
+          "structure": "RearCodedArray",
+          "parameter": "block 512 bytes",
+          "bytes": 11643166,
+          "bytes_per_key": 11.6432,
+          "rank_wrong": 271923
+        },
+        {
+          "structure": "RearCodedArray (headers apart)",
+          "parameter": "block 512 bytes",
+          "bytes": 11625055,
+          "bytes_per_key": 11.6251,
+          "rank_wrong": 274534
+        },
+        {
+          "structure": "RearCodedArray",
+          "parameter": "block 2048 bytes",
+          "bytes": 11319314,
+          "bytes_per_key": 11.3193,
+          "rank_wrong": 378961
+        },
+        {
+          "structure": "RearCodedArray (headers apart)",
+          "parameter": "block 2048 bytes",
+          "bytes": 11318651,
+          "bytes_per_key": 11.3187,
+          "rank_wrong": 381040
+        },
+        {
+          "structure": "RearCodedArray",
+          "parameter": "block 8192 bytes",
+          "bytes": 11238787,
+          "bytes_per_key": 11.2388,
+          "rank_wrong": 492036
+        },
+        {
+          "structure": "RearCodedArray (headers apart)",
+          "parameter": "block 8192 bytes",
+          "bytes": 11238895,
+          "bytes_per_key": 11.2389,
+          "rank_wrong": 489763
+        }
+      ],
+      "smallest": {
+        "structure": "libCSD RPFC",
+        "parameter": "bucket 1024",
+        "bytes": 6004667,
+        "bytes_per_key": 6.0047
+      }
+    },
+    {
+      "corpus": "urls-1000000",
+      "keys": 1000000,
+      "raw_bytes": 52361181,
+      "raw_bytes_per_key": 52.361,
+      "configurations": [
+        {
+          "structure": "sux RearCodedListStr",
+          "parameter": "ratio 16",
+          "bytes": 18637183,
+          "bytes_per_key": 18.6372
+        },
+        {
+          "structure": "sux RearCodedListStr",
+          "parameter": "ratio 64",
+          "bytes": 16499173,
+          "bytes_per_key": 16.4992
+        },
+        {
+          "structure": "sux RearCodedListStr",
+          "parameter": "ratio 256",
+          "bytes": 15965274,
+          "bytes_per_key": 15.9653
+        },
+        {
+          "structure": "fcsd Set",
+          "parameter": "bucket 8",
+          "bytes": 20875225,
+          "bytes_per_key": 20.8752
+        },
+        {
+          "structure": "fcsd Set",
+          "parameter": "bucket 64",
+          "bytes": 16420634,
+          "bytes_per_key": 16.4206
+        },
+        {
+          "structure": "fcsd Set",
+          "parameter": "bucket 256",
+          "bytes": 15945333,
+          "bytes_per_key": 15.9453
+        },
+        {
+          "structure": "libCSD PFC",
+          "parameter": "bucket 8",
+          "bytes": 20875186,
+          "bytes_per_key": 20.8752
+        },
+        {
+          "structure": "libCSD PFC",
+          "parameter": "bucket 64",
+          "bytes": 16420603,
+          "bytes_per_key": 16.4206
+        },
+        {
+          "structure": "libCSD PFC",
+          "parameter": "bucket 256",
+          "bytes": 15945294,
+          "bytes_per_key": 15.9453
+        },
+        {
+          "structure": "libCSD PFC",
+          "parameter": "bucket 1024",
+          "bytes": 15826223,
+          "bytes_per_key": 15.8262
+        },
+        {
+          "structure": "libCSD RPFC",
+          "parameter": "bucket 8",
+          "bytes": 14124139,
+          "bytes_per_key": 14.1241
+        },
+        {
+          "structure": "libCSD RPFC",
+          "parameter": "bucket 64",
+          "bytes": 8673825,
+          "bytes_per_key": 8.6738
+        },
+        {
+          "structure": "libCSD RPFC",
+          "parameter": "bucket 256",
+          "bytes": 8088571,
+          "bytes_per_key": 8.0886
+        },
+        {
+          "structure": "libCSD RPFC",
+          "parameter": "bucket 1024",
+          "bytes": 7943450,
+          "bytes_per_key": 7.9435
+        },
+        {
+          "structure": "libCSD HTFC",
+          "parameter": "bucket 8",
+          "bytes": 14999471,
+          "bytes_per_key": 14.9995
+        },
+        {
+          "structure": "libCSD HTFC",
+          "parameter": "bucket 64",
+          "bytes": 11742053,
+          "bytes_per_key": 11.7421
+        },
+        {
+          "structure": "libCSD HTFC",
+          "parameter": "bucket 256",
+          "bytes": 11368826,
+          "bytes_per_key": 11.3688
+        },
+        {
+          "structure": "libCSD HTFC",
+          "parameter": "bucket 1024",
+          "bytes": 11274756,
+          "bytes_per_key": 11.2748
+        },
+        {
+          "structure": "libCSD HHTFC",
+          "parameter": "bucket 8",
+          "bytes": 14615938,
+          "bytes_per_key": 14.6159
+        },
+        {
+          "structure": "libCSD HHTFC",
+          "parameter": "bucket 64",
+          "bytes": 11610308,
+          "bytes_per_key": 11.6103
+        },
+        {
+          "structure": "libCSD HHTFC",
+          "parameter": "bucket 256",
+          "bytes": 11282145,
+          "bytes_per_key": 11.2821
+        },
+        {
+          "structure": "libCSD HHTFC",
+          "parameter": "bucket 1024",
+          "bytes": 11195219,
+          "bytes_per_key": 11.1952
+        },
+        {
+          "structure": "libCSD RPHTFC",
+          "parameter": "bucket 8",
+          "bytes": 12072052,
+          "bytes_per_key": 12.0721
+        },
+        {
+          "structure": "libCSD RPHTFC",
+          "parameter": "bucket 64",
+          "bytes": 8674410,
+          "bytes_per_key": 8.6744
+        },
+        {
+          "structure": "libCSD RPHTFC",
+          "parameter": "bucket 256",
+          "bytes": 8302879,
+          "bytes_per_key": 8.3029
+        },
+        {
+          "structure": "libCSD RPHTFC",
+          "parameter": "bucket 1024",
+          "bytes": 8206196,
+          "bytes_per_key": 8.2062
+        },
+        {
+          "structure": "RearCodedArray",
+          "parameter": "block 32 bytes",
+          "bytes": 65361281,
+          "bytes_per_key": 65.3613,
+          "rank_wrong": 0
+        },
+        {
+          "structure": "RearCodedArray (headers apart)",
+          "parameter": "block 32 bytes",
+          "bytes": 29125385,
+          "bytes_per_key": 29.1254,
+          "rank_wrong": 0
+        },
+        {
+          "structure": "RearCodedArray",
+          "parameter": "block 128 bytes",
+          "bytes": 23782128,
+          "bytes_per_key": 23.7821,
+          "rank_wrong": 0
+        },
+        {
+          "structure": "RearCodedArray (headers apart)",
+          "parameter": "block 128 bytes",
+          "bytes": 20877626,
+          "bytes_per_key": 20.8776,
+          "rank_wrong": 0
+        },
+        {
+          "structure": "RearCodedArray",
+          "parameter": "block 512 bytes",
+          "bytes": 17437527,
+          "bytes_per_key": 17.4375,
+          "rank_wrong": 0
+        },
+        {
+          "structure": "RearCodedArray (headers apart)",
+          "parameter": "block 512 bytes",
+          "bytes": 17262520,
+          "bytes_per_key": 17.2625,
+          "rank_wrong": 0
+        },
+        {
+          "structure": "RearCodedArray",
+          "parameter": "block 2048 bytes",
+          "bytes": 16181549,
+          "bytes_per_key": 16.1815,
+          "rank_wrong": 0
+        },
+        {
+          "structure": "RearCodedArray (headers apart)",
+          "parameter": "block 2048 bytes",
+          "bytes": 16171151,
+          "bytes_per_key": 16.1712,
+          "rank_wrong": 0
+        },
+        {
+          "structure": "RearCodedArray",
+          "parameter": "block 8192 bytes",
+          "bytes": 15884703,
+          "bytes_per_key": 15.8847,
+          "rank_wrong": 0
+        },
+        {
+          "structure": "RearCodedArray (headers apart)",
+          "parameter": "block 8192 bytes",
+          "bytes": 15883957,
+          "bytes_per_key": 15.884,
+          "rank_wrong": 0
+        }
+      ],
+      "smallest": {
+        "structure": "libCSD RPFC",
+        "parameter": "bucket 1024",
+        "bytes": 7943450,
+        "bytes_per_key": 7.9435
+      }
+    },
+    {
+      "corpus": "uuid-1000000",
+      "keys": 1000000,
+      "raw_bytes": 36000000,
+      "raw_bytes_per_key": 36.0,
+      "configurations": [
+        {
+          "structure": "sux RearCodedListStr",
+          "parameter": "ratio 16",
+          "bytes": 34390452,
+          "bytes_per_key": 34.3905
+        },
+        {
+          "structure": "sux RearCodedListStr",
+          "parameter": "ratio 64",
+          "bytes": 33859891,
+          "bytes_per_key": 33.8599
+        },
+        {
+          "structure": "sux RearCodedListStr",
+          "parameter": "ratio 256",
+          "bytes": 33727336,
+          "bytes_per_key": 33.7273
+        },
+        {
+          "structure": "fcsd Set",
+          "parameter": "bucket 8",
+          "bytes": 34503965,
+          "bytes_per_key": 34.504
+        },
+        {
+          "structure": "fcsd Set",
+          "parameter": "bucket 64",
+          "bytes": 33785707,
+          "bytes_per_key": 33.7857
+        },
+        {
+          "structure": "fcsd Set",
+          "parameter": "bucket 256",
+          "bytes": 33708816,
+          "bytes_per_key": 33.7088
+        },
+        {
+          "structure": "libCSD PFC",
+          "parameter": "bucket 8",
+          "bytes": 34503934,
+          "bytes_per_key": 34.5039
+        },
+        {
+          "structure": "libCSD PFC",
+          "parameter": "bucket 64",
+          "bytes": 33785676,
+          "bytes_per_key": 33.7857
+        },
+        {
+          "structure": "libCSD PFC",
+          "parameter": "bucket 256",
+          "bytes": 33708785,
+          "bytes_per_key": 33.7088
+        },
+        {
+          "structure": "libCSD PFC",
+          "parameter": "bucket 1024",
+          "bytes": 33689563,
+          "bytes_per_key": 33.6896
+        },
+        {
+          "structure": "libCSD RPFC",
+          "parameter": "bucket 8",
+          "bytes": 25528073,
+          "bytes_per_key": 25.5281
+        },
+        {
+          "structure": "libCSD RPFC",
+          "parameter": "bucket 64",
+          "bytes": 23473840,
+          "bytes_per_key": 23.4738
+        },
+        {
+          "structure": "libCSD RPFC",
+          "parameter": "bucket 256",
+          "bytes": 22745755,
+          "bytes_per_key": 22.7458
+        },
+        {
+          "structure": "libCSD RPFC",
+          "parameter": "bucket 1024",
+          "bytes": 23064165,
+          "bytes_per_key": 23.0642
+        },
+        {
+          "structure": "libCSD HTFC",
+          "parameter": "bucket 8",
+          "bytes": 19826973,
+          "bytes_per_key": 19.827
+        },
+        {
+          "structure": "libCSD HTFC",
+          "parameter": "bucket 64",
+          "bytes": 19221460,
+          "bytes_per_key": 19.2215
+        },
+        {
+          "structure": "libCSD HTFC",
+          "parameter": "bucket 256",
+          "bytes": 19156627,
+          "bytes_per_key": 19.1566
+        },
+        {
+          "structure": "libCSD HTFC",
+          "parameter": "bucket 1024",
+          "bytes": 19140384,
+          "bytes_per_key": 19.1404
+        },
+        {
+          "structure": "libCSD HHTFC",
+          "parameter": "bucket 8",
+          "bytes": 19543237,
+          "bytes_per_key": 19.5432
+        },
+        {
+          "structure": "libCSD HHTFC",
+          "parameter": "bucket 64",
+          "bytes": 18838257,
+          "bytes_per_key": 18.8383
+        },
+        {
+          "structure": "libCSD HHTFC",
+          "parameter": "bucket 256",
+          "bytes": 18733895,
+          "bytes_per_key": 18.7339
+        },
+        {
+          "structure": "libCSD HHTFC",
+          "parameter": "bucket 1024",
+          "bytes": 18693969,
+          "bytes_per_key": 18.694
+        },
+        {
+          "structure": "libCSD RPHTFC",
+          "parameter": "bucket 8",
+          "bytes": 23858458,
+          "bytes_per_key": 23.8585
+        },
+        {
+          "structure": "libCSD RPHTFC",
+          "parameter": "bucket 64",
+          "bytes": 23568059,
+          "bytes_per_key": 23.5681
+        },
+        {
+          "structure": "libCSD RPHTFC",
+          "parameter": "bucket 256",
+          "bytes": 23000058,
+          "bytes_per_key": 23.0001
+        },
+        {
+          "structure": "libCSD RPHTFC",
+          "parameter": "bucket 1024",
+          "bytes": 23344694,
+          "bytes_per_key": 23.3447
+        },
+        {
+          "structure": "RearCodedArray",
+          "parameter": "block 32 bytes",
+          "bytes": 49000100,
+          "bytes_per_key": 49.0001,
+          "rank_wrong": 0
+        },
+        {
+          "structure": "RearCodedArray (headers apart)",
+          "parameter": "block 32 bytes",
+          "bytes": 41334731,
+          "bytes_per_key": 41.3347,
+          "rank_wrong": 0
+        },
+        {
+          "structure": "RearCodedArray",
+          "parameter": "block 128 bytes",
+          "bytes": 37512410,
+          "bytes_per_key": 37.5124,
+          "rank_wrong": 0
+        },
+        {
+          "structure": "RearCodedArray (headers apart)",
+          "parameter": "block 128 bytes",
+          "bytes": 36746782,
+          "bytes_per_key": 36.7468,
+          "rank_wrong": 0
+        },
+        {
+          "structure": "RearCodedArray",
+          "parameter": "block 512 bytes",
+          "bytes": 34644578,
+          "bytes_per_key": 34.6446,
+          "rank_wrong": 0
+        },
+        {
+          "structure": "RearCodedArray (headers apart)",
+          "parameter": "block 512 bytes",
+          "bytes": 34584113,
+          "bytes_per_key": 34.5841,
+          "rank_wrong": 0
+        },
+        {
+          "structure": "RearCodedArray",
+          "parameter": "block 2048 bytes",
+          "bytes": 33934377,
+          "bytes_per_key": 33.9344,
+          "rank_wrong": 0
+        },
+        {
+          "structure": "RearCodedArray (headers apart)",
+          "parameter": "block 2048 bytes",
+          "bytes": 33930160,
+          "bytes_per_key": 33.9302,
+          "rank_wrong": 0
+        },
+        {
+          "structure": "RearCodedArray",
+          "parameter": "block 8192 bytes",
+          "bytes": 33746087,
+          "bytes_per_key": 33.7461,
+          "rank_wrong": 0
+        },
+        {
+          "structure": "RearCodedArray (headers apart)",
+          "parameter": "block 8192 bytes",
+          "bytes": 33745880,
+          "bytes_per_key": 33.7459,
+          "rank_wrong": 0
+        }
+      ],
+      "smallest": {
+        "structure": "libCSD HHTFC",
+        "parameter": "bucket 1024",
+        "bytes": 18693969,
+        "bytes_per_key": 18.694
+      }
+    }
+  ]
+}
