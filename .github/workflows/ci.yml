@@ -55,6 +55,10 @@ jobs:
             results/maps-*.json; do
             uv run --no-project --python 3.11 python -m json.tool "$json" >/dev/null
           done
+      # A table is a rendering of an artifact, so a hand edit, or a new artifact the table did not
+      # follow, is a difference. The rule for bold is in the README's protocol section.
+      - name: every README results table is re-derived from its artifacts
+        run: uv run --no-project --python 3.11 python harness/readme_tables.py
       # A citation of an artifact that was never committed is a 404 from the day it is pushed. The
       # README cites the MARISA floor as `marisa-floor-{1m,10m,full}-...`, so braces are expanded.
       - name: every cited results/ artifact is committed

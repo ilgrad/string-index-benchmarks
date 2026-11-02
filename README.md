@@ -450,7 +450,7 @@ corpora:
 |---|---|---|---:|---:|---:|
 | constmap `ConstMap` | the 64-bit value it was built with | an undefined value | 9.044–9.151 | 9.018 | 9.003 |
 | lexindex `ClosedHashIndex` | its id, dense in [0, n), in an order the hash picks | some id | **0.240–0.242** | **0.239** | **0.239** |
-| constmap `VerifiedConstMap` | the value | `NOT_FOUND`; a 64-bit check, accepted 0 times | 18.088–18.302 | 18.035 | 18.006 |
+| constmap `VerifiedConstMap` | the value | `NOT_FOUND`; a 64-bit check, accepted 0 times | 18.088–18.302 | 18.036 | 18.006 |
 | lexindex `CompactHashIndex`, 64-bit fingerprint | its id | `None`; accepted 0 times | **8.240–8.242** | **8.239** | **8.239** |
 | lexindex `CompactHashIndex`, 32 / 16 / 8 bits | its id | `None`, but for about 2⁻³² / 2⁻¹⁶ / 2⁻⁸ of them; accepted at 1 M 0 times, 0.0009–0.0024 %, 0.381–0.398 % (1/256 is 0.391 %) | 4.240–4.242 / 2.240–2.242 / 1.240–1.242 | 4.239 / 2.239 / 1.239 | 4.239 / 2.239 / 1.239 |
 | lexindex `PerfectHashIndex` | its id, and the key back from the id | `None`: it compares the stored key | 7.442–60.622 | 8.441–54.631 | 23.235–54.626 |
@@ -520,7 +520,30 @@ The rules a number here had to survive:
   those lands in the artifact next to the numbers.
 - **The artifact is the claim.** A table in this README is a rendering of a JSON file in `results/`
   that names the machine, the commit, the pins and the date. If a table and an artifact disagree,
-  the artifact is right and the table is a bug.
+  the artifact is right and the table is a bug. `harness/readme_tables.py` re-derives every cell of
+  every results table from the artifacts its section cites, and CI fails on any difference. The
+  prose around the tables is not checked. One cell is checked only as far as its artifact goes:
+  `421 B total` at a hundred million keys, which the artifact records as 0.000401 MiB, 420 or 421
+  bytes.
+- **What gets bold.** Bold marks the winner of a comparison a row makes, by these rules, which the
+  same script enforces:
+  - *A size wins by any margin*, because a size is deterministic. The smaller of two sizes set side
+    by side is bold. Bold says which file is smaller and not that the difference matters: `paths`
+    in the MARISA floor's table is bold at 0.04 %, which the text below that table calls a tie.
+  - *A time wins only by more than 5 %*, because the placement of a process's memory alone moves a
+    lookup 4 to 7 % on this machine. The faster time has to be under 0.95 of the slower, in the
+    artifact's medians and not in the printed digits. So `0.95×` is bold on `dna` (0.9487) and plain
+    on `words` (0.9547).
+  - In the campaign tables, lexindex's smallest is set against the smallest other, and `margin`
+    takes the bold of the size it measures. `HashedDict` closed is set against the fastest other.
+    The last column's ratio is bold where lexindex's exact search wins; where it loses, the ratio
+    above one says so and nothing is bold. The exact-search gap's table follows that column.
+  - At a hundred million keys, the two sizes are set against each other and the two times against
+    each other, so XCDAT 15's time is bold where it wins.
+  - In the static maps' table, each constmap row is set against the lexindex row that rejects the
+    same strangers. A row with no such partner has no bold.
+  - The margins of the three size-only tables are plain. The loaded-index table has no bold at all:
+    its two margins differ in sign on five rows, and the margins are the result.
 
 `run.sh` refuses to run on a dirty checkout unless told `--allow-dirty`, and stamps the commit it
 ran at into the filename.
@@ -543,6 +566,7 @@ ran at into the filename.
 | `harness/maps/` | static maps that do not store their keys, constmap's and lexindex's, from crates.io |
 | `harness/maps.py` | runs it over a scale's corpora into `results/maps-*.json` |
 | `harness/tables.py` | artifact → markdown |
+| `harness/readme_tables.py` | CI's check: every results table in this README, re-derived from the artifacts |
 | `sib/corpora.py` | the corpus definitions, fetching and hashing |
 | `sib/chart.py` | artifact → figure |
 | `results/` | the artifacts, committed |
