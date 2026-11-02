@@ -53,6 +53,13 @@ def versions() -> dict[str, str]:
 
 
 def configuration(row: dict[str, str], keys: int) -> dict:
+    """A row a binary printed. One that crashed or answered wrong holds its reason, not a size."""
+    if row.get("failure"):
+        return {
+            "structure": row["structure"],
+            "parameter": row["parameter"],
+            "failure": row["failure"],
+        }
     parsed = {
         "structure": row["structure"],
         "parameter": row["parameter"],
@@ -93,7 +100,7 @@ def measure(stem: str, binaries: list[Path]) -> dict:
         "raw_bytes": raw,
         "raw_bytes_per_key": round(raw / keys, 3),
         "configurations": configurations,
-        "smallest": min(configurations, key=lambda c: c["bytes"]),
+        "smallest": min((c for c in configurations if "bytes" in c), key=lambda c: c["bytes"]),
     }
 
 

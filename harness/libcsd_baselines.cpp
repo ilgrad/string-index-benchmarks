@@ -12,8 +12,13 @@
 // its headers by Hu-Tucker and its internal strings by Hu-Tucker, Huffman or
 // Re-Pair (`Build 4 t|h|r`, the classes HTFC, HHTFC and RPHTFC).
 //
+// Each configuration runs in a process of its own, because the library can crash
+// on one and hold the next: RPHTFC's `extract` follows a bad subtree on some key
+// sets. A configuration that crashes or answers wrong is a cell, with its reason
+// and no size.
+//
 // `libcsd_baselines <keys.txt>` prints `<keys> keys, <raw> raw bytes`, then a
-// CSV row a configuration: `structure,parameter,bytes`.
+// CSV row a configuration: `structure,parameter,bytes,failure`.
 #include <algorithm>
 #include <cstddef>
 #include <cstdio>
@@ -21,10 +26,29 @@
 #include <cstring>
 #include <fstream>
 #include <functional>
+#include <new>
 #include <string>
+#include <sys/resource.h>
+#include <sys/wait.h>
 #include <unistd.h>
 #include <utility>
 #include <vector>
+
+// RPFC's and RPHTFC's constructors size `beginnings` for buckets + 1 entries and
+// then write `beginnings[1 + strings / (bucketsize - 1)]`. Where the number of
+// keys is a multiple of the bucket size, as a million is of 8 and 64, that is one
+// `size_t` past the end, which corrupts the heap. Nothing reads the entry, so the
+// file is right, and every allocation here gets the eight bytes it lands in; the
+// pinned source stays as it is, and no size moves, for a size is the file's.
+void *operator new(std::size_t bytes) {
+  void *memory = std::malloc(bytes + sizeof(std::size_t));
+  if (memory == nullptr) {
+    throw std::bad_alloc();
+  }
+  return memory;
+}
+void operator delete(void *memory) noexcept { std::free(memory); }
+void operator delete(void *memory, std::size_t) noexcept { std::free(memory); }
 
 #include "StringDictionary.h"
 #include "iterators/IteratorDictStringPlain.h"
@@ -49,8 +73,11 @@ IteratorDictString *iterator(const std::vector<std::string> &keys) {
   return new IteratorDictStringPlain(text, bytes);
 }
 
-// Ids count from 1. A key that does not come back is a broken structure, and a
-// size of one would not be a size of the keys, so the run stops.
+// What a child exits with where a key does not come back. A size of that
+// structure would not be a size of the keys.
+constexpr int WRONG_ANSWER = 3;
+
+// Ids count from 1.
 void check(StringDictionary &dict, const std::vector<std::string> &keys,
            const char *name, uint bucket) {
   for (std::size_t i = 0; i < keys.size(); ++i) {
@@ -65,22 +92,15 @@ void check(StringDictionary &dict, const std::vector<std::string> &keys,
       std::fprintf(stderr, "%s, bucket %u: key %zu, %s: locate gave %u%s\n", name,
                    bucket, i + 1, keys[i].c_str(), id,
                    same ? "" : ", and extract another string");
-      std::exit(1);
+      _exit(WRONG_ANSWER);
     }
   }
 }
 
 // `getSize()` counts the arrays and leaves out the framing a file costs, so the
 // size is the file's.
-void measure(const std::vector<std::string> &keys, const char *name, uint bucket,
-             const Make &make) {
-  char path[] = "/tmp/libcsd_baselines.XXXXXX";
-  const int descriptor = mkstemp(path);
-  if (descriptor < 0) {
-    std::perror("mkstemp");
-    std::exit(1);
-  }
-  close(descriptor);
+void build_and_check(const std::vector<std::string> &keys, const char *name,
+                     uint bucket, const Make &make, const char *path) {
   StringDictionary *built = make(iterator(keys), bucket);
   std::ofstream out(path, std::ios::binary);
   built->save(out);
@@ -91,15 +111,48 @@ void measure(const std::vector<std::string> &keys, const char *name, uint bucket
   StringDictionary *loaded = StringDictionary::load(in, 0);
   const auto bytes = static_cast<std::size_t>(in.seekg(0, std::ios::end).tellg());
   in.close();
-  std::remove(path);
   if (loaded == nullptr) {
     std::fprintf(stderr, "%s, bucket %u: its own file does not load\n", name, bucket);
-    std::exit(1);
+    _exit(WRONG_ANSWER);
   }
   check(*loaded, keys, name, bucket);
-  std::printf("%s,bucket %u,%zu\n", name, bucket, bytes);
+  std::printf("%s,bucket %u,%zu,\n", name, bucket, bytes);
   std::fflush(stdout);
-  delete loaded;
+}
+
+void measure(const std::vector<std::string> &keys, const char *name, uint bucket,
+             const Make &make) {
+  // Made here and removed here, so that no file outlives a child that crashes.
+  char path[] = "/tmp/libcsd_baselines.XXXXXX";
+  const int descriptor = mkstemp(path);
+  if (descriptor < 0) {
+    std::perror("mkstemp");
+    std::exit(1);
+  }
+  close(descriptor);
+  std::fflush(stdout);
+  const pid_t child = fork();
+  if (child < 0) {
+    std::perror("fork");
+    std::exit(1);
+  }
+  if (child == 0) {
+    // A crash here is a result, and a dump of it would only load the machine.
+    const rlimit none = {0, 0};
+    setrlimit(RLIMIT_CORE, &none);
+    build_and_check(keys, name, bucket, make, path);
+    _exit(0);
+  }
+  int status = 0;
+  waitpid(child, &status, 0);
+  std::remove(path);
+  if (WIFSIGNALED(status)) {
+    std::printf("%s,bucket %u,,signal %d\n", name, bucket, WTERMSIG(status));
+  } else if (WEXITSTATUS(status) == WRONG_ANSWER) {
+    std::printf("%s,bucket %u,,wrong answer\n", name, bucket);
+  } else if (WEXITSTATUS(status) != 0) {
+    std::exit(WEXITSTATUS(status));
+  }
 }
 
 } // namespace
@@ -128,7 +181,7 @@ int main(int argc, char **argv) {
   }
 
   std::printf("%zu keys, %zu raw bytes\n", keys.size(), raw_bytes);
-  std::printf("structure,parameter,bytes\n");
+  std::printf("structure,parameter,bytes,failure\n");
   const std::vector<std::pair<const char *, Make>> structures = {
       {"libCSD PFC",
        [](IteratorDictString *it, uint b) -> StringDictionary * {
