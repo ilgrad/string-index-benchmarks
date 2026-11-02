@@ -41,12 +41,35 @@ sib maps                       # static maps that do not store their keys -- siz
 sib table results/<latest>.json
 ```
 
+`sib corpora build` rewrites the tracked `sib/corpora.json`, so every command after it in this list
+refuses until it is given `--allow-dirty`; [The corpora](#the-corpora) says why.
+
 `sib` needs Python 3.11+ and nothing else; `sib build` needs a C++20 compiler, CMake, Boost and a
 Rust toolchain. If you would rather not install those, the `Containerfile` has them:
 
 ```bash
-podman build -t sib . && podman run --rm -v "$PWD:/w" -w /w sib sib build
+podman build -t sib . && podman run --rm -v "$PWD:/w:Z" -w /w sib sib build
 ```
+
+The `:Z` is what lets a container read the volume on a host with SELinux enforcing; without it,
+`sib` stops at `Permission denied`. The volume has to be a plain clone: a `git worktree` keeps its
+repository outside the mount, and `harness/build.sh` then stops at `not a git repository`.
+
+**One run inside the image is on record**, 2026-11-02, at commit `9172cb3`, on Fedora 44 with
+podman 5.8.9, the image built with no cache, over a fresh clone and a 20,000-line key file:
+
+```bash
+podman build -t sib .
+podman run --rm -v "$PWD:/w:Z" -w /w sib sib build
+podman run --rm -v "$PWD:/w:Z" -w /w sib sib run --rounds 1 --keys my_catalog.txt
+```
+
+Each command exited 0. The image holds GCC 14.2, CMake 3.31, Boost 1.83, rustc 1.99.1 and uv 0.9.7,
+and `sib build` compiled every entrant with them, though the campaigns here ran on GCC 16.2. The run
+gave all 32 structures a cell, none failed, and it wrote its artifact and its table. The 21 C²
+and XCDAT rows hold the same sizes as the same drivers built on the host with GCC 16.2. The
+times of that run are not quoted: the machine was busy, and they are the machine's. The artifact's
+`host` is the container's id. No campaign and no corpus has been run inside the image.
 
 ### Your keys, not ours
 
@@ -67,20 +90,37 @@ Thirteen, of four kinds, defined in `sib/corpora.py` and hashed in `sib/corpora.
 
 | kind | corpora |
 |---|---|
-| fetched from a pinned URL | `titles-en`, `titles-ru`, `titles-zh` (Wikipedia dumps), `domains` (Tranco), `pypi`, `paths` (a Debian archive's file list), `idents` (every identifier in the `rustc` source release) |
+| fetched from a pinned URL | `titles-en`, `titles-ru`, `titles-zh` (Wikipedia dumps), `domains` (Tranco), `paths` (a Debian archive's file list), `idents` (every identifier in the `rustc` source release); `pypi` too, but what that URL serves is not pinned |
 | derived from a fetched one | `urls` — the article titles under Wikipedia's own prefix and escaping |
 | generated from a fixed seed | `uuid`, `numeric`, `opaque`, `dna` |
 | read off the machine | `words` — `/usr/share/dict/words`, tagged `host`, the only one that is |
 
-Eleven of thirteen reproduce byte-for-byte anywhere and at any time; rebuilding them nine days
-apart reproduced every SHA-256. The other two carry a tag that says why they do not. `words` is
-`host` — it is read off the machine, and the manifest records which one. `pypi` is `dated` — the
-simple index is live and publishes no snapshot, so a rebuild picks up whatever was registered since
-(889 864 names on 2026-09-12, 895 600 on 2026-09-21), and the manifest's `built` date is which index
-a file is. Sizes are nested — the 1 M file is a prefix of
-the 10 M one — so a difference between two scales is scale and never composition. Every file is
-UTF-8, one key per line, deduplicated, and **shuffled with a fixed seed**: a sorted build order is
-the one order an ordered index must not be handed by accident.
+**Two of the thirteen do not reproduce: `words` and `pypi`.** Eleven reproduce byte-for-byte
+anywhere and at any time; rebuilding them nine days apart reproduced every SHA-256. For the other
+two, `sib corpora build` gives you another file than the one behind the tables here:
+
+- **`words`**, tagged `host` in `sib/corpora.py`, is whatever `/usr/share/dict/words` your machine
+  holds. The tables' file is Fedora 44's `words` package, 479,823 keys. The `Containerfile`'s
+  `wamerican` gives 104,334 keys, so `words-full` there is a smaller file of other words.
+- **`pypi`**, tagged `dated`, is the simple index on the day you build it. The index is live and
+  publishes no snapshot, so a rebuild picks up whatever was registered since: 889,864 names on
+  2026-09-12, 895,600 on 2026-09-21, which is the tables' file, and 929,729 on 2026-11-02. The
+  shuffle runs over the whole pool, so every line can move, `pypi-100000.txt` included.
+
+So a re-run's rows for those two corpora describe other keys: **their cells cannot confirm or refute
+the `words` and `pypi` rows here. The other eleven rows compare cell by cell.**
+
+`sib corpora build` also writes what it built into `sib/corpora.json`, which is tracked: the hashes
+and key counts of those two, each corpus's `built` date, the machine's name and kernel. From then
+on the tree is dirty, so `sib run` and the size-only commands refuse until they are given
+`--allow-dirty`, and the artifact is tagged `<commit>-dirty`. Putting the manifest back does not
+help: `sib corpora verify` then reports both corpora `CHANGED`, and the same commands refuse for
+that reason. What the manifest holds is the hash of the file on the machine that last built it.
+
+Sizes are nested — the 1 M file is a prefix of the 10 M one — so a difference between two scales is
+scale and never composition. Every file is UTF-8, one key per line, deduplicated, and **shuffled
+with a fixed seed**: a sorted build order is the one order an ordered index must not be handed by
+accident.
 
 ## The entrants, and their versions
 

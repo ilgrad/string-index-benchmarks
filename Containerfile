@@ -3,10 +3,11 @@
 # and NOTICE.md says why this repository does not.
 #
 #   podman build -t sib .
-#   podman run --rm -v "$PWD:/w" -w /w sib sib build
-#   podman run --rm -v "$PWD:/w" -w /w sib sib run --keys my_catalog.txt
+#   podman run --rm -v "$PWD:/w:Z" -w /w sib sib build
+#   podman run --rm -v "$PWD:/w:Z" -w /w sib sib run --keys my_catalog.txt
 #
 # The volume matters: `build/` and `corpora/` are gigabytes and belong on your disk, not in a layer.
+# `:Z` relabels it for a host with SELinux enforcing, where the container cannot read it otherwise.
 FROM docker.io/library/debian:trixie-slim
 
 # One layer, no recommends, no apt cache: the image is a toolchain, not a system.

@@ -47,7 +47,7 @@ and the image does not.
 
 ```bash
 podman build -t sib .          # or docker build
-podman run --rm -v "$PWD:/w" -w /w sib sib build
+podman run --rm -v "$PWD:/w:Z" -w /w sib sib build   # :Z for a host with SELinux enforcing
 ```
 
 ## The corpora
