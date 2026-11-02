@@ -8,7 +8,7 @@ tidiness: the structures this suite measures carry licences that differ from eac
 this harness's, and several are copyleft. A machine that runs `sib build` assembles those sources
 for itself and distributes nothing.
 
-## The licences, read from each repository on 2026-09-21 and 2026-09-26
+## The licences, read from each repository on the dates below, or else on 2026-09-21 and 2026-09-26
 
 | what | repository | licence, as its own file states it |
 |---|---|---|
@@ -24,6 +24,8 @@ for itself and distributes nothing.
 | FSST | [`cwida/fsst`](https://github.com/cwida/fsst) | MIT |
 | ctriepp | [`ofek.gila1/ctriepp`](https://gitlab.com/ofek.gila1/ctriepp) | MIT (`LICENSE.txt`) |
 | lexindex | [`ilgrad/lexindex`](https://github.com/ilgrad/lexindex) | MIT (fetched from crates.io like any dependency) |
+| libCSD | [`migumar2/libCSD`](https://github.com/migumar2/libCSD) | **LGPL-2.1** (`LICENSE.md`; file headers LGPL-2.1-or-later), but its Re-Pair coder, `RePair/Coder/`, is **GPL-2-or-later** by its own headers, and the libcds it carries is LGPL-2.1 (`libcds/COPYRIGHT`) with **GPL-3-or-later** headers on its sequence and permutation files; read 2026-11-02 |
+| RearCodedArray | [`gvinciguerra/RearCodedArray`](https://github.com/gvinciguerra/RearCodedArray) | Apache-2.0 (`LICENSE`), read 2026-11-02 |
 | constmap | [`lemire/rsconstmap`](https://github.com/lemire/rsconstmap) | MIT OR Apache-2.0 (`LICENSE-MIT`, `LICENSE-APACHE`; fetched from crates.io, as is its one dependency, `xxhash-rust`, BSL-1.0), read 2026-11-01 |
 
 **PDT is the one entrant whose licence restricts use, not only redistribution.** The Microsoft
@@ -39,8 +41,9 @@ table is not authoritative.
 
 ## Why there is a `Containerfile` and no published image
 
-`sib build` compiles GPL-3 code (CoCo-trie, sdsl-lite, sux) into one `benchmark` binary. Publishing
-a prebuilt image of that binary would be *distributing* it, which the GPL permits on terms —
+`sib build` compiles GPL-3 code (CoCo-trie, sdsl-lite, sux) into one `benchmark` binary, and GPL
+code (libCSD's Re-Pair, libcds) into `libcsd_baselines`. Publishing
+a prebuilt image of those binaries would be *distributing* them, which the GPL permits on terms —
 offering corresponding source, licensing the whole under the GPL — that a benchmark harness has no
 business taking on. Building the image locally is not distribution, so the `Containerfile` ships
 and the image does not.

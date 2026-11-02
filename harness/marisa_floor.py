@@ -82,21 +82,21 @@ def commit(allow_dirty: bool) -> str:
     return sha
 
 
-def pin() -> str:
-    """marisa's pin as run.sh's header writes it, once the checkout is shown to be at it."""
+def pin(path: str = MARISA) -> str:
+    """A pin as run.sh's header writes it, once the checkout is shown to be at it."""
     line = re.search(
-        rf'^\s*"{MARISA} (?P<url>\S+) (?P<commit>[0-9a-f]{{40}})"$',
+        rf'^\s*"{path} (?P<url>\S+) (?P<commit>[0-9a-f]{{40}})"$',
         (ROOT / "harness/pins.sh").read_text(encoding="utf-8"),
         re.MULTILINE,
     )
     if line is None:
-        raise SystemExit(f"harness/pins.sh does not pin {MARISA}")
-    at = git("rev-parse", "HEAD", at=BUILD / MARISA) or "none"
+        raise SystemExit(f"harness/pins.sh does not pin {path}")
+    at = git("rev-parse", "HEAD", at=BUILD / path) or "none"
     if at != line["commit"]:
         raise SystemExit(
-            f"refusing: {MARISA} is at {at}, not the pinned {line['commit']}; run harness/build.sh"
+            f"refusing: {path} is at {at}, not the pinned {line['commit']}; run harness/build.sh"
         )
-    status = git("status", "--porcelain", "--untracked-files=no", at=BUILD / MARISA)
+    status = git("status", "--porcelain", "--untracked-files=no", at=BUILD / path)
     changed = ",".join(entry.split()[-1] for entry in status.splitlines())
     return f"{line['commit'][:12]} {line['url']}" + (f" (modified: {changed})" if changed else "")
 

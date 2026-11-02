@@ -11,7 +11,7 @@
     sib marisa-floor               # MARISA's size at every num_tries and the tiny cache, at 1 M
     sib marisa-floor --scale 10m   # the same over the six ten-million-key files
     sib resident                   # what a loaded index holds beside its file, lexindex and MARISA
-    sib baselines                  # plain front coding's size, sux and fcsd, at 1 M
+    sib baselines                  # front coding's size: sux, fcsd, libCSD, RearCodedArray, at 1 M
     sib maps                       # static maps that do not store their keys, constmap, at 1 M
     sib table results/<...>.json   # the markdown the README quotes
     sib chart results/<...>.json   # the figure
@@ -185,7 +185,9 @@ def main() -> int:
     resident.add_argument("--allow-dirty", action="store_true")
     resident.set_defaults(func=cmd_resident)
 
-    baselines = sub.add_parser("baselines", help="plain front coding's size, sux and fcsd")
+    baselines = sub.add_parser(
+        "baselines", help="front coding's size: sux, fcsd, libCSD, RearCodedArray"
+    )
     baselines.add_argument("--scale", choices=("1m", "10m", "full"), default="1m")
     baselines.add_argument(
         "--jobs", type=int, default=0, help="corpora built at once (default: as memory allows)"

@@ -21,6 +21,13 @@ PINS=(
   "xcdat https://github.com/kampersanda/xcdat 2451441dcc09e470dcb3ecd2c1bb304a7dc46347"
 )
 
+# Sized by harness/baselines.py and never run by run.sh, so a campaign neither records nor waits for
+# them: a re-measurement has to match its campaign's header line for line. Neither has a release.
+BASELINE_PINS=(
+  "libcsd https://github.com/migumar2/libCSD 568bf8a876684d871b97c93b4322ddf71eb830b3"
+  "rca https://github.com/gvinciguerra/RearCodedArray 608b35e2fcedd986d7059ae546ba8d7f244bb490"
+)
+
 # CoCo-trie's `lib/adapted_code`: five headers its own build copies over ds2i, succinct and sux (a
 # templated `compact_elias_fano` among them), without which C²'s CoCo structures do not compile.
 # Fetched from that commit and checked by content, rather than cloning the repository for them.

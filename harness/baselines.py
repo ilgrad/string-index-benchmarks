@@ -1,4 +1,4 @@
-"""Front-coded string lists the campaign does not run, sized over one campaign scale.
+"""Front-coded string dictionaries the campaign does not run, sized over one campaign scale.
 
     uv run --no-sync python harness/baselines.py                  # the thirteen corpora at 1 M
     uv run --no-sync python harness/baselines.py --scale 10m      # the six with a 10 M file
@@ -8,9 +8,12 @@
 Plain front coding is the yardstick every compressed string dictionary is measured from, and the
 campaign has no row of it. `harness/baselines` builds two from crates.io over one corpus file --
 sux's rear-coded list at block ratios 16, 64 and 256, and fcsd's front-coded set at bucket sizes 8,
-64 and 256 -- checks that each answers every key both ways, and prints their sizes. This runs it
-over a scale's corpora and writes what it printed into
-`results/baselines-<scale>-<date>-<host>-<commit>.json`.
+64 and 256 -- checks that each answers every key both ways, and prints their sizes. At 1 M, two C++
+drivers beside it do the same for libCSD's dictionaries (`libcsd_baselines`) and RearCodedArray
+(`rca_baselines`), both from `build/` at their pins. They do not run at 10 M or at the full files:
+libCSD's Re-Pair has not been tried at those scales. This runs them over a scale's corpora, writes
+what they printed into `results/baselines-<scale>-<date>-<host>-<commit>.log` and what it parses to
+into the `.json` of the same name.
 
 Nothing is timed, so, as with the MARISA floor, no quiet-machine gate applies and the corpora run
 side by side. The gates that make a number attributable do apply: a clean tree, the binary built
@@ -29,11 +32,15 @@ import time
 import tomllib
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from datetime import datetime
+from pathlib import Path
 
-from marisa_floor import CORPORA, COUNTS, ROOT, commit, default_jobs, stems
+from marisa_floor import BUILD, CORPORA, COUNTS, ROOT, commit, default_jobs, pin, stems
 
 CRATE = ROOT / "harness/baselines"
 BINARY = CRATE / "target/release/baselines"
+# The scale they run at, and the pin behind each.
+CPP_DRIVERS_SCALE = "1m"
+CPP_DRIVERS = {BUILD / "libcsd_baselines": "libcsd", BUILD / "rca_baselines": "rca"}
 
 
 def versions() -> dict[str, str]:
@@ -45,29 +52,42 @@ def versions() -> dict[str, str]:
     return found
 
 
-def measure(stem: str) -> dict:
-    """One corpus: every configuration the binary built, and the smallest."""
-    done = subprocess.run(
-        [str(BINARY), str(CORPORA / f"{stem}.txt")], capture_output=True, text=True, check=False
-    )
-    if done.returncode != 0:
-        why = f"signal {-done.returncode}" if done.returncode < 0 else f"exit {done.returncode}"
-        return {"corpus": stem, "failure": f"{why}: {done.stderr.strip()}"}
-    first, *table = done.stdout.splitlines()
-    counts = COUNTS.match(first)
-    if counts is None:
-        return {"corpus": stem, "failure": f"no key count in {first!r}"}
-    keys, raw = int(counts["keys"]), int(counts["raw"])
-    configurations = [
-        {
-            "structure": row["structure"],
-            "parameter": row["parameter"],
-            "bytes": int(row["bytes"]),
-            "bytes_per_key": round(int(row["bytes"]) / keys, 4),
-        }
-        for row in csv.DictReader(table)
-    ]
+def configuration(row: dict[str, str], keys: int) -> dict:
+    parsed = {
+        "structure": row["structure"],
+        "parameter": row["parameter"],
+        "bytes": int(row["bytes"]),
+        "bytes_per_key": round(int(row["bytes"]) / keys, 4),
+    }
+    if "rank_wrong" in row:
+        parsed["rank_wrong"] = int(row["rank_wrong"])
+    return parsed
+
+
+def measure(stem: str, binaries: list[Path]) -> dict:
+    """One corpus: every configuration the binaries built, and the smallest."""
+    configurations: list[dict] = []
+    output: list[str] = []
+    seen: set[tuple[int, int]] = set()
+    for binary in binaries:
+        done = subprocess.run(
+            [str(binary), str(CORPORA / f"{stem}.txt")], capture_output=True, text=True, check=False
+        )
+        if done.returncode != 0:
+            why = f"signal {-done.returncode}" if done.returncode < 0 else f"exit {done.returncode}"
+            return {"corpus": stem, "failure": f"{binary.name}, {why}: {done.stderr.strip()}"}
+        output += [f"--- {binary.name} {stem}", done.stdout.rstrip("\n")]
+        first, *table = done.stdout.splitlines()
+        counts = COUNTS.match(first)
+        if counts is None:
+            return {"corpus": stem, "failure": f"{binary.name}: no key count in {first!r}"}
+        keys, raw = int(counts["keys"]), int(counts["raw"])
+        seen.add((keys, raw))
+        configurations += [configuration(row, keys) for row in csv.DictReader(table)]
+    if len(seen) != 1:
+        return {"corpus": stem, "failure": f"the binaries read different keys: {sorted(seen)}"}
     return {
+        "output": output,
         "corpus": stem,
         "keys": keys,
         "raw_bytes": raw,
@@ -108,6 +128,10 @@ def main() -> int:
     if not os.access(BINARY, os.X_OK):
         raise SystemExit(f"refusing: {BINARY} is missing; run harness/build.sh")
     crates = versions()
+    drivers = CPP_DRIVERS if args.scale == CPP_DRIVERS_SCALE else {}
+    for driver in drivers:
+        if not os.access(driver, os.X_OK):
+            raise SystemExit(f"refusing: {driver} is missing; run harness/build.sh")
     for stem in names:
         if not (CORPORA / f"{stem}.txt").is_file():
             raise SystemExit(f"refusing: no corpus file {CORPORA}/{stem}.txt; see sib/corpora.py")
@@ -135,15 +159,19 @@ def main() -> int:
         "compiler": rustc,
         "crate sux": f"{crates['sux']} (crates.io)",
         "crate fcsd": f"{crates['fcsd']} (crates.io)",
+        **{f"pin {name}": pin(name) for name in drivers.values()},
         "sizes": "fcsd: size_in_bytes(), what serialize_into writes; sux: mem_size, its arrays "
-        "and fields without a file's framing; bytes_per_key is bytes over keys",
+        "and fields without a file's framing; libCSD: the file its save() writes; RearCodedArray: "
+        "size_in_bytes(), its arrays and object, for it writes no file; bytes_per_key is bytes "
+        "over keys",
         "quiet-machine gates": "none: sizes are deterministic",
     }
 
     started = time.monotonic()
     measured: dict[str, dict] = {}
+    binaries = [BINARY, *drivers]
     with ThreadPoolExecutor(max_workers=args.jobs) as pool:
-        for future in as_completed(pool.submit(measure, stem) for stem in names):
+        for future in as_completed(pool.submit(measure, stem, binaries) for stem in names):
             corpus = future.result()
             measured[corpus["corpus"]] = corpus
             print(progress(corpus, time.monotonic() - started), flush=True)
@@ -153,6 +181,10 @@ def main() -> int:
         raise SystemExit(f"refusing to write an artifact: {len(failed)} corpora failed")
 
     out = ROOT / "results" / f"{table}-{now:%F}-{uname.nodename}-{sha}.json"
+    log = [f"{key}: {value}" for key, value in environment.items()]
+    for stem in names:
+        log += measured[stem].pop("output")
+    out.with_suffix(".log").write_text("\n".join(log) + "\n", encoding="utf-8")
     artifact = {
         "table": table,
         "environment": environment,

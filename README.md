@@ -41,8 +41,8 @@ sib maps                       # static maps that do not store their keys -- siz
 sib table results/<latest>.json
 ```
 
-`sib corpora build` rewrites the tracked `sib/corpora.json`, so every command after it in this list
-refuses until it is given `--allow-dirty`; [The corpora](#the-corpora) says why.
+`sib corpora build` rewrites the tracked `sib/corpora.json`, so `sib run` and the four size-only
+commands refuse until they are given `--allow-dirty`; [The corpora](#the-corpora) says why.
 
 `sib` needs Python 3.11+ and nothing else; `sib build` needs a C++20 compiler, CMake, Boost and a
 Rust toolchain. If you would rather not install those, the `Containerfile` has them:
@@ -144,6 +144,8 @@ campaign**, which needs a quiet machine.
 | PDT, as C² carries it | C++ | path-decomposed trie | C² `92c1b86` | the same |
 | ART, C-ART, as C² carries them | C++ | adaptive radix tree, and its compact form | C² `92c1b86` | the same |
 | sux, fcsd ([Plain front coding](#plain-front-coding)) | Rust | rear-coded list; front-coded set | sux 0.15.3, 2026-10-29; fcsd 0.3.1, 2026-10-25 | never timed; sized at the new versions, after sux 0.15.0 and fcsd 0.2.0 |
+| libCSD PFC, RPFC, HTFC, HHTFC, RPHTFC, [`migumar2/libCSD`](https://github.com/migumar2/libCSD) ([Plain front coding](#plain-front-coding)) | C++ | front coding in buckets, its internal strings plain or by Re-Pair; the same with Hu-Tucker-coded headers | `568bf8a`, 2016-04-07; it has no release | never timed; sized at this commit |
+| RearCodedArray, [`gvinciguerra/RearCodedArray`](https://github.com/gvinciguerra/RearCodedArray) ([Plain front coding](#plain-front-coding)) | C++ | rear coding in blocks of a fixed number of bytes | `608b35e`, 2022-02-15; it has no release | never timed; sized at this commit |
 | constmap `ConstMap`, `VerifiedConstMap`, [`lemire/rsconstmap`](https://github.com/lemire/rsconstmap) ([Static maps](#static-maps-that-do-not-store-their-keys)) | Rust | binary fuse map from a string to a 64-bit value; the same with a 64-bit check | 0.3.0 (crates.io), 2026-09-17 | never timed; sized at this version |
 | lexindex `ClosedHashIndex`, `CompactHashIndex`, `PerfectHashIndex` ([Static maps](#static-maps-that-do-not-store-their-keys)) | Rust | minimal perfect hash; the same with a fingerprint a key; the same with the keys | 4.5.3 (crates.io), 2026-10-20 | never timed; sized at this version |
 | sdsl-lite, sux, ds2i, FSST: what C² builds on | C++ | succinct bit vectors and sequences; Elias–Fano; string compression | `0b861c7` 2026-10-10, `568903f` 2024-10-07, `4f46606` 2021-01-21, `e638d4c` 2026-04-06 | sdsl-lite `4312ea9`, sux `5944f6b`; the other two the same |
@@ -602,7 +604,8 @@ ran at into the filename.
 | `harness/marisa_resident.cpp` | the heap a loaded marisa trie keeps, from the pinned marisa |
 | `harness/resident.py` | runs it and `harness/lex`'s `resident` over a scale's corpora into `results/resident-*.json` |
 | `harness/baselines/` | plain front coding's size, sux's rear-coded list and fcsd's set, from crates.io |
-| `harness/baselines.py` | runs it over a scale's corpora into `results/baselines-*.json` |
+| `harness/libcsd_baselines.cpp`, `harness/rca_baselines.cpp` | libCSD's and RearCodedArray's sizes, from their pins |
+| `harness/baselines.py` | runs all three over a scale's corpora into `results/baselines-*.json` and its `.log` |
 | `harness/maps/` | static maps that do not store their keys, constmap's and lexindex's, from crates.io |
 | `harness/maps.py` | runs it over a scale's corpora into `results/maps-*.json` |
 | `harness/tables.py` | artifact → markdown |

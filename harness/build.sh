@@ -2,9 +2,9 @@
 # Build the research-frontier harness: the C² benchmark (C²-FST, C²-CoCo and C²-MARISA beside FST,
 # CoCo-trie, MARISA, PDT, ART and C-ART), XCDAT under the same protocol, MARISA's size at every
 # configuration and what a loaded one holds, `frontier_lex` and `resident` for lexindex, and plain
-# front coding's size from two crates (`harness/baselines`), static maps that do not store their
-# keys (`harness/maps`), every competitor at the commit in harness/pins.sh or the version in its
-# Cargo.lock.
+# front coding's size from two crates (`harness/baselines`) and two C++ libraries, static maps that
+# do not store their keys (`harness/maps`), every competitor at the commit in harness/pins.sh or the
+# version in its Cargo.lock.
 #
 #   harness/build.sh    # into ./build, or $SIB_BUILD
 #
@@ -22,7 +22,7 @@ root=$(git -C "$(dirname "$0")" rev-parse --show-toplevel)
 frontier=${SIB_BUILD:-$root/build}
 jobs=${JOBS:-$(nproc --all)}
 
-for tool in git curl cmake c++ ar sha256sum cargo; do
+for tool in git curl cmake c++ ar make sha256sum cargo; do
   if ! command -v "$tool" > /dev/null; then
     echo "refusing: $tool is not on PATH" >&2
     exit 1
@@ -63,7 +63,7 @@ logged() {
 }
 
 step "competitors"
-for pin in "${PINS[@]}"; do
+for pin in "${PINS[@]}" "${BASELINE_PINS[@]}"; do
   read -r path url commit <<< "$pin"
   fetch "$frontier/$path" "$url" "$commit"
 done
@@ -149,6 +149,26 @@ step "XCDAT under the C² protocol"
 logged "$frontier/xcdat-build.log" c++ -O3 -march=native -DNDEBUG -std=c++17 \
   -I"$frontier/xcdat/include" "$root/harness/xcdat_frontier.cpp" -o "$frontier/xcdat_frontier"
 echo "xcdat_frontier"
+
+step "libCSD and RearCodedArray, sizes only"
+# libCSD is C++ of 2014. C++17's std::byte makes its `byte` ambiguous, so it takes C++14, and
+# -Wno-narrowing lets a table of negative values into an unsigned char array, which C++11 made an
+# error. Its makefiles are serial: `all` cleans first, and libcds fills its includes as it goes. The
+# one object file the repository itself commits, RePair/Coder/DRePair.o, is in no target and stays out.
+libcsd=$frontier/libcsd
+libcsd_flags="-O3 -march=native -DNDEBUG -std=gnu++14 -w -Wno-narrowing"
+logged "$frontier/libcds-build.log" make -C "$libcsd/libcds" CPPFLAGS="$libcsd_flags"
+logged "$frontier/libcsd-build.log" make -C "$libcsd" FLAGS="$libcsd_flags -I libcds/includes/"
+mapfile -t libcsd_objects < <(find "$libcsd" -name '*.o' -not -path "$libcsd/libcds/*" \
+  -not -name Build.o -not -name Test.o -not -name DRePair.o | sort)
+# shellcheck disable=SC2086 # the flags are words
+logged "$frontier/libcsd-baselines-build.log" c++ $libcsd_flags -I"$libcsd" \
+  -I"$libcsd/libcds/includes" "$root/harness/libcsd_baselines.cpp" "${libcsd_objects[@]}" \
+  "$libcsd/libcds/lib/libcds.a" -o "$frontier/libcsd_baselines"
+echo "libcsd_baselines"
+logged "$frontier/rca-baselines-build.log" c++ -O3 -march=native -DNDEBUG -std=c++17 -w \
+  -I"$frontier/rca" "$root/harness/rca_baselines.cpp" -o "$frontier/rca_baselines"
+echo "rca_baselines"
 
 step "plain front coding from crates.io, sizes only"
 cargo build --release --locked --manifest-path "$root/harness/baselines/Cargo.toml"
