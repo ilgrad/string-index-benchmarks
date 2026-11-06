@@ -52,14 +52,23 @@ unsafe impl GlobalAlloc for Counting {
 #[global_allocator]
 static ALLOCATOR: Counting = Counting;
 
-/// The heap `load` leaves behind once `probe` has run over what it returned.
-fn kept<T>(load: impl FnOnce() -> T, probe: impl Fn(&T)) -> usize {
-    let before = LIVE.load(Relaxed);
-    let index = load();
-    probe(&index);
-    let after = LIVE.load(Relaxed);
-    drop(index);
-    after - before
+/// The heap `load` leaves behind once `probe` has run over what it returned, counted on a thread
+/// of its own. A lookup can grow a buffer the thread keeps -- a labelled `DictIndex` decodes its
+/// labels into one -- and on a shared thread only the load measured first would pay for it.
+fn kept<T>(load: impl FnOnce() -> T + Send, probe: impl Fn(&T) + Sync) -> usize {
+    std::thread::scope(|scope| {
+        scope
+            .spawn(|| {
+                let before = LIVE.load(Relaxed);
+                let index = load();
+                probe(&index);
+                let after = LIVE.load(Relaxed);
+                drop(index);
+                after - before
+            })
+            .join()
+            .expect("the measuring thread")
+    })
 }
 
 trait Resident: Sized {
