@@ -13,11 +13,13 @@ their names, after a round of theirs ran beside other work -- and its cells repl
 for those corpora. It has to come from the same commit, machine, toolchain and pins, and the
 artifact names it under `replaced`. The markdown printed is what the docs quote, and what
 `sib table` renders from the artifact: an overview, `HashedDictIndex` against XCDAT 15 where the
-campaign ran it, the exact searches against XCDAT 15 where it ran a routed `DictIndex`, then a table
-a corpus.
+campaign ran it and again at the chained latency where it timed that, the exact searches against
+XCDAT 15 where it ran a routed `DictIndex`, then a table a corpus.
 
 A cell's `id` and build times are the medians of its rounds, and its spread is the range of the `id`
-times over that median; a structure that fails in any round has no numbers, only the reason. Sizes
+times over that median; a chained time -- each query's slot waiting on the answer before it, so that
+no two lookups overlap -- is the median of the rounds' chained means. A structure that fails in any
+round has no numbers, only the reason. Sizes
 are each structure's own account of itself: lexindex's serialised blob, `space_cost()` for the C²
 benchmark's structures and `memory_in_bytes` for XCDAT. ART and C-ART count their nodes and not the
 keys they point into, so they are printed for reference and kept out of every comparison. Each
@@ -46,16 +48,25 @@ C2_CASES = {
 }
 LEXINDEX = {
     "dict32": "lexindex Dict 32",
+    "dict128m8": "lexindex Dict 128/8",
     "dict256": "lexindex Dict 256",
     "dict1024": "lexindex Dict 1024",
     "routed32": "lexindex Dict 32 routed",
     "routed256": "lexindex Dict 256 routed",
     "routed1024": "lexindex Dict 1024 routed",
+    "routed64m8": "lexindex Dict 64/8 routed",
+    "routed128m8": "lexindex Dict 128/8 routed",
+    "routed256m8": "lexindex Dict 256/8 routed",
+    "labels256": "lexindex Dict 256 labelled",
+    "labels1024": "lexindex Dict 1024 labelled",
+    "labels1024m64": "lexindex Dict 1024/64 labelled",
+    "labels1024m128": "lexindex Dict 1024/128 labelled",
     "string": "lexindex StringIndex",
     "hashed0": "lexindex HashedDict closed",
     "hashed8": "lexindex HashedDict fp=8",
     "hashed16": "lexindex HashedDict fp=16",
     "da": "lexindex DoubleArray",
+    "perfect": "lexindex PerfectHash (ids in hash order)",
 }
 # `HashedDictIndex` against the structure that was the fastest on every corpus before it, and beside
 # the dictionary it is built over.
@@ -67,15 +78,18 @@ HASHED = {
     "lexindex HashedDict fp=16": "fp=16",
 }
 # lexindex's exact searches -- the ones that answer a stranger exactly, which the sidecar does
-# not -- against the fastest structure from elsewhere.
+# not -- against the fastest structure from elsewhere. The perfect hash answers a stranger exactly
+# too, but its ids are hash slots, not ranks, and its column says so.
 SEARCH = {
     "XCDAT 15": "XCDAT 15",
     "lexindex Dict 256": "`Dict` 256",
     "lexindex Dict 32 routed": "32 routed",
+    "lexindex Dict 128/8 routed": "128/8 routed",
     "lexindex Dict 256 routed": "256 routed",
     "lexindex Dict 1024 routed": "1024 routed",
     "lexindex StringIndex": "`StringIndex`",
     "lexindex DoubleArray": "`DoubleArray`",
+    "lexindex PerfectHash (ids in hash order)": "`PerfectHash`, hash-order ids",
 }
 REFERENCE = {"ART", "C-ART"}
 # What GNU timeout exits with when it had to stop the process.
@@ -90,8 +104,11 @@ CORPUS = re.compile(
 )
 PROCESS = re.compile(r"^--- (?P<label>.+?)   load ")
 SKIPPED = re.compile(r"^--- .+?   skipped: ")
-# What C²'s protocol has no column for: the three warm passes frontier_lex times after the cold one.
+# What C²'s protocol has no column for: the three warm passes frontier_lex times after the cold one
+# (after the chained ones, for the rows that time those).
 LEX_WARM = re.compile(r"^lexindex .+, then mean (?P<mean>[\d.]+) / min (?P<min>[\d.]+) ns")
+# The chained passes frontier_lex and xcdat_frontier time for the `HashedDict` table's structures.
+CHAINED = re.compile(r"^(?:lexindex .+: )?chained mean (?P<mean>[\d.]+) / min (?P<min>[\d.]+) ns$")
 CSV = re.compile(r"^(?P<build>[\d.]+),(?P<mib>[\d.]+),(?P<ns>[\d.]+)$")
 TIME = re.compile(
     r"^\[time (?P<seconds>[\d.]+) s, user (?P<user>[\d.]+) s, sys (?P<sys>[\d.]+) s, "
@@ -146,6 +163,8 @@ def parse(text: str) -> tuple[dict[str, str], list[dict]]:
             continue
         elif m := LEX_WARM.match(line):
             run.update(id_ns_warm_mean=float(m["mean"]), id_ns_warm_min=float(m["min"]))
+        elif m := CHAINED.match(line):
+            run.update(id_ns_chained_mean=float(m["mean"]), id_ns_chained_min=float(m["min"]))
         elif m := CSV.match(line):
             run.update(
                 build_ms=float(m["build"]),
@@ -212,6 +231,8 @@ def summarise(name: str, runs: list[dict], ticks: int) -> dict:
             build_ms=statistics.median(run["build_ms"] for run in runs),
             maxrss_mib=max(run["maxrss_mib"] for run in runs),
         )
+        if all("id_ns_chained_mean" in run for run in runs):
+            cell["id_ns_chained"] = statistics.median(run["id_ns_chained_mean"] for run in runs)
     cell["runs"] = runs
     return cell
 
@@ -254,8 +275,8 @@ def size(bytes_per_key: float) -> str:
     return f"{bytes_per_key:.2f}" if bytes_per_key >= 0.1 else f"{bytes_per_key:.2g}"
 
 
-def point(cell: dict) -> str:
-    return f"{size(cell['bytes_per_key'])} @ {cell['id_ns']:.0f}"
+def point(cell: dict, field: str = "id_ns") -> str:
+    return f"{size(cell['bytes_per_key'])} @ {cell[field]:.0f}"
 
 
 def quietness(corpora: list[dict]) -> str:
@@ -305,15 +326,25 @@ def overview(corpora: list[dict]) -> str:
     return "\n".join(lines)
 
 
-def columns(corpora: list[dict], names: dict[str, str]) -> str:
-    """The structures `names` holds, a column each, bytes a key @ nanoseconds a lookup."""
+def columns(
+    corpora: list[dict], names: dict[str, str], field: str = "id_ns", corner: str = "corpus"
+) -> str:
+    """The structures `names` holds that the campaign ran, a column each, bytes a key @
+    nanoseconds a lookup, the nanoseconds `field`'s."""
+    ran = {
+        cell["structure"]
+        for corpus in corpora
+        for cell in corpus["cells"]
+        if field in cell or "failure" in cell
+    }
+    names = {name: title for name, title in names.items() if name in ran}
     lines = [
-        "| corpus | " + " | ".join(names.values()) + " |",
+        f"| {corner} | " + " | ".join(names.values()) + " |",
         "|---|" + "---:|" * len(names),
     ]
     for corpus in corpora:
-        cells = {c["structure"]: c for c in corpus["cells"] if measured(c)}
-        row = " | ".join(point(cells[name]) if name in cells else "—" for name in names)
+        cells = {c["structure"]: c for c in corpus["cells"] if field in c}
+        row = " | ".join(point(cells[name], field) if name in cells else "—" for name in names)
         lines.append(f"| `{corpus['corpus']}` | {row} |")
     return "\n".join(lines)
 
@@ -321,6 +352,11 @@ def columns(corpora: list[dict], names: dict[str, str]) -> str:
 def hashed(corpora: list[dict]) -> str:
     """`HashedDictIndex` beside its dictionary and XCDAT 15."""
     return columns(corpora, HASHED)
+
+
+def chained(corpora: list[dict]) -> str:
+    """The `HashedDictIndex` table again, at the latency of lookups that wait on each other."""
+    return columns(corpora, HASHED, "id_ns_chained", "corpus, chained")
 
 
 def search(corpora: list[dict]) -> str:
@@ -440,6 +476,9 @@ def main() -> None:
     if any(cell["structure"].startswith("lexindex HashedDict") for cell in data["cells"]):
         print()
         print(hashed(corpora))
+    if any("id_ns_chained" in cell for cell in data["cells"]):
+        print()
+        print(chained(corpora))
     if any(cell["structure"].endswith(" routed") for cell in data["cells"]):
         print()
         print(search(corpora))

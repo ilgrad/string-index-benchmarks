@@ -11,10 +11,11 @@ the page cache but derives lookup tables beside it on the heap; `Trie::mmap` doe
 MARISA with almost nothing. So this counts, for each corpus, the heap each load keeps:
 `build/marisa_resident` for MARISA's configurations -- the smallest by either size in the scale's
 `results/marisa-floor-*` artifact, and three tries at the default cache as the control -- and
-`harness/lex`'s `resident` for lexindex's `DictIndex` at blocks 32, 256 and 1024 and `StringIndex`.
-Both count the bytes asked for by every allocation still live after the load and a pass of
-lookups. The result goes to `results/resident-<scale>-<date>-<host>-<commit>.json`, and the table
-it prints is the one the README quotes.
+`harness/lex`'s `resident` for lexindex's `DictIndex` at blocks 32, 256 and 1024, at 256 and 1024
+with trie labels, and `StringIndex`. Both count the bytes asked for by every allocation still live
+after the load and a pass of lookups. The result goes to
+`results/resident-<scale>-<date>-<host>-<commit>.json`, and the table it prints is the one the
+README quotes.
 
 Nothing is timed, so none of run.sh's quiet-machine gates apply and corpora run side by side. The
 gates that make a number attributable do apply, and they are marisa_floor.py's, imported from it:
@@ -40,11 +41,13 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 from marisa_floor import BUILD, CORPORA, MARISA, ROOT, commit, default_jobs, pin
 
 LEX = ROOT / "harness/lex"
-LEX_KINDS = ("dict32", "dict256", "dict1024", "string")
+LEX_KINDS = ("dict32", "dict256", "dict1024", "labels256", "labels1024", "string")
 LABELS = {
     "dict32": "Dict 32",
     "dict256": "Dict 256",
     "dict1024": "Dict 1024",
+    "labels256": "Dict 256 labelled",
+    "labels1024": "Dict 1024 labelled",
     "string": "StringIndex",
 }
 CONTROL = {"cache": "default", "tries": 3}

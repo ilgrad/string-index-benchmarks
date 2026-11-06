@@ -14,7 +14,7 @@ use std::alloc::{GlobalAlloc, Layout, System};
 use std::io::BufRead;
 use std::sync::atomic::{AtomicUsize, Ordering::Relaxed};
 
-use lexindex::{DictIndex, StringIndex};
+use lexindex::{DictIndex, DictLayout, StringIndex};
 
 struct Counting;
 static LIVE: AtomicUsize = AtomicUsize::new(0);
@@ -90,6 +90,29 @@ impl Resident for DictIndex {
     }
 }
 
+/// `DictIndex` built with a label dictionary, which it keeps where the blob comes out smaller
+/// (`BDX5`); elsewhere the blob is the plain build's, byte for byte.
+struct Labelled(DictIndex);
+
+impl Resident for Labelled {
+    fn build(keys: &[String], block: usize) -> Self {
+        let layout = DictLayout::new(block).with_labels(true);
+        Labelled(DictIndex::build_with(keys, layout).expect("dict build"))
+    }
+    fn blob(&self) -> Vec<u8> {
+        self.0.to_bytes()
+    }
+    fn from_bytes(bytes: &[u8]) -> Self {
+        Labelled(DictIndex::from_bytes(bytes).expect("dict from_bytes"))
+    }
+    unsafe fn load_mmap(path: &std::path::Path) -> Self {
+        Labelled(unsafe { DictIndex::load_mmap(path) }.expect("dict load_mmap"))
+    }
+    fn id(&self, key: &str) -> Option<u64> {
+        self.0.id(key)
+    }
+}
+
 impl Resident for StringIndex {
     fn build(keys: &[String], _: usize) -> Self {
         StringIndex::build(keys).expect("string build")
@@ -130,7 +153,9 @@ fn measure<T: Resident>(keys: &[String], block: usize, kind: &str, file: &std::p
 fn main() {
     let args: Vec<String> = std::env::args().collect();
     if args.len() < 3 {
-        eprintln!("usage: resident <keys.txt> <dict32|dict256|dict1024|string>...");
+        eprintln!(
+            "usage: resident <keys.txt> <dict32|dict256|dict1024|labels256|labels1024|string>..."
+        );
         std::process::exit(2);
     }
     // Read, sorted and deduplicated exactly as `frontier_lex` reads a corpus, so a blob here is
@@ -150,6 +175,8 @@ fn main() {
             "dict32" => measure::<DictIndex>(&keys, 32, kind, &blob),
             "dict256" => measure::<DictIndex>(&keys, 256, kind, &blob),
             "dict1024" => measure::<DictIndex>(&keys, 1024, kind, &blob),
+            "labels256" => measure::<Labelled>(&keys, 256, kind, &blob),
+            "labels1024" => measure::<Labelled>(&keys, 1024, kind, &blob),
             "string" => measure::<StringIndex>(&keys, 0, kind, &blob),
             other => {
                 eprintln!("unknown kind {other}");

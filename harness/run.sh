@@ -13,8 +13,11 @@
 # One protocol for every row, C²'s `benchmark.cpp`: read the file, sort and deduplicate, build once,
 # report the structure's own size, then look every key up once in one fixed shuffle -- a single timed
 # pass, no warm-up -- and report the mean. `frontier_lex` and `xcdat_frontier` do the same for
-# lexindex and XCDAT. Each round runs every process once, even rounds in the reverse order, and
-# tables.py reports the median. Build everything first with harness/build.sh.
+# lexindex and XCDAT. After it, the structures of the `HashedDict` table -- `Dict` 256, the three
+# `HashedDict` rows and XCDAT 15 -- time three chained passes, each query's slot waiting on the
+# answer before it, for the latency of lookups that cannot overlap. Each round runs every process
+# once, even rounds in the reverse order, and tables.py reports the median. Build everything first
+# with harness/build.sh.
 set -euo pipefail
 
 # Overridable, because the two gates answer different questions. A *published* latency number needs
@@ -57,7 +60,7 @@ while [ $# -gt 0 ]; do
       shift
       ;;
     -h | --help)
-      sed -n '2,17p' "$0" | cut -c3-
+      sed -n '2,20p' "$0" | cut -c3-
       exit 0
       ;;
     -*)
@@ -152,6 +155,11 @@ for binary in "$c2" "$xcdat"; do
     exit 1
   fi
 done
+# A driver built from an older source runs, and leaves out what the newer one prints.
+if [ harness/xcdat_frontier.cpp -nt "$xcdat" ]; then
+  echo "refusing: $xcdat is older than its source; run harness/build.sh" >&2
+  exit 1
+fi
 for pin in "${PINS[@]}"; do
   read -r path _ pinned <<< "$pin"
   at=$(git -C "$frontier/$path" rev-parse HEAD 2> /dev/null || echo none)
@@ -184,8 +192,8 @@ if [ "$scale" = 100m ]; then
   processes=("lexindex dict256" "lexindex dict1024" "lexindex string" "xcdat 15")
   subset=1
 else
-  for kind in dict32 dict256 dict1024 routed32 routed256 routed1024 string hashed0 hashed8 \
-    hashed16 da; do
+  for kind in dict32 dict128m8 dict256 dict1024 routed32 routed128m8 routed256 routed1024 \
+    labels256 labels1024 string hashed0 hashed8 hashed16 da perfect; do
     processes+=("lexindex $kind")
   done
   # C²'s fourth argument is the depth of the recursion its paper ablates; for the MARISA baseline it

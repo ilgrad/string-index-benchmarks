@@ -11,7 +11,7 @@ publish = false
 
 [dependencies]
 constmap = "0.3.0"
-lexindex = { version = "4.5.3", default-features = false, features = ["mph"] }
+lexindex = { version = "5.0.0", default-features = false, features = ["mph"] }
 
 [profile.release]
 lto = "thin"

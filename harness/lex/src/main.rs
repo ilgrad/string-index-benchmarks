@@ -1,13 +1,17 @@
 //! lexindex under the C² benchmark's protocol: build from a one-key-per-line file, then look every
 //! key up once in one fixed shuffled order and report `build_ms,size_mib,latency_ns` from that
 //! single pass with no warm-up, which is what `benchmark.cpp` there does. Three more passes follow,
-//! and their mean and minimum are printed beside the cold number. Sizes are the serialised blob,
-//! and a routed dictionary's restart words beside it. `harness/run.sh` runs one index kind a
-//! process.
+//! and their mean and minimum are printed beside the cold number. The rows of the `HashedDict`
+//! table -- `Dict` 256 and the three `HashedDict` kinds -- time three chained passes between the
+//! cold pass and those, each query's slot waiting on the answer before it, and print theirs on a
+//! line of its own. Sizes are the serialised blob, and a routed dictionary's restart words beside
+//! it. `harness/run.sh` runs one index kind a process.
 use std::io::BufRead;
 use std::time::Instant;
 
-use lexindex::{DictIndex, DoubleArrayIndex, HashedDictIndex, StringIndex};
+use lexindex::{
+    DictIndex, DictLayout, DoubleArrayIndex, HashedDictIndex, PerfectHashIndex, StringIndex,
+};
 
 /// The longest key libstdc++'s `std::string` keeps inside the object rather than behind a pointer.
 const SSO: usize = 15;
@@ -79,6 +83,75 @@ impl Probe for DoubleArrayIndex {
     }
 }
 
+/// `DictIndex` built with a label dictionary, which it keeps where the blob comes out smaller
+/// (`BDX5`); elsewhere the blob is the plain build's, byte for byte, and so is the row.
+struct Labelled(DictIndex);
+
+impl Probe for Labelled {
+    fn build(keys: &[String], block: usize) -> Self {
+        let layout = DictLayout::new(block).with_labels(true);
+        Labelled(DictIndex::build_with(keys, layout).expect("dict build"))
+    }
+    fn bytes(&self) -> usize {
+        self.0.serialized_len()
+    }
+    fn probe(&self, key: &str) -> u64 {
+        self.0.probe(key)
+    }
+}
+
+/// [`Labelled`] with `M` keys a microblock rather than the block's own choice: a longer scan for
+/// fewer restarts.
+struct LabelledMicro<const M: usize>(DictIndex);
+
+impl<const M: usize> Probe for LabelledMicro<M> {
+    fn build(keys: &[String], block: usize) -> Self {
+        let layout = DictLayout::new(block).with_micro(M).with_labels(true);
+        Self(DictIndex::build_with(keys, layout).expect("dict build"))
+    }
+    fn bytes(&self) -> usize {
+        self.0.serialized_len()
+    }
+    fn probe(&self, key: &str) -> u64 {
+        self.0.probe(key)
+    }
+}
+
+/// `DictIndex` with `M` keys a microblock rather than the block's own choice.
+struct Micro<const M: usize>(DictIndex);
+
+impl<const M: usize> Probe for Micro<M> {
+    fn build(keys: &[String], block: usize) -> Self {
+        let layout = DictLayout::new(block).with_micro(M);
+        Self(DictIndex::build_with(keys, layout).expect("dict build"))
+    }
+    fn bytes(&self) -> usize {
+        self.0.serialized_len()
+    }
+    fn probe(&self, key: &str) -> u64 {
+        self.0.probe(key)
+    }
+}
+
+/// [`Routed`] with `M` keys a microblock rather than the block's own choice: more restart words for
+/// a shorter scan.
+struct RoutedMicro<const M: usize>(DictIndex, usize);
+
+impl<const M: usize> Probe for RoutedMicro<M> {
+    fn build(keys: &[String], block: usize) -> Self {
+        let layout = DictLayout::new(block).with_micro(M);
+        let dict = DictIndex::build_with(keys, layout).expect("dict build");
+        let words = dict.route_microblocks();
+        Self(dict, words)
+    }
+    fn bytes(&self) -> usize {
+        self.0.serialized_len() + self.1
+    }
+    fn probe(&self, key: &str) -> u64 {
+        self.0.probe(key)
+    }
+}
+
 /// `DictIndex` with its restart words derived, which the build includes. The words are memory the
 /// index holds and no blob carries, so its size is the blob and the words.
 struct Routed(DictIndex, usize);
@@ -131,7 +204,22 @@ impl Probe for Closed {
     }
 }
 
-fn run<T: Probe>(keys: &[String], arg: usize, label: &str) {
+/// The perfect hash over the stored keys, through `id`: the key at the slot is compared, so a
+/// stranger is answered exactly, but an id is a slot of the hash and not a rank. The row's label
+/// says so -- a caller who needs ranges of keys as ranges of ids cannot use it.
+impl Probe for PerfectHashIndex {
+    fn build(keys: &[String], _: usize) -> Self {
+        PerfectHashIndex::build(keys).expect("perfect hash build")
+    }
+    fn bytes(&self) -> usize {
+        self.serialized_len().expect("perfect hash size")
+    }
+    fn probe(&self, key: &str) -> u64 {
+        self.id(key).map_or(u64::MAX, u64::from)
+    }
+}
+
+fn run<T: Probe>(keys: &[String], arg: usize, label: &str, chained: bool) {
     let t0 = Instant::now();
     let index = T::build(keys, arg);
     let build_ms = t0.elapsed().as_secs_f64() * 1e3;
@@ -169,6 +257,23 @@ fn run<T: Probe>(keys: &[String], arg: usize, label: &str) {
         sink = sink.wrapping_add(index.probe(q));
     }
     let cold = t.elapsed().as_nanos() as f64 / queries.len() as f64;
+    // Each query's slot chained through the answer before it (`& zero`, `zero` opaque), so no two
+    // lookups overlap: the dependent latency, which a free pass mixes with throughput. Right after
+    // the cold pass, as `xcdat_frontier` times XCDAT 15's, so that both follow one pass over the
+    // same keys.
+    let mut chain = Vec::new();
+    if chained {
+        let zero = std::hint::black_box(0usize);
+        let mut prev = 0u64;
+        for _ in 0..3 {
+            let t = Instant::now();
+            for i in 0..queries.len() {
+                prev = index.probe(queries[i + (prev as usize & zero)]);
+                sink = sink.wrapping_add(prev);
+            }
+            chain.push(t.elapsed().as_nanos() as f64 / queries.len() as f64);
+        }
+    }
     let mut passes = Vec::new();
     for _ in 0..3 {
         let t = Instant::now();
@@ -179,11 +284,13 @@ fn run<T: Probe>(keys: &[String], arg: usize, label: &str) {
     }
     let mean = passes.iter().sum::<f64>() / passes.len() as f64;
     let min = passes.iter().cloned().fold(f64::INFINITY, f64::min);
-    // Four passes over keys whose ids are the ranks 0..n: any other sum is a wrong answer.
+    // Every pass is over keys whose ids are the ranks 0..n, or for the perfect hash the same ids in
+    // another order: any other sum is a wrong answer.
     let n = keys.len() as u64;
+    let pass_count = 4 + chain.len() as u64;
     assert_eq!(
         sink,
-        (n * n.saturating_sub(1) / 2).wrapping_mul(4),
+        (n * n.saturating_sub(1) / 2).wrapping_mul(pass_count),
         "{label} answered a wrong id"
     );
     println!(
@@ -193,13 +300,18 @@ fn run<T: Probe>(keys: &[String], arg: usize, label: &str) {
     // `tables.py` reads the size back as MiB × 2^20: nine decimals keep that to the byte, where six
     // leave a blob of a few hundred bytes a byte either way.
     println!("{build_ms:.3},{size_mib:.9},{cold:.3}");
+    if !chain.is_empty() {
+        let mean = chain.iter().sum::<f64>() / chain.len() as f64;
+        let min = chain.iter().cloned().fold(f64::INFINITY, f64::min);
+        println!("{label}: chained mean {mean:.1} / min {min:.1} ns");
+    }
 }
 
 fn main() {
     let args: Vec<String> = std::env::args().collect();
     if args.len() < 3 {
         eprintln!(
-            "usage: frontier_lex <keys.txt> <dict32|dict256|dict1024|routed32|routed256|routed1024|string|hashed0|hashed8|hashed16|da>..."
+            "usage: frontier_lex <keys.txt> <dict32|dict128m8|dict256|dict1024|routed32|routed256|routed1024|routed64m8|routed128m8|routed256m8|labels256|labels1024|labels1024m64|labels1024m128|string|hashed0|hashed8|hashed16|da|perfect>..."
         );
         std::process::exit(2);
     }
@@ -215,18 +327,76 @@ fn main() {
     keys.dedup();
     eprintln!("{} keys", keys.len());
     for kind in &args[2..] {
+        // The rows of the `HashedDict` table time the chained passes too; the rest keep to C²'s
+        // protocol and the three free passes.
+        let chained = matches!(
+            kind.as_str(),
+            "dict256" | "hashed0" | "hashed8" | "hashed16"
+        );
         match kind.as_str() {
-            "dict32" => run::<DictIndex>(&keys, 32, "lexindex DictIndex block 32"),
-            "dict256" => run::<DictIndex>(&keys, 256, "lexindex DictIndex block 256"),
-            "dict1024" => run::<DictIndex>(&keys, 1024, "lexindex DictIndex block 1024"),
-            "routed32" => run::<Routed>(&keys, 32, "lexindex DictIndex block 32 routed"),
-            "routed256" => run::<Routed>(&keys, 256, "lexindex DictIndex block 256 routed"),
-            "routed1024" => run::<Routed>(&keys, 1024, "lexindex DictIndex block 1024 routed"),
-            "string" => run::<StringIndex>(&keys, 0, "lexindex StringIndex"),
-            "hashed0" => run::<Closed>(&keys, 0, "lexindex HashedDictIndex closed"),
-            "hashed8" => run::<Hashed>(&keys, 8, "lexindex HashedDictIndex fp=8"),
-            "hashed16" => run::<Hashed>(&keys, 16, "lexindex HashedDictIndex fp=16"),
-            "da" => run::<DoubleArrayIndex>(&keys, 0, "lexindex DoubleArrayIndex"),
+            "dict32" => run::<DictIndex>(&keys, 32, "lexindex DictIndex block 32", chained),
+            "dict128m8" => {
+                run::<Micro<8>>(&keys, 128, "lexindex DictIndex block 128 micro 8", chained)
+            }
+            "dict256" => run::<DictIndex>(&keys, 256, "lexindex DictIndex block 256", chained),
+            "dict1024" => run::<DictIndex>(&keys, 1024, "lexindex DictIndex block 1024", chained),
+            "routed32" => run::<Routed>(&keys, 32, "lexindex DictIndex block 32 routed", chained),
+            "routed256" => {
+                run::<Routed>(&keys, 256, "lexindex DictIndex block 256 routed", chained)
+            }
+            "routed1024" => {
+                run::<Routed>(&keys, 1024, "lexindex DictIndex block 1024 routed", chained)
+            }
+            "routed64m8" => run::<RoutedMicro<8>>(
+                &keys,
+                64,
+                "lexindex DictIndex block 64 micro 8 routed",
+                chained,
+            ),
+            "routed128m8" => run::<RoutedMicro<8>>(
+                &keys,
+                128,
+                "lexindex DictIndex block 128 micro 8 routed",
+                chained,
+            ),
+            "routed256m8" => run::<RoutedMicro<8>>(
+                &keys,
+                256,
+                "lexindex DictIndex block 256 micro 8 routed",
+                chained,
+            ),
+            "labels256" => {
+                run::<Labelled>(&keys, 256, "lexindex DictIndex block 256 labelled", chained)
+            }
+            "labels1024" => run::<Labelled>(
+                &keys,
+                1024,
+                "lexindex DictIndex block 1024 labelled",
+                chained,
+            ),
+            "labels1024m64" => run::<LabelledMicro<64>>(
+                &keys,
+                1024,
+                "lexindex DictIndex block 1024 micro 64 labelled",
+                chained,
+            ),
+            "labels1024m128" => run::<LabelledMicro<128>>(
+                &keys,
+                1024,
+                "lexindex DictIndex block 1024 micro 128 labelled",
+                chained,
+            ),
+            "string" => run::<StringIndex>(&keys, 0, "lexindex StringIndex", chained),
+            "hashed0" => run::<Closed>(&keys, 0, "lexindex HashedDictIndex closed", chained),
+            "hashed8" => run::<Hashed>(&keys, 8, "lexindex HashedDictIndex fp=8", chained),
+            "hashed16" => run::<Hashed>(&keys, 16, "lexindex HashedDictIndex fp=16", chained),
+            "da" => run::<DoubleArrayIndex>(&keys, 0, "lexindex DoubleArrayIndex", chained),
+            "perfect" => run::<PerfectHashIndex>(
+                &keys,
+                0,
+                "lexindex PerfectHashIndex (ids in hash order)",
+                chained,
+            ),
             other => {
                 eprintln!("unknown kind {other}");
                 std::process::exit(2);
