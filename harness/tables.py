@@ -25,6 +25,12 @@ benchmark's structures and `memory_in_bytes` for XCDAT. ART and C-ART count thei
 keys they point into, so they are printed for reference and kept out of every comparison. Each
 run's peak resident memory is kept in the artifact and not tabled: it counts the driver's own copies
 of the keys and the queries, which the C++ drivers and frontier_lex hold differently.
+
+A `run.sh --baselines` log -- libCSD and RearCodedArray, `frontier-baselines-*` -- parses the same
+way. Its `id` time is libCSD's `locate` and RearCodedArray's `rank`, and each cell also holds
+`probes`, how many of the shuffled keys every pass took, `extract_ns`, the median of the rounds'
+cold passes from an id to its key, and `extract_ns_chained`, the median of their chained means. A
+RearCodedArray cell holds `rank_wrong` where any rank was.
 """
 
 from __future__ import annotations
@@ -120,6 +126,16 @@ SIGNAL = re.compile(r"Command terminated by signal (?P<signal>\d+)")
 WHAT = re.compile(r"^\s*what\(\):\s+(?P<what>.+)$")
 # frontier_lex's line for a corpus a structure cannot hold, printed before it exits.
 REFUSED = re.compile(r"^lexindex .+ refused: (?P<why>.+)$")
+# The baselines' id-to-key passes, after their key-to-id ones.
+EXTRACT = re.compile(
+    r"^extract cold (?P<ns>[\d.]+) ns, chained mean (?P<mean>[\d.]+) / min (?P<min>[\d.]+) ns$"
+)
+# How many keys of the baselines' shuffle every pass takes, of how many keys.
+PROBES = re.compile(r"^probes: (?P<probes>\d+) of \d+$")
+# RearCodedArray's `rank` on keys past ASCII, counted after the timed passes; the times stand.
+RANK_WRONG = re.compile(r"^rank wrong: (?P<count>\d+) of \d+$")
+# A baseline that gave a key or an id back wrong, printed in place of its times before it exits.
+WRONG = re.compile(r"^(?:libCSD|RearCodedArray) .+ wrong answer: (?P<why>.+)$")
 
 
 def structure(label: str) -> str:
@@ -129,6 +145,13 @@ def structure(label: str) -> str:
         return LEXINDEX[rest]
     if kind == "xcdat":
         return f"XCDAT {rest}"
+    if kind == "libcsd":
+        coding, bucket, *_ = rest.split()
+        return f"libCSD {coding} bucket {bucket}"
+    if kind == "rca":
+        headers, block = rest.split()
+        apart = " (headers apart)" if headers == "apart" else ""
+        return f"RearCodedArray{apart} block {block} bytes"
     m = re.fullmatch(r"case (\d+) rec (\d+)", rest)
     if kind == "c2" and m:
         name = C2_CASES[int(m[1])]
@@ -163,6 +186,18 @@ def parse(text: str) -> tuple[dict[str, str], list[dict]]:
             continue
         elif m := LEX_WARM.match(line):
             run.update(id_ns_warm_mean=float(m["mean"]), id_ns_warm_min=float(m["min"]))
+        elif m := EXTRACT.match(line):
+            run.update(
+                extract_ns=float(m["ns"]),
+                extract_ns_chained_mean=float(m["mean"]),
+                extract_ns_chained_min=float(m["min"]),
+            )
+        elif m := PROBES.match(line):
+            run["probes"] = int(m["probes"])
+        elif m := RANK_WRONG.match(line):
+            run["rank_wrong"] = int(m["count"])
+        elif m := WRONG.match(line):
+            run["wrong"] = m["why"]
         elif m := CHAINED.match(line):
             run.update(id_ns_chained_mean=float(m["mean"]), id_ns_chained_min=float(m["min"]))
         elif m := CSV.match(line):
@@ -196,6 +231,8 @@ def failure(run: dict) -> str | None:
         return f"aborted: {run['what']}"
     if "refused" in run:
         return f"refused: {run['refused']}"
+    if "wrong" in run:
+        return f"wrong answer: {run['wrong']}"
     if "signal" in run:
         return f"signal {run['signal']}"
     if run.get("exit") == TIMED_OUT:
@@ -233,6 +270,21 @@ def summarise(name: str, runs: list[dict], ticks: int) -> dict:
         )
         if all("id_ns_chained_mean" in run for run in runs):
             cell["id_ns_chained"] = statistics.median(run["id_ns_chained_mean"] for run in runs)
+        if all("extract_ns" in run for run in runs):
+            cell["extract_ns"] = statistics.median(run["extract_ns"] for run in runs)
+            cell["extract_ns_chained"] = statistics.median(
+                run["extract_ns_chained_mean"] for run in runs
+            )
+        probes = {run.get("probes") for run in runs}
+        if len(probes) != 1:
+            raise ValueError(f"{name}: the probes differ between rounds, {sorted(probes)}")
+        if probes != {None}:
+            cell["probes"] = probes.pop()
+        wrong = {run.get("rank_wrong", 0) for run in runs}
+        if len(wrong) != 1:
+            raise ValueError(f"{name}: the wrong ranks differ between rounds, {sorted(wrong)}")
+        if wrong != {0}:
+            cell["rank_wrong"] = wrong.pop()
     cell["runs"] = runs
     return cell
 
@@ -387,6 +439,34 @@ def corpus_table(corpus: dict) -> str:
     return "\n".join(lines)
 
 
+def wrong_ranks(count: int) -> str:
+    return f"{count:,} {'rank' if count == 1 else 'ranks'} wrong" if count else ""
+
+
+def baseline_table(corpus: dict) -> str:
+    """A `--baselines` corpus: both directions, a key to its id and an id to its key."""
+    raw = corpus["raw_bytes_per_key"]
+    lines = [
+        f"**`{corpus['corpus']}`** — {corpus['keys']:,} keys, {raw:.2f} bytes a key raw",
+        "",
+        "| structure | bytes/key | build ms | probes | `id` ns | spread | chained | `extract` ns "
+        "| chained | note |",
+        "|---|---:|---:|---:|---:|---:|---:|---:|---:|---|",
+    ]
+    for cell in corpus["cells"]:
+        name = cell["structure"]
+        if not measured(cell):
+            lines.append(f"| {name} | — | — | — | — | — | — | — | — | {cell['failure']} |")
+            continue
+        lines.append(
+            f"| {name} | {size(cell['bytes_per_key'])} | {cell['build_ms']:.0f} "
+            f"| {cell['probes']:,} | {cell['id_ns']:.0f} | {100 * cell['id_ns_spread']:.0f} % "
+            f"| {cell['id_ns_chained']:.0f} | {cell['extract_ns']:.0f} "
+            f"| {cell['extract_ns_chained']:.0f} | {wrong_ranks(cell.get('rank_wrong', 0))} |"
+        )
+    return "\n".join(lines)
+
+
 def artifact(logs: list[Path]) -> dict:
     """The first log's campaign, with each later log's corpora in place of the campaign's own."""
     environment, corpora = summarised(logs[0])
@@ -471,6 +551,11 @@ def main() -> None:
         print(f"wrote {out}\n")
     corpora = corpora_of(data)
     print(quietness(corpora))
+    if str(data.get("table")).startswith("frontier-baselines"):
+        for corpus in corpora:
+            print()
+            print(baseline_table(corpus))
+        return
     print()
     print(overview(corpora))
     if any(cell["structure"].startswith("lexindex HashedDict") for cell in data["cells"]):

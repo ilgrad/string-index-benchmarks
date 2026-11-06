@@ -490,7 +490,12 @@ at a million keys and at the commits in the versions table. Artifact
 `results/baselines-1m-2026-11-02-arz-68652c5.json` and what the drivers printed,
 `results/baselines-1m-2026-11-02-arz-68652c5.log`. Its sux and fcsd rows hold the same bytes as the
 2026-10-31 artifact's, all 78 of them. **Nothing here is timed: the `id` and build columns are empty
-and owed to the next quiet window.** Nor has anything here run at ten million keys.
+and owed to the next quiet window.** Nor has anything here run at ten million keys. `sib run
+--baselines` is what will time them: `run.sh`'s gates, rounds and shuffled probes, libCSD's five
+codings at buckets of 256 and 1024 keys and RearCodedArray's two layouts at 2048 and 8192 bytes,
+from a key to its id and from an id to its key. PFC and RearCodedArray take every key; RPFC, HTFC,
+HHTFC and RPHTFC decode up to a bucket of compressed strings a lookup, and take the first 20,000
+keys of the same shuffle.
 
 PFC is plain front coding, and RPFC is the same with its internal strings under Re-Pair. HTFC codes
 headers and internal strings by Hu-Tucker; HHTFC and RPHTFC code the internal strings by Huffman and
@@ -672,6 +677,7 @@ ran at into the filename.
 | `harness/resident.py` | runs it and `harness/lex`'s `resident` over a scale's corpora into `results/resident-*.json` |
 | `harness/baselines/` | plain front coding's size, sux's rear-coded list and fcsd's set, from crates.io |
 | `harness/libcsd_baselines.cpp`, `harness/rca_baselines.cpp` | libCSD's and RearCodedArray's sizes, from their pins |
+| `harness/libcsd_frontier.cpp`, `harness/rca_frontier.cpp` | their times under the campaign's protocol, for `run.sh --baselines` |
 | `harness/baselines.py` | runs all three over a scale's corpora into `results/baselines-*.json` and its `.log` |
 | `harness/maps/` | static maps that do not store their keys, constmap's and lexindex's, from crates.io |
 | `harness/maps.py` | runs it over a scale's corpora into `results/maps-*.json` |

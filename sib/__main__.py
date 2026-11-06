@@ -8,6 +8,7 @@
     sib run --scale full           # English titles and URLs whole, 19.2 M keys each
     sib run --scale 100m           # the four generated corpora at 100 M, four structures
     sib run --keys catalog.txt     # your own keys, every structure, one table
+    sib run --baselines            # libCSD and RearCodedArray, timed under the same protocol
     sib marisa-floor               # MARISA's size at every num_tries and the tiny cache, at 1 M
     sib marisa-floor --scale 10m   # the same over the six ten-million-key files
     sib resident                   # what a loaded index holds beside its file, lexindex and MARISA
@@ -97,6 +98,8 @@ def cmd_run(args: argparse.Namespace) -> int:
         argv += ["--scale", args.scale, *args.names]
         if args.allow_dirty:
             argv.append("--allow-dirty")
+    if args.baselines:
+        argv.append("--baselines")
     return _run(argv, env)
 
 
@@ -165,6 +168,11 @@ def main() -> int:
     run.add_argument("--scale", choices=("1m", "10m", "full", "100m"), default="1m")
     run.add_argument("--rounds", type=int, default=3, help="processes per structure and corpus")
     run.add_argument("--keys", metavar="FILE", help="your own keys, one per line")
+    run.add_argument(
+        "--baselines",
+        action="store_true",
+        help="libCSD and RearCodedArray in place of the campaign's structures",
+    )
     run.add_argument("--allow-dirty", action="store_true")
     run.add_argument("names", nargs="*", default=[], help="named corpus stems only")
     run.set_defaults(func=cmd_run)

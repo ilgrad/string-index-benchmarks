@@ -8,6 +8,7 @@
 #   harness/run.sh --scale 100m             # the four generated corpora at 100 M, four structures
 #   harness/run.sh urls-1000000            # named corpus files only
 #   harness/run.sh --rounds 1                 # one process a structure and corpus rather than three
+#   harness/run.sh --baselines              # libCSD and RearCodedArray instead, timed the same way
 #   harness/run.sh --allow-dirty          # for development; the artifact is tagged <sha>-dirty
 #
 # One protocol for every row, C²'s `benchmark.cpp`: read the file, sort and deduplicate, build once,
@@ -18,6 +19,12 @@
 # answer before it, for the latency of lookups that cannot overlap. Each round runs every process
 # once, even rounds in the reverse order, and tables.py reports the median. Build everything first
 # with harness/build.sh.
+#
+# `--baselines` runs the plain front coding that harness/baselines.py sizes, under the same gates,
+# rounds and order and into a `frontier-baselines-*` artifact of its own: libCSD's five codings at
+# buckets of 256 and 1024 keys and RearCodedArray's two layouts at blocks of 2048 and 8192 bytes.
+# Each times the XCDAT 15 rows' cold pass and three chained passes for a key to its id, then the
+# same two for an id to its key; the four compressed libCSD codings over the first 20,000 probes.
 set -euo pipefail
 
 # Overridable, because the two gates answer different questions. A *published* latency number needs
@@ -43,14 +50,18 @@ corpora=${SIB_CORPORA:-$root/corpora}
 c2=$frontier/c2/build/benchmark
 xcdat=$frontier/xcdat_frontier
 lex=$root/harness/lex/target/release/frontier_lex
+libcsd=$frontier/libcsd_frontier
+rca=$frontier/rca_frontier
 
 allow_dirty=0
+baselines=0
 scale=1m
 rounds=3
 named=()
 while [ $# -gt 0 ]; do
   case "$1" in
     --allow-dirty) allow_dirty=1 ;;
+    --baselines) baselines=1 ;;
     --scale)
       scale=${2:-}
       shift
@@ -60,7 +71,7 @@ while [ $# -gt 0 ]; do
       shift
       ;;
     -h | --help)
-      sed -n '2,20p' "$0" | cut -c3-
+      sed -n '2,27p' "$0" | cut -c3-
       exit 0
       ;;
     -*)
@@ -101,10 +112,18 @@ if ! [[ "$rounds" =~ ^[1-9][0-9]*$ ]]; then
   echo "--rounds takes a positive count, not '$rounds'" >&2
   exit 2
 fi
-table=frontier-$scale
+if [ "$baselines" -eq 1 ] && [ "$scale" = 100m ]; then
+  echo "--baselines runs at 1m, 10m or full: nothing sizes them at a hundred million keys" >&2
+  exit 2
+fi
+family=frontier
+if [ "$baselines" -eq 1 ]; then
+  family="frontier-baselines"
+fi
+table=$family-$scale
 if [ ${#named[@]} -gt 0 ]; then
   stems=("${named[@]}")
-  table="frontier-named"
+  table="$family-named"
 fi
 
 commit=$(git rev-parse --short HEAD)
@@ -149,18 +168,29 @@ if [ ! -x /usr/bin/time ]; then
   echo "refusing: /usr/bin/time (GNU time) is needed for each process's peak memory" >&2
   exit 1
 fi
-for binary in "$c2" "$xcdat"; do
+# The binaries the run starts, and the pins they are built from.
+if [ "$baselines" -eq 1 ]; then
+  binaries=("$libcsd" "$rca")
+  pins=("${BASELINE_PINS[@]}")
+else
+  binaries=("$c2" "$xcdat")
+  pins=("${PINS[@]}")
+fi
+for binary in "${binaries[@]}"; do
   if [ ! -x "$binary" ]; then
     echo "refusing: $binary is missing; run harness/build.sh" >&2
     exit 1
   fi
 done
 # A driver built from an older source runs, and leaves out what the newer one prints.
-if [ harness/xcdat_frontier.cpp -nt "$xcdat" ]; then
-  echo "refusing: $xcdat is older than its source; run harness/build.sh" >&2
-  exit 1
-fi
-for pin in "${PINS[@]}"; do
+for binary in "${binaries[@]}"; do
+  driver=harness/$(basename "$binary").cpp
+  if [ -e "$driver" ] && [ "$driver" -nt "$binary" ]; then
+    echo "refusing: $binary is older than its source; run harness/build.sh" >&2
+    exit 1
+  fi
+done
+for pin in "${pins[@]}"; do
   read -r path _ pinned <<< "$pin"
   at=$(git -C "$frontier/$path" rev-parse HEAD 2> /dev/null || echo none)
   if [ "$at" != "$pinned" ]; then
@@ -176,7 +206,9 @@ for stem in "${stems[@]}"; do
 done
 uv run --no-sync python sib/corpora.py verify
 # The tree is clean, so this is the commit the artifact is named after.
-cargo build --release --locked --quiet --manifest-path harness/lex/Cargo.toml
+if [ "$baselines" -eq 0 ]; then
+  cargo build --release --locked --quiet --manifest-path harness/lex/Cargo.toml
+fi
 
 host=$(uname -n)
 ticks=$(getconf CLK_TCK)
@@ -184,7 +216,29 @@ log=results/$table-$(date +%F)-$host-$commit.log
 
 # One process a structure, labelled as tables.py reads them.
 processes=()
-if [ "$scale" = 100m ]; then
+if [ "$baselines" -eq 1 ]; then
+  # The bucket the README's size table names for nearly every libCSD cell, 1024, and the block of
+  # lexindex's `Dict` 256 row; RearCodedArray's blocks hold about as many keys. A Re-Pair or
+  # Hu-Tucker coding decodes up to a bucket of compressed strings a lookup, so its eight passes over
+  # every key of a million would take ten minutes or more a process: those four take the first
+  # 20,000 probes of the same shuffle, the fourth word of their label. Plain front coding and
+  # RearCodedArray take every key, as the campaign does.
+  for coding in PFC RPFC HTFC HHTFC RPHTFC; do
+    probes=20000
+    if [ "$coding" = PFC ]; then
+      probes=
+    fi
+    for bucket in 256 1024; do
+      processes+=("libcsd $coding $bucket${probes:+ $probes}")
+    done
+  done
+  for headers in inside apart; do
+    for block in 2048 8192; do
+      processes+=("rca $headers $block")
+    done
+  done
+  subset=1
+elif [ "$scale" = 100m ]; then
   # At a hundred million keys every driver peaks near ten times its ten-million figure, 19-25 GB,
   # and the whole set would run for two days. These four are both ends of every ten-million front:
   # the two block sizes of lexindex's on it, StringIndex (the whole front on `numeric`), and XCDAT
@@ -220,8 +274,10 @@ header() {
   echo "table: $table"
   # The published crate the harness depends on, read from its own lockfile -- lexindex is a
   # pinned competitor here like every other, not the repository this runs in.
-  echo "lexindex: $(awk '/^name = "lexindex"$/ { getline; gsub(/[version = "]/, ""); print; exit }' \
-    harness/lex/Cargo.lock)"
+  if [ "$baselines" -eq 0 ]; then
+    echo "lexindex: $(awk '/^name = "lexindex"$/ { getline; gsub(/[version = "]/, ""); print; exit }' \
+      harness/lex/Cargo.lock)"
+  fi
   echo "kernel: $(uname -srm)"
   echo "cpu: $(grep -m1 'model name' /proc/cpuinfo | cut -d: -f2- | xargs)"
   echo "cores/threads: $(grep -m1 'cpu cores' /proc/cpuinfo | cut -d: -f2 | xargs) / $(nproc --all)"
@@ -263,12 +319,15 @@ $(awk '/MemAvailable/ { printf "%.1f available", $2 / 1048576 }' /proc/meminfo)"
   echo "clock ticks: $ticks"
   echo "address space cap: $ADDRESS_SPACE_KB KB"
   echo "timeout: $limit s a process"
-  for pin in "${PINS[@]}"; do
+  for pin in "${pins[@]}"; do
     read -r path url pinned <<< "$pin"
     changed=$(git -C "$frontier/$path" status --porcelain --untracked-files=no | awk '{ print $2 }' |
       paste -sd, -)
     echo "pin $path: ${pinned:0:12} $url${changed:+ (modified: $changed)}"
   done
+  if [ "$baselines" -eq 1 ]; then
+    return
+  fi
   for path in c2/lib/ds2i/succinct c2/lib/sdsl-lite/external/googletest \
     c2/lib/sdsl-lite/external/libdivsufsort; do
     echo "pin $path: $(git -C "$frontier/$path" rev-parse HEAD | cut -c1-12) (gitlink)"
@@ -313,12 +372,14 @@ measure() {
 }
 
 invoke() {
-  local label=$1 file=$2 tool a b d
-  read -r tool a b _ d <<< "$label"
+  local label=$1 file=$2 tool a b c d
+  read -r tool a b c d <<< "$label"
   case "$tool" in
     lexindex) measure "$label" "$lex" "$file" "$a" ;;
     c2) measure "$label" "$c2" "$file" "$b" 0 "$d" 0 ;;
     xcdat) measure "$label" "$xcdat" "$file" "$a" ;;
+    libcsd) measure "$label" "$libcsd" "$file" "$a" "$b" ${c:+"$c"} ;;
+    rca) measure "$label" "$rca" "$file" "$a" "$b" ;;
   esac
 }
 

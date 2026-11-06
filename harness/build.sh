@@ -2,9 +2,9 @@
 # Build the research-frontier harness: the C² benchmark (C²-FST, C²-CoCo and C²-MARISA beside FST,
 # CoCo-trie, MARISA, PDT, ART and C-ART), XCDAT under the same protocol, MARISA's size at every
 # configuration and what a loaded one holds, `frontier_lex` and `resident` for lexindex, and plain
-# front coding's size from two crates (`harness/baselines`) and two C++ libraries, static maps that
-# do not store their keys (`harness/maps`), every competitor at the commit in harness/pins.sh or the
-# version in its Cargo.lock.
+# front coding's size from two crates (`harness/baselines`) and two C++ libraries, whose times
+# `run.sh --baselines` takes, static maps that do not store their keys (`harness/maps`), every
+# competitor at the commit in harness/pins.sh or the version in its Cargo.lock.
 #
 #   harness/build.sh    # into ./build, or $SIB_BUILD
 #
@@ -150,7 +150,7 @@ logged "$frontier/xcdat-build.log" c++ -O3 -march=native -DNDEBUG -std=c++17 \
   -I"$frontier/xcdat/include" "$root/harness/xcdat_frontier.cpp" -o "$frontier/xcdat_frontier"
 echo "xcdat_frontier"
 
-step "libCSD and RearCodedArray, sizes only"
+step "libCSD and RearCodedArray: their sizes, and their times under the campaign's protocol"
 # libCSD is C++ of 2014. C++17's std::byte makes its `byte` ambiguous, so it takes C++14, and
 # -Wno-narrowing lets a table of negative values into an unsigned char array, which C++11 made an
 # error. Its makefiles are serial: `all` cleans first, and libcds fills its includes as it goes. The
@@ -166,9 +166,17 @@ logged "$frontier/libcsd-baselines-build.log" c++ $libcsd_flags -I"$libcsd" \
   -I"$libcsd/libcds/includes" "$root/harness/libcsd_baselines.cpp" "${libcsd_objects[@]}" \
   "$libcsd/libcds/lib/libcds.a" -o "$frontier/libcsd_baselines"
 echo "libcsd_baselines"
+# shellcheck disable=SC2086 # the flags are words
+logged "$frontier/libcsd-frontier-build.log" c++ $libcsd_flags -I"$libcsd" \
+  -I"$libcsd/libcds/includes" "$root/harness/libcsd_frontier.cpp" "${libcsd_objects[@]}" \
+  "$libcsd/libcds/lib/libcds.a" -o "$frontier/libcsd_frontier"
+echo "libcsd_frontier"
 logged "$frontier/rca-baselines-build.log" c++ -O3 -march=native -DNDEBUG -std=c++17 -w \
   -I"$frontier/rca" "$root/harness/rca_baselines.cpp" -o "$frontier/rca_baselines"
 echo "rca_baselines"
+logged "$frontier/rca-frontier-build.log" c++ -O3 -march=native -DNDEBUG -std=c++17 -w \
+  -I"$frontier/rca" "$root/harness/rca_frontier.cpp" -o "$frontier/rca_frontier"
+echo "rca_frontier"
 
 step "plain front coding from crates.io, sizes only"
 cargo build --release --locked --manifest-path "$root/harness/baselines/Cargo.toml"
