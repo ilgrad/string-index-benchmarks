@@ -133,11 +133,13 @@ pins and hold the same bytes as the ones they replace, but for fcsd's 4-byte hea
 campaigns ran before the bump, so their tables name the versions their artifacts record; rebuilt at
 the new pins, the C² driver gave the same `space_cost` on all 208 runs of the million-key
 campaign's first round that recorded one. **The lookup and build columns wait for the next
-campaign**, which needs a quiet machine.
+campaign**, which needs a quiet machine. lexindex moved again on 2026-11-06, to 5.0.0: what a loaded
+index holds and the static maps were re-run at it, and the campaigns, with the lexindex columns of
+the MARISA floor and front coding tables that quote them, still hold 4.5.2's sizes.
 
 | entrant | language | structure | pinned now | the timed campaigns |
 |---|---|---|---|---|
-| lexindex `DictIndex`, routed `DictIndex`, `StringIndex`, `HashedDictIndex`, `DoubleArrayIndex` | Rust | front-coded blocks under a symbol table; a finite-state transducer (`fst` 0.4.7); a minimal perfect hash over the dictionary; a character-wise double-array trie | 4.5.3 (crates.io), 2026-10-20 | 4.5.2 |
+| lexindex `DictIndex`, routed `DictIndex`, `StringIndex`, `HashedDictIndex`, `DoubleArrayIndex` | Rust | front-coded blocks under a symbol table; a finite-state transducer (`fst` 0.4.7); a minimal perfect hash over the dictionary; a character-wise double-array trie | 5.0.0 (crates.io), 2026-11-06 | 4.5.2 |
 | MARISA, [`s-yata/marisa-trie`](https://github.com/s-yata/marisa-trie) | C++ | recursive LOUDS Patricia trie | 0.3.1, `3e87d53`, 2025-07-20; the commits past it change CI only | 0.2.6, `e54f296` |
 | XCDAT, [`kampersanda/xcdat`](https://github.com/kampersanda/xcdat) | C++ | compressed double-array trie, in four layouts (types 7, 8, 15, 16) | 0.2.2, `2451441`, 2024-09-10 | the same |
 | C²-FST, C²-CoCo, C²-MARISA, [`alexztc/C2`](https://github.com/alexztc/C2) | C++ | succinct tries with cache-conscious bit vectors and adaptive unary-path compression | `92c1b86`, 2026-06-20 | the same |
@@ -149,7 +151,7 @@ campaign**, which needs a quiet machine.
 | libCSD PFC, RPFC, HTFC, HHTFC, RPHTFC, [`migumar2/libCSD`](https://github.com/migumar2/libCSD) ([Plain front coding](#plain-front-coding)) | C++ | front coding in buckets, its internal strings plain or by Re-Pair; the same with Hu-Tucker-coded headers | `568bf8a`, 2016-04-07; it has no release | never timed; sized at this commit |
 | RearCodedArray, [`gvinciguerra/RearCodedArray`](https://github.com/gvinciguerra/RearCodedArray) ([Plain front coding](#plain-front-coding)) | C++ | rear coding in blocks of a fixed number of bytes | `608b35e`, 2022-02-15; it has no release | never timed; sized at this commit |
 | constmap `ConstMap`, `VerifiedConstMap`, [`lemire/rsconstmap`](https://github.com/lemire/rsconstmap) ([Static maps](#static-maps-that-do-not-store-their-keys)) | Rust | binary fuse map from a string to a 64-bit value; the same with a 64-bit check | 0.3.0 (crates.io), 2026-09-17 | never timed; sized at this version |
-| lexindex `ClosedHashIndex`, `CompactHashIndex`, `PerfectHashIndex` ([Static maps](#static-maps-that-do-not-store-their-keys)) | Rust | minimal perfect hash; the same with a fingerprint a key; the same with the keys | 4.5.3 (crates.io), 2026-10-20 | never timed; sized at this version |
+| lexindex `ClosedHashIndex`, `CompactHashIndex`, `PerfectHashIndex` ([Static maps](#static-maps-that-do-not-store-their-keys)) | Rust | minimal perfect hash; the same with a fingerprint a key; the same with the keys | 5.0.0 (crates.io), 2026-11-06 | never timed; sized at this version |
 | sdsl-lite, sux, ds2i, FSST: what C² builds on | C++ | succinct bit vectors and sequences; Elias–Fano; string compression | `0b861c7` 2026-10-10, `568903f` 2024-10-07, `4f46606` 2021-01-21, `e638d4c` 2026-04-06 | sdsl-lite `4312ea9`, sux `5944f6b`; the other two the same |
 | ctriepp, [`ofek.gila1/ctriepp`](https://gitlab.com/ofek.gila1/ctriepp) | C++ | compiled into C²'s driver for a prefix test the campaign does not run | `52d2c16`, 2025-04-09 | the same |
 
@@ -386,46 +388,50 @@ keeps a few kilobytes of its own. `sib resident` builds each index as the campai
 file, maps it, looks up every 97th key, and counts the bytes asked for by every allocation the load
 still holds: a counting global allocator in `harness/lex`'s `resident`, replaced `operator new` in
 `harness/marisa_resident.cpp`, so both sides are counted alike and neither carries the allocator's
-rounding. MARISA is built at each corpus's floor configuration and lexindex as `DictIndex` at
-blocks 32, 256 and 1024 and as `StringIndex`; the table shows the smallest file of each. Nothing is
-timed. Artifacts `results/resident-{1m,10m,full}-2026-10-31-arz-c36150a.json`, at marisa 0.3.1 and
-lexindex 4.5.3; the ones they replace, at 0.2.6 and 4.5.2
-(`results/resident-{1m,10m,full}-2026-09-26-arz-156b1a7.json`), count the same bytes in every cell.
+rounding. Each load is counted on a thread of its own, so a buffer a lookup grows and the thread
+keeps is charged to it. MARISA is built at each corpus's floor configuration and lexindex as
+`DictIndex` at blocks 32, 256 and 1024, at 256 and 1024 with trie labels, and as `StringIndex`; the
+table shows the smallest file of each. Nothing is timed. Artifacts
+`results/resident-{1m,10m,full}-2026-11-06-arz-c5512f1.json`, at marisa 0.3.1 and lexindex 5.0.0.
+The ones they replace, at lexindex 4.5.3
+(`results/resident-{1m,10m,full}-2026-10-31-arz-c36150a.json`), hold the same MARISA bytes in
+every cell.
 
 | corpus | lexindex, smallest | its file | + `load_mmap` heap | MARISA, smallest | its file | + `mmap` heap | margin, files | margin, mapped |
 |---|---|---:|---:|---|---:|---:|---:|---:|
-| `words-full` | Dict 1024 | 1,205,985 | 24,266 | 4 tries, tiny | 1,418,040 | 4,544 | +14.95 % | +13.52 % |
-| `dna-1000000` | Dict 1024 | 4,230,538 | 19,272 | 3 tries, tiny | 7,524,656 | 3,408 | +43.78 % | +43.55 % |
-| `domains-1000000` | Dict 1024 | 4,362,536 | 70,860 | 8 tries, tiny | 4,795,712 | 9,088 | +9.03 % | +7.73 % |
-| `idents-1000000` | Dict 1024 | 4,859,777 | 87,093 | 12 tries, tiny | 5,122,544 | 13,632 | +5.13 % | +3.69 % |
+| `words-full` | Dict 1024 | 1,200,371 | 24,234 | 4 tries, tiny | 1,418,040 | 4,544 | +15.35 % | +13.92 % |
+| `dna-1000000` | Dict 1024 | 4,230,538 | 19,240 | 3 tries, tiny | 7,524,656 | 3,408 | +43.78 % | +43.55 % |
+| `domains-1000000` | Dict 1024 labelled | 4,216,202 | 49,117 | 8 tries, tiny | 4,795,712 | 9,088 | +12.08 % | +11.23 % |
+| `idents-1000000` | Dict 1024 labelled | 4,681,600 | 53,582 | 12 tries, tiny | 5,122,544 | 13,632 | +8.61 % | +7.81 % |
 | `numeric-1000000` | StringIndex | 301 | 32 | 1 try, tiny | 1,623,704 | 1,136 | +99.98 % | +99.98 % |
-| `opaque-1000000` | Dict 1024 | 10,290,593 | 20,104 | 6 tries, tiny | 15,547,856 | 6,816 | +33.81 % | +33.71 % |
-| `paths-1000000` | Dict 1024 | 6,510,793 | 139,923 | 19 tries, tiny | 6,513,224 | 21,584 | +0.04 % | -1.77 % |
-| `pypi-full` | Dict 1024 | 3,603,537 | 62,319 | 9 tries, tiny | 3,925,536 | 10,224 | +8.20 % | +6.86 % |
-| `titles-en-1000000` | Dict 1024 | 7,211,896 | 130,176 | 15 tries, tiny | 7,494,136 | 17,040 | +3.77 % | +2.25 % |
-| `titles-ru-1000000` | Dict 1024 | 6,697,959 | 247,462 | 19 tries, tiny | 7,610,368 | 21,584 | +11.99 % | +9.00 % |
-| `titles-zh-1000000` | Dict 1024 | 5,686,608 | 332,204 | 12 tries, tiny | 6,215,480 | 13,632 | +8.51 % | +3.38 % |
-| `urls-1000000` | Dict 1024 | 7,271,039 | 130,980 | 20 tries, tiny | 7,569,896 | 22,720 | +3.95 % | +2.51 % |
-| `uuid-1000000` | Dict 1024 | 17,893,932 | 48,120 | 10 tries, tiny | 22,977,776 | 11,360 | +22.13 % | +21.95 % |
-| `dna-10000000` | Dict 1024 | 38,127,206 | 187,128 | 3 tries, tiny | 66,911,944 | 3,408 | +43.02 % | +42.74 % |
+| `opaque-1000000` | Dict 1024 | 10,290,593 | 20,072 | 6 tries, tiny | 15,547,856 | 6,816 | +33.81 % | +33.71 % |
+| `paths-1000000` | Dict 1024 labelled | 6,094,741 | 74,377 | 19 tries, tiny | 6,513,224 | 21,584 | +6.43 % | +5.60 % |
+| `pypi-full` | Dict 1024 labelled | 3,474,796 | 44,163 | 9 tries, tiny | 3,925,536 | 10,224 | +11.48 % | +10.59 % |
+| `titles-en-1000000` | Dict 1024 labelled | 6,906,125 | 56,527 | 15 tries, tiny | 7,494,136 | 17,040 | +7.85 % | +7.30 % |
+| `titles-ru-1000000` | Dict 1024 | 6,673,189 | 162,336 | 19 tries, tiny | 7,610,368 | 21,584 | +12.31 % | +10.44 % |
+| `titles-zh-1000000` | Dict 1024 | 5,666,780 | 289,522 | 12 tries, tiny | 6,215,480 | 13,632 | +8.83 % | +4.38 % |
+| `urls-1000000` | Dict 1024 labelled | 6,977,219 | 58,055 | 20 tries, tiny | 7,569,896 | 22,720 | +7.83 % | +7.34 % |
+| `uuid-1000000` | Dict 1024 | 17,893,932 | 48,088 | 10 tries, tiny | 22,977,776 | 11,360 | +22.13 % | +21.95 % |
+| `dna-10000000` | Dict 1024 | 38,127,206 | 187,096 | 3 tries, tiny | 66,911,944 | 3,408 | +43.02 % | +42.74 % |
 | `numeric-10000000` | StringIndex | 356 | 32 | 1 try, tiny | 16,270,544 | 1,136 | +99.998 % | +99.998 % |
-| `opaque-10000000` | Dict 1024 | 99,534,713 | 195,084 | 5 tries, tiny | 147,165,592 | 5,680 | +32.37 % | +32.24 % |
-| `titles-en-10000000` | Dict 1024 | 54,776,214 | 1,048,430 | 18 tries, tiny | 54,835,296 | 20,448 | +0.11 % | -1.77 % |
-| `urls-10000000` | Dict 1024 | 55,301,331 | 1,056,973 | 27 tries, tiny | 55,470,184 | 30,672 | +0.30 % | -1.54 % |
-| `uuid-10000000` | Dict 1024 | 174,170,565 | 462,987 | 9 tries, tiny | 206,181,120 | 10,224 | +15.53 % | +15.31 % |
-| `titles-en-full` | Dict 1024 | 96,451,922 | 1,704,468 | 19 tries, tiny | 97,442,352 | 21,584 | +1.02 % | -0.71 % |
-| `urls-full` | Dict 1024 | 97,332,808 | 1,724,691 | 30 tries, tiny | 98,617,848 | 34,080 | +1.30 % | -0.41 % |
+| `opaque-10000000` | Dict 1024 | 99,534,713 | 195,052 | 5 tries, tiny | 147,165,592 | 5,680 | +32.37 % | +32.24 % |
+| `titles-en-10000000` | Dict 1024 labelled | 51,529,582 | 449,296 | 18 tries, tiny | 54,835,296 | 20,448 | +6.03 % | +5.24 % |
+| `urls-10000000` | Dict 1024 labelled | 52,024,143 | 452,568 | 27 tries, tiny | 55,470,184 | 30,672 | +6.21 % | +5.45 % |
+| `uuid-10000000` | Dict 1024 | 174,170,565 | 462,955 | 9 tries, tiny | 206,181,120 | 10,224 | +15.53 % | +15.31 % |
+| `titles-en-full` | Dict 1024 labelled | 89,432,174 | 846,513 | 19 tries, tiny | 97,442,352 | 21,584 | +8.22 % | +7.37 % |
+| `urls-full` | Dict 1024 labelled | 90,398,355 | 856,775 | 30 tries, tiny | 98,617,848 | 34,080 | +8.33 % | +7.50 % |
 
-Mapped, MARISA at its smallest is the smaller on five rows of the twenty-one: `paths` at a million
-keys, by 1.77 %, and English titles and URLs at ten million, by 1.77 % and 1.54 %, and at 19.2
-million, by 0.71 % and 0.41 %. A `DictIndex` derives 0.02 to 0.33 bytes a key at a million keys —
-most on `titles-zh` and `titles-ru`, whose character-code tables are the largest, then `paths` — and
-0.09 to 0.11 on the larger titles and URLs files, where a mapped marisa trie keeps 1 to 34 KB
-whatever the corpus. The other margins narrow and stand, from 2.25 % on `titles-en` at a million
-up. The file's pages are the page cache's, shared by every process that maps them; the derived
-tables are each process's own. An owned load compares the same way: lexindex's `from_bytes` holds
-the file and the same tables, to the byte on every row, and marisa's `load()` its file and 0.9 to
-27 KB more.
+lexindex is the smaller on all twenty-one rows, by file and mapped; the narrowest mapped margin is
+4.38 %, on `titles-zh` at a million keys. At 4.5.3 MARISA at its smallest was the smaller mapped on
+five of them — `paths` at a million keys, and English titles and URLs at ten million and at 19.2
+million — by 0.41 to 1.77 %. 5.0's labelled `DictIndex` takes all five: its file is 5.9 to 7.3 %
+smaller than 4.5.3's smallest on them, and it derives less beside it. A `DictIndex` derives 0.02 to
+0.29 bytes a key at a million keys — most on `titles-zh` and `titles-ru`, whose character-code
+tables are the largest, then `paths` — and 0.04 to 0.05 on the larger titles and URLs files, where
+a mapped marisa trie keeps 1 to 34 KB whatever the corpus. The file's pages are the page cache's,
+shared by every process that maps them; the derived tables are each process's own. An owned load
+compares the same way: lexindex's `from_bytes` holds the file and the same tables, to the byte on
+every row, and marisa's `load()` its file and 0.9 to 27 KB more.
 
 ## Plain front coding
 
@@ -546,8 +552,8 @@ of three words of an array. lexindex's hash indexes build one from a minimal per
 structure answers every key, asks each structure that can reject a string for as many strings that
 are not keys as there are keys (each a key with one byte appended), and counts the ones it accepts.
 Sizes are a file's bytes: what constmap's `write_to` writes and lexindex's `serialized_len()`.
-Artifacts `results/maps-{1m,10m,full}-2026-11-01-arz-15d2a8d.json`; bytes a key, the range over the
-corpora:
+Artifacts `results/maps-{1m,10m,full}-2026-11-06-arz-3839546.json`, at lexindex 5.0.0; bytes a
+key, the range over the corpora:
 
 | structure | a key gives | a string that is not a key gives | 1 M | 10 M | 19.2 M |
 |---|---|---|---:|---:|---:|
@@ -555,8 +561,8 @@ corpora:
 | lexindex `ClosedHashIndex` | its id, dense in [0, n), in an order the hash picks | some id | **0.240–0.242** | **0.239** | **0.239** |
 | constmap `VerifiedConstMap` | the value | `NOT_FOUND`; a 64-bit check, accepted 0 times | 18.088–18.302 | 18.036 | 18.006 |
 | lexindex `CompactHashIndex`, 64-bit fingerprint | its id | `None`; accepted 0 times | **8.240–8.242** | **8.239** | **8.239** |
-| lexindex `CompactHashIndex`, 32 / 16 / 8 bits | its id | `None`, but for about 2⁻³² / 2⁻¹⁶ / 2⁻⁸ of them; accepted at 1 M 0 times, 0.0009–0.0024 %, 0.381–0.398 % (1/256 is 0.391 %) | 4.240–4.242 / 2.240–2.242 / 1.240–1.242 | 4.239 / 2.239 / 1.239 | 4.239 / 2.239 / 1.239 |
-| lexindex `PerfectHashIndex` | its id, and the key back from the id | `None`: it compares the stored key | 7.442–60.622 | 8.441–54.631 | 23.235–54.626 |
+| lexindex `CompactHashIndex`, 32 / 16 / 8 bits | its id | `None`, but for about 2⁻³² / 2⁻¹⁶ / 2⁻⁸ of them; accepted at 1 M 0 times, 0.0011–0.0023 %, 0.380–0.394 % (1/256 is 0.391 %) | 4.240–4.242 / 2.240–2.242 / 1.240–1.242 | 4.239 / 2.239 / 1.239 | 4.239 / 2.239 / 1.239 |
+| lexindex `PerfectHashIndex` | its id, and the key back from the id | `None`: it compares the stored key | 4.116–60.622 | 4.614–52.890 | 21.003–51.370 |
 
 The sizes of the first five rows depend on the number of keys only, not on the corpus. At 1 M the
 range comes from `words` and `pypi`, which hold fewer keys.
@@ -566,9 +572,9 @@ chooses; lexindex's hash indexes choose the id themselves. Where an id is all a 
 encode a column of strings as numbers, say — `ClosedHashIndex` holds it in 2.7 % of `ConstMap`'s
 bytes. Where the caller has a value of its own, it keeps an array of n values beside the index,
 read at the id. With 64-bit values that adds 8 bytes a key, and the pair is still the smaller:
-`ClosedHashIndex` and the array take 8.240 bytes a key on `titles-en` at a million keys against
+`ClosedHashIndex` and the array take 8.241 bytes a key on `titles-en` at a million keys against
 `ConstMap`'s 9.044 (−8.9 %), and 8.239 against 9.003 at 19.2 M (−8.5 %). `CompactHashIndex` at 64
-bits and the array take 16.240 against `VerifiedConstMap`'s 18.088 (−10.2 %), and 16.239 against
+bits and the array take 16.241 against `VerifiedConstMap`'s 18.088 (−10.2 %), and 16.239 against
 18.006 at 19.2 M (−9.8 %). An array of narrower values makes the gap wider; constmap's value is 64
 bits wide whatever it holds.
 
@@ -646,8 +652,7 @@ The rules a number here had to survive:
   - In the static maps' table, each constmap row is set against the lexindex row that rejects the
     same strangers. A row with no such partner has no bold.
   - The margins of the MARISA floor's table and of the front-coding tables are plain. The
-    loaded-index table has no bold at all: its two margins differ in sign on five rows, and the
-    margins are the result.
+    loaded-index table has no bold at all: its margins are the result.
 
 `run.sh` refuses to run on a dirty checkout unless told `--allow-dirty`, and stamps the commit it
 ran at into the filename.

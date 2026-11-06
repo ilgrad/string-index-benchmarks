@@ -38,11 +38,11 @@ FLOOR = {
     scale: f"marisa-floor-{scale}-2026-10-31-arz-c36150a.json" for scale in ("1m", "10m", "full")
 }
 RESIDENT = {
-    scale: f"resident-{scale}-2026-10-31-arz-c36150a.json" for scale in ("1m", "10m", "full")
+    scale: f"resident-{scale}-2026-11-06-arz-c5512f1.json" for scale in ("1m", "10m", "full")
 }
 FRONT = {scale: f"baselines-{scale}-2026-10-31-arz-c36150a.json" for scale in ("1m", "10m", "full")}
 FRONT_FAMILY = "baselines-1m-2026-11-02-arz-68652c5.json"
-MAPS = {scale: f"maps-{scale}-2026-11-01-arz-15d2a8d.json" for scale in ("1m", "10m", "full")}
+MAPS = {scale: f"maps-{scale}-2026-11-06-arz-3839546.json" for scale in ("1m", "10m", "full")}
 
 # The 100 M artifact records numeric's StringIndex as 0.000401 MiB, 420 or 421 bytes, and no
 # resident artifact runs at that scale; README.md gives lexindex 4.0.0's serialized_len(). So this
